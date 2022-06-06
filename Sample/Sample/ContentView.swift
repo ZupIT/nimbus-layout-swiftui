@@ -19,12 +19,46 @@ import NimbusLayoutSwiftUI
 
 struct ContentView: View {
   var body: some View {
+    
     NimbusNavigator(json: """
     {
-      "_:component": "hello"
+      "_:component": "layout:row",
+      "children": [
+        {
+          "_:component": "layout:row",
+          "properties": {
+            "backgroundColor": "#FF0000",
+            "height" : 100,
+            "width" : 50
+          }
+        },
+        {
+          "_:component": "layout:row",
+          "properties": {
+            "backgroundColor": "#00FF00",
+            "height" : 80,
+            "width": 50
+          }
+        },
+        {
+          "_:component": "layout:row",
+          "properties": {
+            "backgroundColor": "#0000FF",
+            "minHeight": 50,
+            
+            "width": 50
+          }
+        }
+      ],
+      "properties": {
+        "backgroundColor": "#FFCCCCCC",
+        "mainAxisAlignment": "start",
+        "crossAxisAlignment": "start"
+      }
     }
     """)
     .environmentObject(NimbusConfig())
+    
   }
 }
 

@@ -30,7 +30,7 @@ let package = Package(
   dependencies: [
     .package(
       url: "https://github.com/ZupIT/nimbus-swiftui.git",
-      branch: "spm-support"
+      branch: "main"
     ),
     .package(
       url: "https://github.com/pointfreeco/swift-snapshot-testing.git",
@@ -49,7 +49,8 @@ let package = Package(
       dependencies: [
         "NimbusLayoutSwiftUI",
         .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
-      ]
+      ],
+      exclude: ["__Snapshots__"]
     )
   ]
 )

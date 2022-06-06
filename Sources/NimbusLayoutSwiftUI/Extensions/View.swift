@@ -14,27 +14,21 @@
  * limitations under the License.
  */
 
-import XCTest
-import SnapshotTesting
+import SwiftUI
 
-import NimbusLayoutSwiftUI
-
-class HelloTests: XCTestCase {
-  
-  func testHello() {
-    let view = NimbusNavigator(json:
-    """
-    {
-      "_:component": "material:text",
-      "properties": {
-        "text": "Hello!!!"
+extension View {
+  func readSize(onChange: @escaping (CGSize) -> Void) -> some View {
+    background(
+      GeometryReader { geometryProxy in
+        Color.clear
+          .preference(key: SizePreferenceKey.self, value: geometryProxy.size)
       }
-    }
-    """
     )
-      .environmentObject(NimbusConfig())
-      .frame(width: 100, height: 100)
-    assertSnapshot(matching: view, as: .image)
+    .onPreferenceChange(SizePreferenceKey.self, perform: onChange)
   }
-  
+}
+
+struct SizePreferenceKey: PreferenceKey {
+  static var defaultValue: CGSize = .zero
+  static func reduce(value: inout CGSize, nextValue: () -> CGSize) {}
 }

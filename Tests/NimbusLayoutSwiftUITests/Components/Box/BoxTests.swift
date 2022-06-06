@@ -15,26 +15,29 @@
  */
 
 import XCTest
+import SwiftUI
 import SnapshotTesting
 
-import NimbusLayoutSwiftUI
+@testable import NimbusLayoutSwiftUI
 
-class HelloTests: XCTestCase {
+class BoxTests: XCTestCase {
   
-  func testHello() {
-    let view = NimbusNavigator(json:
-    """
-    {
-      "_:component": "material:text",
-      "properties": {
-        "text": "Hello!!!"
-      }
-    }
-    """
+  // TODO: Missing Shadow and Border
+  
+  func testModifier() throws {
+    let box = Box(
+      backgroundColor: "#ff0000",
+      shadow: [],
+      margin: Margin(all: 5),
+      padding: Padding(all: 5),
+      size: Size(width: 50, height: 50, clipped: true),
+      border: Border()
     )
-      .environmentObject(NimbusConfig())
-      .frame(width: 100, height: 100)
-    assertSnapshot(matching: view, as: .image)
+    
+    let view = HStack {
+      Color.green
+    }
+    
+    assertSnapshot(matching: view.modifier(BoxModifier(box: box)), as: .image)
   }
-  
 }
