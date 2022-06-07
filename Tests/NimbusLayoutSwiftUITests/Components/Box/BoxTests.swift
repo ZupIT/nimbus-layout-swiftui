@@ -22,8 +22,6 @@ import SnapshotTesting
 
 class BoxTests: XCTestCase {
   
-  // TODO: Missing Border
-  
   func testModifier() throws {
     let box = Box(
       backgroundColor: .red,
@@ -31,7 +29,7 @@ class BoxTests: XCTestCase {
       margin: Margin(all: 5),
       padding: Padding(all: 5),
       size: Size(width: 50, height: 50, clipped: true),
-      border: Border()
+      border: Border(borderWidth: 1)
     )
     
     let view = HStack {

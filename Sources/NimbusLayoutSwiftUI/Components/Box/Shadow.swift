@@ -15,7 +15,6 @@
  */
 
 import SwiftUI
-
 import NimbusSwiftUI
 
 struct Shadow {
@@ -49,9 +48,9 @@ struct ShadowModifier: ViewModifier {
       AnyView(partialResult
         .shadow(
           color: shadow.color,
-          radius: CGFloat(shadow.blur),
-          x: CGFloat(shadow.x),
-          y: CGFloat(shadow.y)
+          radius: shadow.blur,
+          x: shadow.x,
+          y: shadow.y
         )
       )
     }

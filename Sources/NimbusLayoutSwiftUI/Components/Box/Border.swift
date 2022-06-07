@@ -17,37 +17,31 @@
 import SwiftUI
 import NimbusSwiftUI
 
-//interface Border {
-//    borderWidth?: double, // default: 0
-//    borderDashLength?: double, // default: 1
-//    borderDashSpacing?: double, // default: 0
-//    cornerRadius?: double, // default: 0
-//
-//    // Os próximos quatro itens são extras
-//    /*topLeftRadius?: double,
-//    topRightRadius?: double,
-//    bottomLeftRadius?: double,
-//    bottomRightRadius?: double*/
-//}
-
 struct Border {
-  var borderColor: Color = .clear
-  
-  var borderWidth: Double? // default: 0
-  var borderDashLength: Double? // default: 1
-  var borderDashSpacing: Double? // default: 0
-  var cornerRadius: Double? // default: 0
+  var borderColor: Color = .black
+  var borderWidth: Double = 0
+  var borderDashLength: Double = 1
+  var borderDashSpacing: Double = 0
+  var cornerRadius: Double = 0
 }
 
 extension Border: Deserializable {
   init(from map: [String : Any]) throws {
     let color: String? = getMapProperty(map: map, name: "borderColor")
-    self.borderColor = color.color ?? .clear
+    self.borderColor = color.color ?? .black
     
-    self.borderWidth = getMapProperty(map: map, name: "borderWidth")
-    self.borderDashLength = getMapProperty(map: map, name: "borderDashLength")
-    self.borderDashSpacing = getMapProperty(map: map, name: "borderDashSpacing")
-    self.cornerRadius = getMapProperty(map: map, name: "cornerRadius")
+    let borderWidth: Double? = getMapProperty(map: map, name: "borderWidth")
+    self.borderWidth = borderWidth ?? 0
+    
+    let borderDashLength: Double? = getMapProperty(map: map, name: "borderDashLength")
+    self.borderDashLength = borderDashLength ?? 1
+    
+    let borderDashSpacing: Double? = getMapProperty(map: map, name: "borderDashSpacing")
+    self.borderDashSpacing = borderDashSpacing ?? 0
+    
+    let cornerRadius: Double? = getMapProperty(map: map, name: "cornerRadius")
+    self.cornerRadius = cornerRadius ?? 0
+    
   }
 }
 
@@ -57,15 +51,18 @@ struct BorderModifier: ViewModifier {
   func body(content: Content) -> some View {
     content
     .overlay(
-      RoundedRectangle(cornerRadius: border.cornerRadius ?? 0)
-        .stroke(border.borderColor, style: StrokeStyle(
-          lineWidth: border.borderWidth ?? 0,
-          dash: [
-            border.borderDashLength ?? 10,
-            border.borderDashSpacing ?? 0
-          ]
+      RoundedRectangle(cornerRadius: border.cornerRadius)
+        .stroke(
+          border.borderColor,
+          style: StrokeStyle(
+            lineWidth: border.borderWidth * 2,
+            dash: [
+              border.borderDashLength,
+              border.borderDashSpacing
+            ]
+          )
         )
-      )
     )
+    .clipShape(RoundedRectangle(cornerRadius: border.cornerRadius))
   }
 }

@@ -15,7 +15,26 @@
  */
 
 import XCTest
+import SwiftUI
+import SnapshotTesting
+
+@testable import NimbusLayoutSwiftUI
 
 class BorderTests: XCTestCase {
-  // TODO: impl
+  
+  func testModifier() throws {
+    let view = Color.green.frame(width: 50, height: 50)
+    
+    var border = Border(borderWidth: 2)
+    assertSnapshot(matching: view.modifier(BorderModifier(border: border)), as: .image)
+    
+    border = Border(borderColor: .red, borderWidth: 2, cornerRadius: 25)
+    assertSnapshot(matching: view.modifier(BorderModifier(border: border)), as: .image)
+    
+    border = Border(borderColor: .blue, borderWidth: 1, borderDashSpacing: 2)
+    assertSnapshot(matching: view.modifier(BorderModifier(border: border)), as: .image)
+    
+    border = Border(borderColor: .blue, borderWidth: 1, borderDashLength: 4, borderDashSpacing: 1, cornerRadius: 10)
+    assertSnapshot(matching: view.modifier(BorderModifier(border: border)), as: .image)
+  }
 }

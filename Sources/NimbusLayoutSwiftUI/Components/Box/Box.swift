@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-// MARK: - Models
-
 import SwiftUI
 import NimbusSwiftUI
 
@@ -35,6 +33,7 @@ extension Box: Deserializable {
     self.backgroundColor = color.color ?? .clear
     
     let shadowModel: [[String: Any]]? = getMapProperty(map: map, name: "shadow")
+    // TODO: remove force try
     self.shadow = shadowModel?.map { try! Shadow(from: $0) }
     
     self.margin = try Margin(from: map)
