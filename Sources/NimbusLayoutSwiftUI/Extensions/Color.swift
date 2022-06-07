@@ -44,3 +44,14 @@ extension Color {
     )
   }
 }
+
+extension Optional where Wrapped == String {
+  var color: Color? {
+    switch self {
+    case .none:
+      return nil
+    case .some(let wrapped):
+      return Color(hex: wrapped)
+    }
+  }
+}

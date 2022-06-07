@@ -15,7 +15,20 @@
  */
 
 import XCTest
+import SwiftUI
+import SnapshotTesting
+
+@testable import NimbusLayoutSwiftUI
 
 class ShadowTests: XCTestCase {
-  // TODO: impl
+  func testModifier() throws {
+    let shadows = [
+      Shadow(x: 2, y: 2, blur: 2, color: .red),
+      Shadow(x: -2, y: -2, blur: 4)
+    ]
+    
+    let view = Color.green.frame(width: 50, height: 50)
+    
+    assertSnapshot(matching: ZStack { view.modifier(ShadowModifier(shadows: shadows)) }.frame(width: 70, height: 70), as: .image)
+  }
 }

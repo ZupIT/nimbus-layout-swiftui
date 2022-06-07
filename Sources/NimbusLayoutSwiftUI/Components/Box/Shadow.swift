@@ -14,30 +14,46 @@
  * limitations under the License.
  */
 
+import SwiftUI
+
 import NimbusSwiftUI
 
-//interface Shadow {
-//    x?: double, // default: 0
-//    y?: double, // default: 0
-//    blur?: double, // default: 0
-//    color?: string, // default: black :: verificar esse default
-
-//    // spread: number // só se for tranquilo de fazer no SwiftUI
-//    // inset: boolean // parece difícil, a princípio não vamos implementar
-//}
-
 struct Shadow {
-  var x: Double? = 0
-  var y: Double? = 0
-  var blur: Double? = 0
-  var color: String? // = black
+  var x: Double = 0
+  var y: Double = 0
+  var blur: Double = 0
+  var color: Color = .black
 }
 
 extension Shadow: Deserializable {
   init(from map: [String : Any]) throws {
-    self.x = getMapProperty(map: map, name: "x")
-    self.y = getMapProperty(map: map, name: "y")
-    self.blur = getMapProperty(map: map, name: "blur")
-    self.color = getMapProperty(map: map, name: "color")
+    let x: Double? = getMapProperty(map: map, name: "x")
+    self.x = x ?? 0
+    
+    let y: Double? = getMapProperty(map: map, name: "y")
+    self.y = y ?? 0
+    
+    let blur: Double? = getMapProperty(map: map, name: "blur")
+    self.blur = blur ?? 0
+    
+    let color: String? = getMapProperty(map: map, name: "color")
+    self.color = color.color ?? .black
+  }
+}
+
+struct ShadowModifier: ViewModifier {
+  var shadows: [Shadow]
+    
+  func body(content: Content) -> some View {
+    shadows.reduce(AnyView(content)) { partialResult, shadow in
+      AnyView(partialResult
+        .shadow(
+          color: shadow.color,
+          radius: CGFloat(shadow.blur),
+          x: CGFloat(shadow.x),
+          y: CGFloat(shadow.y)
+        )
+      )
+    }
   }
 }

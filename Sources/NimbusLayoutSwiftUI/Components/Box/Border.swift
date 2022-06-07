@@ -31,7 +31,7 @@ import NimbusSwiftUI
 //}
 
 struct Border {
-  var borderColor: String? // default: clear
+  var borderColor: Color = .clear
   
   var borderWidth: Double? // default: 0
   var borderDashLength: Double? // default: 1
@@ -41,7 +41,8 @@ struct Border {
 
 extension Border: Deserializable {
   init(from map: [String : Any]) throws {
-    self.borderColor = getMapProperty(map: map, name: "borderColor")
+    let color: String? = getMapProperty(map: map, name: "borderColor")
+    self.borderColor = color.color ?? .clear
     
     self.borderWidth = getMapProperty(map: map, name: "borderWidth")
     self.borderDashLength = getMapProperty(map: map, name: "borderDashLength")
@@ -52,20 +53,12 @@ extension Border: Deserializable {
 
 struct BorderModifier: ViewModifier {
   var border: Border
-  
-//  TODO: duplicated on BoxModifier
-  var color: Color {
-    guard let backgroundColor = border.borderColor, let color = Color(hex: backgroundColor) else {
-      return Color.clear
-    }
-    return color
-  }
-  
+    
   func body(content: Content) -> some View {
     content
     .overlay(
       RoundedRectangle(cornerRadius: border.cornerRadius ?? 0)
-        .stroke(color, style: StrokeStyle(
+        .stroke(border.borderColor, style: StrokeStyle(
           lineWidth: border.borderWidth ?? 0,
           dash: [
             border.borderDashLength ?? 10,
