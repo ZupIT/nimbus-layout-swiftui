@@ -14,27 +14,14 @@
  * limitations under the License.
  */
 
-import XCTest
-import SnapshotTesting
+import SwiftUI
+import NimbusSwiftUI
 
-import NimbusLayoutSwiftUI
-
-class HelloTests: XCTestCase {
+struct Column: View, HasContainer {
+  var children: [AnyComponent]
+  var container: Container
   
-  func testHello() {
-    let view = NimbusNavigator(json:
-    """
-    {
-      "_:component": "material:text",
-      "properties": {
-        "text": "Hello!!!"
-      }
-    }
-    """
-    )
-      .environmentObject(NimbusConfig())
-      .frame(width: 100, height: 100)
-    assertSnapshot(matching: view, as: .image)
+  var body: some View {
+    ContainerView(direction: .column, model: container, children: children)
   }
-  
 }

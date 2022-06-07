@@ -14,21 +14,15 @@
  * limitations under the License.
  */
 
-import SwiftUI
-import NimbusCore
-import NimbusSwiftUI
+import CoreGraphics
 
-public typealias NimbusConfig = NimbusSwiftUI.NimbusConfig
-public typealias NimbusNavigator = NimbusSwiftUI.NimbusNavigator
-
-let layoutComponents: [String: Component] = [
-  "hello": { (element, _) in
-    AnyView(Text("Hello!!!"))
-  }
-]
-
-extension NimbusConfig {
-  public convenience init() {
-    self.init(baseUrl: "base", components: layoutComponents)
+extension Optional where Wrapped == Double {
+  var cgFloat: CGFloat? {
+    switch self {
+    case .none:
+      return nil
+    case .some(let wrapped):
+      return CGFloat(wrapped)
+    }
   }
 }

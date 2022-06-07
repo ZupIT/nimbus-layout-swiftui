@@ -15,26 +15,7 @@
  */
 
 import XCTest
-import SnapshotTesting
 
-import NimbusLayoutSwiftUI
-
-class HelloTests: XCTestCase {
-  
-  func testHello() {
-    let view = NimbusNavigator(json:
-    """
-    {
-      "_:component": "material:text",
-      "properties": {
-        "text": "Hello!!!"
-      }
-    }
-    """
-    )
-      .environmentObject(NimbusConfig())
-      .frame(width: 100, height: 100)
-    assertSnapshot(matching: view, as: .image)
-  }
-  
+class ShadowTests: XCTestCase {
+  // TODO: impl
 }
