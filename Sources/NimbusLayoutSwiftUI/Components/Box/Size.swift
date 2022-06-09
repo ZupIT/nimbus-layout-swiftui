@@ -25,7 +25,7 @@ struct Size {
   var maxWidth: Double?
   var maxHeight: Double?
   
-  var clipped: Bool // default: false
+  var clipped: Bool = false
 }
 
 extension Size: Deserializable {

@@ -22,16 +22,14 @@ import SnapshotTesting
 
 class BoxTests: XCTestCase {
   
-  // TODO: Missing Shadow and Border
-  
   func testModifier() throws {
     let box = Box(
-      backgroundColor: "#ff0000",
-      shadow: [],
+      backgroundColor: .red,
+      shadow: [Shadow(blur: 4, color: .red)],
       margin: Margin(all: 5),
       padding: Padding(all: 5),
       size: Size(width: 50, height: 50, clipped: true),
-      border: Border()
+      border: Border(borderWidth: 1)
     )
     
     let view = HStack {

@@ -14,19 +14,11 @@
  * limitations under the License.
  */
 
-// MARK: - Models
-
 import SwiftUI
 import NimbusSwiftUI
 
-//interface Box extends Margin, Padding, Size, Border {
-//    backgroundColor?: string,
-//    shadow?: Shadow[],
-//    children?: Component[],
-//}
-
 struct Box {
-  var backgroundColor: String?
+  var backgroundColor: Color = .clear
   var shadow: [Shadow]?
   
   var margin: Margin
@@ -37,9 +29,11 @@ struct Box {
 
 extension Box: Deserializable {
   init(from map: [String : Any]) throws {
-    self.backgroundColor = getMapProperty(map: map, name: "backgroundColor")
+    let color: String? = getMapProperty(map: map, name: "backgroundColor")
+    self.backgroundColor = color.color ?? .clear
     
     let shadowModel: [[String: Any]]? = getMapProperty(map: map, name: "shadow")
+    // TODO: remove force try
     self.shadow = shadowModel?.map { try! Shadow(from: $0) }
     
     self.margin = try Margin(from: map)
@@ -52,21 +46,15 @@ extension Box: Deserializable {
 struct BoxModifier: ViewModifier {
   var box: Box
   
-  var color: Color {
-    guard let backgroundColor = box.backgroundColor, let color = Color(hex: backgroundColor) else {
-      return Color.clear
-    }
-    return color
-  }
-  
   func body(content: Content) -> some View {
     ZStack(alignment: .topLeading) {
-      color
+      box.backgroundColor
         .modifier(BorderModifier(border: box.border))
       content
         .modifier(InsetsModifier(insets: box.padding))
     }
     .modifier(SizeModifier(size: box.size))
+    .modifier(ShadowModifier(shadows: box.shadow ?? []))
     .modifier(InsetsModifier(insets: box.margin))
   }
 }
