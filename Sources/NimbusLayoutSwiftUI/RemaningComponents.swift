@@ -1,10 +1,3 @@
-//interface WithAccessibility {
-//    accessibility?: {
-//        label?: string,
-//        isHeader?: boolean,
-//        // crescer essa lista se julgar necessário, alinhar entre as plataformas
-//    }
-//}
 
 //export interface FlowRow extends Box {
 //
@@ -27,21 +20,6 @@
 //export interface Touchable extends WithAccessibility {
 //    onPress: Action[],
 //    children: Component,
-//}
-
-//interface BaseImage extends Size, WithAccessibility {
-//    // precisa de alinhamento com o swiftui. Implementar apenas aqueles que forem comuns.
-//    scale?: 'crop' | 'fillBounds' | 'fillHeight' | 'fillWidth' | 'fit' | 'inside' | 'none' // default: none
-//}
-
-//export interface LocalImage extends BaseImage {
-//    id?: string,
-//    // url?: string, // do not implement, reserved for web
-//}
-
-//export interface RemoteImage extends BaseImage {
-//    url: string,
-//    placeholder?: string, // id of the local image
 //}
 
 //export interface Positioned {
