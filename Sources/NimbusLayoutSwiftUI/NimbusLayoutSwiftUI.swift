@@ -37,7 +37,8 @@ let layoutComponents: [String: Component] = [
   },
   "layout:remoteimage": { element, _ in
     AnyComponent(try! RemoteImage(from: element.properties ?? [:]))
-  }
+  },
+  "layout:scroll": scrollComponent
 ]
 
 // TODO: Handle force try
