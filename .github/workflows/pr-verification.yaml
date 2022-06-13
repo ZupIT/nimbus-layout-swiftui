@@ -37,4 +37,4 @@ jobs:
       # TODO: DerivedData Cache
 
       - name: xcodebuild
-        run: xcodebuild test -scheme NimbusLayoutSwiftUI -workspace NimbusLayout.xcworkspace -destination 'platform=iOS Simulator,name=iPhone 13 mini,OS=15.2' | xcpretty
+        run: xcodebuild test -scheme NimbusLayoutSwiftUI -workspace NimbusLayout.xcworkspace -destination 'platform=iOS Simulator,name=iPhone 13 mini,OS=15.2' | xcpretty && exit ${PIPESTATUS[0]}

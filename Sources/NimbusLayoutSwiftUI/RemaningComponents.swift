@@ -29,12 +29,6 @@
 //    children: Component,
 //}
 
-//export interface ScrollView {
-//    direction?: 'vertical' | 'horizontal' | 'both', // default: both
-//    scrollIndicator?: boolean, //default: true
-//    children: Component,
-//}
-
 //interface SafeArea {
 //    top?: boolean, // default: true
 //    bottom?: boolean, // default: true
