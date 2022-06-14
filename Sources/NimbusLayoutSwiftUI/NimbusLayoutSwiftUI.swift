@@ -38,7 +38,10 @@ let layoutComponents: [String: Component] = [
   "layout:remoteimage": { element, _ in
     AnyComponent(try! RemoteImage(from: element.properties ?? [:]))
   },
-  "layout:scroll": scrollComponent
+  "layout:scroll": scrollComponent,
+  "layout:lifecycle": { element, children in
+    AnyComponent(try! Lifecycle(from: element.properties ?? [:], children: children))
+  }
 ]
 
 // TODO: Handle force try

@@ -31,10 +31,22 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
+        with:
+          path: nimbus-layout-swiftui
+
+      - name: Checkout nimbus-swiftui
+        uses: actions/checkout@v2
+        with:
+          repository: ZupIT/nimbus-swiftui
+          ref: swift-tools
+          token: ${{ secrets.GIT_PAT }}
+          path: nimbus-swiftui
 
       # TODO: Build xcframework from core
 
       # TODO: DerivedData Cache
 
       - name: xcodebuild
-        run: xcodebuild test -scheme NimbusLayoutSwiftUI -workspace NimbusLayout.xcworkspace -destination 'platform=iOS Simulator,name=iPhone 13 mini,OS=15.2' | xcpretty && exit ${PIPESTATUS[0]}
+        run: |
+          cd nimbus-layout-swiftui
+          xcodebuild test -scheme NimbusLayoutSwiftUI -workspace NimbusLayout.xcworkspace -destination 'platform=iOS Simulator,name=iPhone 13 mini,OS=15.2' | xcpretty && exit ${PIPESTATUS[0]}

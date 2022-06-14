@@ -1,4 +1,4 @@
-// swift-tools-version: 5.6
+// swift-tools-version: 5.5
 
 /*
  * Copyright 2022 ZUP IT SERVICOS EM TECNOLOGIA E INOVACAO SA
@@ -28,10 +28,7 @@ let package = Package(
     )
   ],
   dependencies: [
-    .package(
-      url: "https://github.com/ZupIT/nimbus-swiftui.git",
-      branch: "main"
-    ),
+    .package(path: "../nimbus-swiftui"),
     .package(
       url: "https://github.com/pointfreeco/swift-snapshot-testing.git",
       from: "1.9.0"
@@ -49,8 +46,7 @@ let package = Package(
       dependencies: [
         "NimbusLayoutSwiftUI",
         .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
-      ],
-      exclude: ["__Snapshots__"]
+      ]
     )
   ]
 )
