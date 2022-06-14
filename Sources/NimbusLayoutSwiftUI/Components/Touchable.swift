@@ -15,30 +15,36 @@
  */
 
 import SwiftUI
-@testable import NimbusSwiftUI
+import NimbusSwiftUI
 
-struct Lifecycle: View {
-  var onInit: Actions
+typealias Actions = @convention(block) (Any?) -> Void
+
+struct Touchable: View, HasAccessibility {
+  var onPress: Actions
   var children: [AnyComponent]
+  
+  var accessibility: Accessibility
   
   var body: some View {
     ForEach(children.indices, id: \.self) { index in
       children[index]
     }
-    .onLoad {
-      onInit(nil)
+    .modifier(AccessibilityModifier(accessibility: accessibility))
+    .onTapGesture {
+      onPress(nil)
     }
   }
 }
 
-extension Lifecycle {
+extension Touchable {
   init(from map: [String : Any], children: [AnyComponent]) throws {
     
-    self.onInit = unsafeBitCast(
-      map["onInit"] as? AnyObject,
+    self.onPress = unsafeBitCast(
+      map["onPress"] as? AnyObject,
       to: Actions.self
     )
     
     self.children = children
+    self.accessibility = try Accessibility(from: map)
   }
 }

@@ -42,6 +42,7 @@ struct BaseImageView: View, BaseImage {
       Image(uiImage: image)
         .scale(scale)
         .modifier(SizeModifier(size: size))
+        .modifier(AccessibilityModifier(accessibility: accessibility))
     case .none:
       Color.clear
         .modifier(SizeModifier(size: size))

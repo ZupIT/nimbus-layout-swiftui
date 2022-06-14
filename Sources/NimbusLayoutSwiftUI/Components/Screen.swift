@@ -15,29 +15,32 @@
  */
 
 import SwiftUI
-@testable import NimbusSwiftUI
+import NimbusSwiftUI
 
-struct Lifecycle: View {
-  var onInit: Actions
+struct Screen: View {
+  var ignoreSafeArea: SafeArea
+  var title: String?
+  var showBackButton: Bool = true
+  
   var children: [AnyComponent]
   
   var body: some View {
     ForEach(children.indices, id: \.self) { index in
       children[index]
     }
-    .onLoad {
-      onInit(nil)
-    }
+    .modifier(SafeAreaModifier(safeArea: ignoreSafeArea))
+    .navigationBarTitle(title ?? "")
+    .navigationBarBackButtonHidden(!showBackButton)
   }
 }
 
-extension Lifecycle {
+extension Screen {
   init(from map: [String : Any], children: [AnyComponent]) throws {
+    self.ignoreSafeArea = try SafeArea(from: map)
+    self.title = getMapProperty(map: map, name: "title")
     
-    self.onInit = unsafeBitCast(
-      map["onInit"] as? AnyObject,
-      to: Actions.self
-    )
+    let showBackButton: Bool? = getMapProperty(map: map, name: "showBackButton")
+    self.showBackButton = showBackButton ?? true
     
     self.children = children
   }
