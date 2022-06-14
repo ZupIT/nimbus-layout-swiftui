@@ -11,12 +11,6 @@
 //
 //}
 
-//export interface Lifecycle {
-//    onInit?: Action[],
-//    children: Component,
-//    // onAppear?: Action[], // extra: verificar possibilidade
-//}
-
 //export interface Touchable extends WithAccessibility {
 //    onPress: Action[],
 //    children: Component,
