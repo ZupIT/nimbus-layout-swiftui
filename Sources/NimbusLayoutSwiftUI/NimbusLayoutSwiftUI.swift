@@ -41,6 +41,12 @@ let layoutComponents: [String: Component] = [
   "layout:scroll": scrollComponent,
   "layout:lifecycle": { element, children in
     AnyComponent(try! Lifecycle(from: element.properties ?? [:], children: children))
+  },
+  "layout:screen": { element, children in
+    AnyComponent(try! Screen(from: element.properties ?? [:], children: children))
+  },
+  "layout:touchable": { element, children in
+    AnyComponent(try! Touchable(from: element.properties ?? [:], children: children))
   }
 ]
 

@@ -41,7 +41,6 @@ extension Border: Deserializable {
     
     let cornerRadius: Double? = getMapProperty(map: map, name: "cornerRadius")
     self.cornerRadius = cornerRadius ?? 0
-    
   }
 }
 
