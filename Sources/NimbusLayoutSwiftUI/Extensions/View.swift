@@ -26,6 +26,11 @@ extension View {
     )
     .onPreferenceChange(SizePreferenceKey.self, perform: onChange)
   }
+  
+  func debug(_ string: String) -> some View {
+    print(string)
+    return self
+  }
 }
 
 struct SizePreferenceKey: PreferenceKey {
