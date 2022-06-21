@@ -47,6 +47,12 @@ let layoutComponents: [String: Component] = [
   },
   "layout:touchable": { element, children in
     AnyComponent(try! Touchable(from: element.properties ?? [:], children: children))
+  },
+  "layout:stack": { element, children in
+    AnyComponent(try! Stack(from: element.properties ?? [:], children: children))
+  },
+  "layout:positioned": { element, children in
+    AnyComponent(try! Positioned(from: element.properties ?? [:], children: children))
   }
 ]
 

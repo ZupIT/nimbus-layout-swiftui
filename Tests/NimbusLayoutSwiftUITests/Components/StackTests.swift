@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-import SwiftUI
-import NimbusLayoutSwiftUI
+import XCTest
+import SnapshotTesting
+import NimbusSwiftUI
 
-struct ContentView: View {
-  var body: some View {
-    
-    NimbusNavigator(json: """
+class StackTests: XCTestCase {
+  
+  // Integrated
+  func testStackAndPositioned() throws {
+    let view = NimbusNavigator(json:
+    """
     {
       "_:component": "layout:stack",
       "children": [
@@ -103,21 +106,19 @@ struct ContentView: View {
             "x": -10.0,
             "y": -10.0
           }
-        }],
+        }
+      ],
       "properties": {
         "backgroundColor": "#CCCCCCFF",
         "width": 150.0,
         "height": 150.0
       }
     }
-    """)
-    .environmentObject(NimbusConfig())
-    
+    """
+    )
+      .environmentObject(NimbusConfig())
+      .frame(width: 150, height: 190)
+    assertSnapshot(matching: view, as: .image)
   }
-}
-
-struct ContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    ContentView()
-  }
+  
 }
