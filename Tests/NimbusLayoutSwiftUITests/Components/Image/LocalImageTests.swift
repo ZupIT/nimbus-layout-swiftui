@@ -60,4 +60,38 @@ class LocalImageTests: XCTestCase {
   func testLocalImageFillHeight() {
     assertSnapshot(matching: localImage(for: "fillHeight"), as: .image)
   }
+  
+  // integrated (image + row strech)
+  func testImageIntrinsicSize() {
+    let view = NimbusNavigator(json: """
+    {
+      "_:component": "layout:row",
+      "children": [
+        {
+          "_:component": "layout:localimage",
+          "properties": {
+            "id": "nimbus-local",
+            "scale": "fillWidth",
+            "width": 60,
+            "clipped": true
+          }
+        },
+        {
+          "_:component": "layout:row",
+          "properties": {
+            "flex": 1,
+            "strech": true,
+            "backgroundColor": "#00FF00"
+          }
+        }],
+      "properties": {
+        "backgroundColor": "#CCCCCCFF"
+      }
+    }
+    """)
+    .environmentObject(NimbusConfig())
+    .frame(width: 300, height: 120)
+    
+    assertSnapshot(matching: view, as: .image)
+  }
 }

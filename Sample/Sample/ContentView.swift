@@ -25,35 +25,24 @@ struct ContentView: View {
       "_:component": "layout:row",
       "children": [
         {
-          "_:component": "layout:row",
+          "_:component": "layout:localimage",
           "properties": {
-            "backgroundColor": "#FF0000",
-            "height" : 100,
-            "width" : 50
+            "id": "nimbus-local",
+            "scale": "fillWidth",
+            "width": 60,
+            "clipped": true
           }
         },
         {
           "_:component": "layout:row",
           "properties": {
-            "backgroundColor": "#00FF00",
-            "height" : 80,
-            "width": 50
+            "flex": 1,
+            "strech": true,
+            "backgroundColor": "#00FF00"
           }
-        },
-        {
-          "_:component": "layout:row",
-          "properties": {
-            "backgroundColor": "#0000FF",
-            "minHeight": 50,
-            
-            "width": 50
-          }
-        }
-      ],
+        }],
       "properties": {
-        "backgroundColor": "#FFCCCCCC",
-        "mainAxisAlignment": "start",
-        "crossAxisAlignment": "start"
+        "backgroundColor": "#CCCCCCFF"
       }
     }
     """)

@@ -18,7 +18,6 @@ import SwiftUI
 import NimbusSwiftUI
 
 enum CrossAxisAlignment: String {
-  case stretch
   case start
   case end
   case center
@@ -39,6 +38,7 @@ protocol HasContainer {
 
 struct Container {
   var flex: Int?
+  var strech: Bool = false
   var crossAxisAlignment: CrossAxisAlignment
   var mainAxisAlignment: MainAxisAlignment
   
@@ -49,6 +49,9 @@ extension Container: Deserializable {
   init(from map: [String : Any]) throws {
     
     self.flex = getMapProperty(map: map, name: "flex")
+    
+    let strech: Bool? = getMapProperty(map: map, name: "strech")
+    self.strech = strech ?? false
     
     let crossAxis: String? = getMapProperty(map: map, name: "crossAxisAlignment")
     self.crossAxisAlignment = CrossAxisAlignment(rawValue: crossAxis ?? "start") ?? .start
@@ -62,7 +65,14 @@ extension Container: Deserializable {
 
 public struct ContainerView: View, HasContainer {
   
-  @State var availableSize: CGSize = .zero
+  // TODO: verify a way of reduce fixed sizes
+  @State var available: CGFloat = .zero
+  @State var state: ContainerState = .initialSize
+  enum ContainerState {
+    case initialSize
+    case fixedSizes
+    case rendering
+  }
   
   var direction: Direction
   enum Direction {
@@ -74,38 +84,58 @@ public struct ContainerView: View, HasContainer {
   var children: [AnyComponent]
   
   var totalFlex: Int
+  var fixedComponents: [AnyComponent]
   
   init(direction: Direction, model: Container, children: [AnyComponent]) {
     self.direction = direction
     self.container = model
     self.children = children
     
-    totalFlex = children.compactMap { $0.component as? HasContainer }
-      .compactMap(\.container.flex)
+    totalFlex = children.compactMap(\.flex)
       .reduce(0, +)
+    fixedComponents = children.filter { $0.flex == nil }
   }
   
   public var body: some View {
     ZStack {
-      Color.clear
-        .frame(
-          width: direction == .column ? 1 : nil,
-          height: direction == .row ? 1 : nil
-        )
-        .readSize { size in
-          availableSize = size
-        }
+      if state == .initialSize, totalFlex != 0 { // calculate available size
+        Color.clear
+          .frame(
+            width: direction == .column ? 1 : nil,
+            height: direction == .row ? 1 : nil
+          )
+          .readSize { size in
+            let availableValue = direction == .row ? size.width : size.height
+            if availableValue != .zero {
+              available = availableValue
+              state = fixedComponents.count > 0 ? .fixedSizes : .rendering
+            }
+          }
+      }
       stack {
-        if totalFlex == 0 {
+        if totalFlex == 0 { // rendering fixed components
           mainAxis()
         } else {
-          ForEach(children.indices, id: \.self) { index in
-            component(children[index]) { size in
-              switch direction {
-              case .row:
-                availableSize.width -= size.width
-              case .column:
-                availableSize.height -= size.height
+          if state == .fixedSizes { // calculate all fixedPositions
+            ForEach(fixedComponents.indices, id: \.self) { index in
+              fixedComponents[index]
+                .readSize { size in
+                  available -= (direction == .row ? size.width : size.height)
+                  if index == fixedComponents.count - 1 { // last fixed element
+                    state = .rendering
+                  }
+                }
+            }
+          } else if state == .rendering { // rendenring components (flexible and fixed)
+            ForEach(children.indices, id: \.self) { index in
+              if let flex = children[index].flex {
+                children[index]
+                  .frame(
+                    width: direction == .row ? available * (CGFloat(flex) / CGFloat(totalFlex)) : nil,
+                    height: direction == .column ? available * (CGFloat(flex) / CGFloat(totalFlex)) : nil
+                  )
+              } else {
+                children[index]
               }
             }
           }
@@ -114,8 +144,8 @@ public struct ContainerView: View, HasContainer {
     }
     .modifier(BoxModifier(box: container.box))
     .fixedSize(
-      horizontal: direction == .column,
-      vertical: direction == .row
+      horizontal: container.strech ? false : direction == .column,
+      vertical: container.strech ? false : direction == .row
     )
   }
   
@@ -133,20 +163,6 @@ public struct ContainerView: View, HasContainer {
     }
   }
   
-  @ViewBuilder
-  func component(_ item: AnyComponent, onChange: @escaping (CGSize) -> Void) -> some View {
-    if let flex = item.flex {
-      item
-        .frame(
-          width: direction == .row ? availableSize.width * (CGFloat(flex) / CGFloat(totalFlex)) : nil,
-          height: direction == .column ? availableSize.height * (CGFloat(flex) / CGFloat(totalFlex)) : nil
-        )
-    } else {
-      item
-        .readSize(onChange: onChange)
-    }
-  }
-
   @ViewBuilder
   func mainAxis() -> some View {
     switch container.mainAxisAlignment {
@@ -200,8 +216,6 @@ extension AnyComponent {
 extension CrossAxisAlignment {
   var verticalAlignment: VerticalAlignment {
     switch self {
-    case .stretch:
-      return .center
     case .start:
       return .top
     case .end:
@@ -213,8 +227,6 @@ extension CrossAxisAlignment {
   
   var horizontalAlignment: HorizontalAlignment {
     switch self {
-    case .stretch:
-      return .center
     case .start:
       return .leading
     case .end:
