@@ -32,7 +32,7 @@ class StackTests: XCTestCase {
           "children": [{
             "_:component": "layout:row",
             "children" : [{
-              "_:component": "material:text",
+              "_:component": "layout:text",
               "properties": {
                 "text": "r"
               }
@@ -52,7 +52,7 @@ class StackTests: XCTestCase {
           "children": [{
             "_:component": "layout:row",
             "children" : [{
-              "_:component": "material:text",
+              "_:component": "layout:text",
               "properties": {
                 "text": "g"
               }
@@ -72,7 +72,7 @@ class StackTests: XCTestCase {
           "children": [{
             "_:component": "layout:row",
             "children" : [{
-              "_:component": "material:text",
+              "_:component": "layout:text",
               "properties": {
                 "text": "b"
               }
@@ -92,7 +92,7 @@ class StackTests: XCTestCase {
           "children": [{
             "_:component": "layout:row",
             "children" : [{
-              "_:component": "material:text",
+              "_:component": "layout:text",
               "properties": {
                 "text": "m"
               }

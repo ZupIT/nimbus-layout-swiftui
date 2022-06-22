@@ -31,7 +31,7 @@ class RowTests: XCTestCase {
         {
           "_:component": "layout:row",
           "children": [{
-            "_:component": "material:text",
+            "_:component": "layout:text",
             "properties": {
               "text": "r"
             }
@@ -47,7 +47,7 @@ class RowTests: XCTestCase {
         {
           "_:component": "layout:row",
           "children": [{
-            "_:component": "material:text",
+            "_:component": "layout:text",
             "properties": {
               "text": "g"
             }
@@ -61,7 +61,7 @@ class RowTests: XCTestCase {
         {
           "_:component": "layout:row",
           "children": [{
-            "_:component": "material:text",
+            "_:component": "layout:text",
             "properties": {
               "text": "b"
             }
@@ -98,9 +98,6 @@ class RowTests: XCTestCase {
     assertSnapshot(matching: view(crossAxis: "center"), as: .image)
     assertSnapshot(matching: view(crossAxis: "start"), as: .image)
     assertSnapshot(matching: view(crossAxis: "end"), as: .image)
-    
-    // TODO: stretch
-//    assertSnapshot(matching: view(crossAxis: "strech"), as: .image)
   }
   
   func view(mainAxis: String = "start", crossAxis: String = "start") -> some View {

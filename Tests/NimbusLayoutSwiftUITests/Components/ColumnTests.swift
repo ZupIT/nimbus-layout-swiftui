@@ -30,7 +30,7 @@ class ColumnTests: XCTestCase {
         {
           "_:component": "layout:column",
           "children": [{
-            "_:component": "material:text",
+            "_:component": "layout:text",
             "properties": {
               "text": "r"
             }
@@ -45,7 +45,7 @@ class ColumnTests: XCTestCase {
         {
           "_:component": "layout:column",
           "children": [{
-            "_:component": "material:text",
+            "_:component": "layout:text",
             "properties": {
               "text": "g"
             }
@@ -59,7 +59,7 @@ class ColumnTests: XCTestCase {
         {
           "_:component": "layout:column",
           "children": [{
-            "_:component": "material:text",
+            "_:component": "layout:text",
             "properties": {
               "text": "b"
             }

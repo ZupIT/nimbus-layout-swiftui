@@ -22,9 +22,8 @@ public typealias NimbusConfig = NimbusSwiftUI.NimbusConfig
 public typealias NimbusNavigator = NimbusSwiftUI.NimbusNavigator
 
 let layoutComponents: [String: Component] = [
-//  TODO: move to sample / tests
-  "material:text": { element, _ in
-    AnyComponent(Text((element.properties?["text"] as? String) ?? ""))
+  "layout:text": { element, _ in
+    AnyComponent(try! NimbusText(from: element.properties ?? [:]))
   },
   "layout:row": { element, children in
     AnyComponent(Row(children: children, container: try! Container(from: element.properties ?? [:])))
