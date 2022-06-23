@@ -15,26 +15,37 @@
  */
 
 import XCTest
+import SwiftUI
 import SnapshotTesting
+import NimbusSwiftUI
 
-import NimbusLayoutSwiftUI
-
-class HelloTests: XCTestCase {
+class TextTests: XCTestCase {
   
-  func testHello() {
-    let view = NimbusNavigator(json:
-    """
+  // Integrated
+  func testText() throws {
+    assertSnapshot(matching: text(), as: .image)
+    assertSnapshot(matching: text(size: 16, weight: "thin"), as: .image)
+    assertSnapshot(matching: text(size: 10, weight: "bold", color: "#00FF00"), as: .image)
+    assertSnapshot(matching: text(size: 8, weight: "extraLight", color: "#FF0000"), as: .image)
+  }
+  
+  func text(size: Double = 12, weight: String = "normal", color: String = "#000000") -> some View {
+    let json = """
     {
       "_:component": "layout:text",
       "properties": {
-        "text": "Hello!!!"
+        "text": "Sample",
+        "size": \(size),
+        "weight": "\(weight)",
+        "color": "\(color)"
       }
     }
     """
+    return NimbusNavigator(json:
+      json
     )
       .environmentObject(NimbusConfig())
-      .frame(width: 100, height: 100)
-    assertSnapshot(matching: view, as: .image)
+      .frame(width: 80, height: 80)
   }
   
 }
