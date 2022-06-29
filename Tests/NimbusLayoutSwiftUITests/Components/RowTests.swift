@@ -23,64 +23,65 @@ import NimbusSwiftUI
 class RowTests: XCTestCase {
   
   func testRowFlex() {
-    let view = NimbusNavigator(json:
-    """
-    {
-      "_:component": "layout:row",
-      "children": [
-        {
-          "_:component": "layout:row",
-          "children": [{
-            "_:component": "layout:text",
+    let view = Nimbus(baseUrl: "base") {
+      NimbusNavigator(json:
+      """
+      {
+        "_:component": "layout:row",
+        "children": [
+          {
+            "_:component": "layout:row",
+            "children": [{
+              "_:component": "layout:text",
+              "properties": {
+                "text": "r"
+              }
+            }],
             "properties": {
-              "text": "r"
+              "flex":2,
+              "backgroundColor": "#FF0000",
+              "height": 40.0,
+              "marginTop": 10,
+              "marginBottom": 10
             }
-          }],
-          "properties": {
-            "flex":2,
-            "backgroundColor": "#FF0000",
-            "height": 40.0,
-            "marginTop": 10,
-            "marginBottom": 10
-          }
-        },
-        {
-          "_:component": "layout:row",
-          "children": [{
-            "_:component": "layout:text",
+          },
+          {
+            "_:component": "layout:row",
+            "children": [{
+              "_:component": "layout:text",
+              "properties": {
+                "text": "g"
+              }
+            }],
             "properties": {
-              "text": "g"
+              "flex":1,
+              "backgroundColor": "#00FF00",
+              "height": 40.0
             }
-          }],
-          "properties": {
-            "flex":1,
-            "backgroundColor": "#00FF00",
-            "height": 40.0
-          }
-        },
-        {
-          "_:component": "layout:row",
-          "children": [{
-            "_:component": "layout:text",
+          },
+          {
+            "_:component": "layout:row",
+            "children": [{
+              "_:component": "layout:text",
+              "properties": {
+                "text": "b"
+              }
+            }],
             "properties": {
-              "text": "b"
+              "flex":1,
+              "backgroundColor": "#0000FF",
+              "height": 40.0,
+              "paddingTop": 10
             }
-          }],
-          "properties": {
-            "flex":1,
-            "backgroundColor": "#0000FF",
-            "height": 40.0,
-            "paddingTop": 10
           }
+        ],
+        "properties": {
+          "backgroundColor": "#FFCCCCCC"
         }
-      ],
-      "properties": {
-        "backgroundColor": "#FFCCCCCC"
       }
+      """)
     }
-    """
-    )
-      .environmentObject(NimbusConfig())
+      .layoutComponents()
       .frame(width: 100, height: 130)
     assertSnapshot(matching: view, as: .image)
   }
@@ -137,10 +138,12 @@ class RowTests: XCTestCase {
       }
     }
     """
-    return NimbusNavigator(json:
-      json
-    )
-      .environmentObject(NimbusConfig())
-      .frame(width: 80, height: 80)
+    return Nimbus(baseUrl: "base") {
+      NimbusNavigator(json:
+        json
+      )
+    }
+    .layoutComponents()
+    .frame(width: 80, height: 80)
   }
 }

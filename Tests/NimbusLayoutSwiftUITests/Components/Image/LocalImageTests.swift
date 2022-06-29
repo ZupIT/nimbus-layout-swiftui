@@ -22,27 +22,26 @@ import NimbusSwiftUI
 @testable import NimbusLayoutSwiftUI
 
 class LocalImageTests: XCTestCase {
-  override func setUp() {
-    bundle = .module
-  }
   
   func localImage(for scale: String) -> some View {
-    return NimbusNavigator(json:
-    """
-    {
-      "_:component": "layout:localimage",
-      "properties": {
-        "id": "nimbus-local",
-        "scale": "\(scale)",
-        "width": 70,
-        "height": 70,
-        "clipped": true
+    Nimbus(baseUrl: "base") {
+      NimbusNavigator(json:
+      """
+      {
+        "_:component": "layout:localimage",
+        "properties": {
+          "id": "nimbus-local",
+          "scale": "\(scale)",
+          "width": 70,
+          "height": 70,
+          "clipped": true
+        }
       }
+      """)
     }
-    """
-    )
-      .environmentObject(NimbusConfig())
-      .frame(width: 80, height: 125)
+    .layoutComponents()
+    .imageProvider(MockedImageProvider())
+    .frame(width: 80, height: 125)
   }
   
   func testLocalImageCenter() {
@@ -63,35 +62,48 @@ class LocalImageTests: XCTestCase {
   
   // integrated (image + row strech)
   func testImageIntrinsicSize() {
-    let view = NimbusNavigator(json: """
-    {
-      "_:component": "layout:row",
-      "children": [
-        {
-          "_:component": "layout:localimage",
-          "properties": {
-            "id": "nimbus-local",
-            "scale": "fillWidth",
-            "width": 60,
-            "clipped": true
-          }
-        },
-        {
-          "_:component": "layout:row",
-          "properties": {
-            "flex": 1,
-            "strech": true,
-            "backgroundColor": "#00FF00"
-          }
-        }],
-      "properties": {
-        "backgroundColor": "#CCCCCCFF"
+    let view = Nimbus(baseUrl: "base") {
+      NimbusNavigator(json: """
+      {
+        "_:component": "layout:row",
+        "children": [
+          {
+            "_:component": "layout:localimage",
+            "properties": {
+              "id": "nimbus-local",
+              "scale": "fillWidth",
+              "width": 60,
+              "clipped": true
+            }
+          },
+          {
+            "_:component": "layout:row",
+            "properties": {
+              "flex": 1,
+              "strech": true,
+              "backgroundColor": "#00FF00"
+            }
+          }],
+        "properties": {
+          "backgroundColor": "#CCCCCCFF"
+        }
       }
+      """)
     }
-    """)
-    .environmentObject(NimbusConfig())
+    .layoutComponents()
+    .imageProvider(MockedImageProvider())
     .frame(width: 300, height: 120)
     
     assertSnapshot(matching: view, as: .image)
+  }
+}
+
+struct MockedImageProvider: ImageProvider {
+  func fetch(url: String, completion: @escaping (UIImage?) -> Void) {
+    completion(UIImage(named: url, in: .module, with: nil))
+  }
+  
+  func image(named: String) -> UIImage? {
+    UIImage(named: named, in: .module, with: nil)
   }
 }

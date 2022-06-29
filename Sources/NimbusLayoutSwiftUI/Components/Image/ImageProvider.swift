@@ -15,13 +15,33 @@
  */
 
 import UIKit
+import SwiftUI
 
-var bundle: Bundle = Bundle(for: DefaultImageProvider.self)
+// MARK: - ImageProvider
 
 protocol ImageProvider {
   func fetch(url: String, completion: @escaping (UIImage?) -> Void)
   func image(named: String) -> UIImage?
 }
+
+struct ImageProviderKey: EnvironmentKey {
+  static var defaultValue: ImageProvider = DefaultImageProvider()
+}
+
+extension EnvironmentValues {
+  var imageProvider: ImageProvider {
+    get { self[ImageProviderKey.self] }
+    set { self[ImageProviderKey.self] = newValue }
+  }
+}
+
+extension View {
+  func imageProvider(_ imageProvider: ImageProvider) -> some View {
+    environment(\.imageProvider, imageProvider)
+  }
+}
+
+// MARK: - DefaultImageProvider
 
 class DefaultImageProvider: ImageProvider {
   // TODO: Use core httpClient instance
@@ -47,6 +67,6 @@ class DefaultImageProvider: ImageProvider {
   }
   
   func image(named: String) -> UIImage? {
-    UIImage(named: named, in: bundle, with: nil)
+    UIImage(named: named, in: Bundle(for: DefaultImageProvider.self), with: nil)
   }
 }

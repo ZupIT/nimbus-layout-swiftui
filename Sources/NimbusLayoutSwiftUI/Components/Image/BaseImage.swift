@@ -32,6 +32,8 @@ struct BaseImageView: View, BaseImage {
   @ObservedObject var model: BaseImageViewModel = BaseImageViewModel()
   var mode: BaseImageViewModel.Mode
   
+  @Environment(\.imageProvider) var provider: ImageProvider
+  
   var scale: ImageScale
   var size: Size
   var accessibility: Accessibility
@@ -47,14 +49,13 @@ struct BaseImageView: View, BaseImage {
       Color.clear
         .modifier(SizeModifier(size: size))
         .onAppear {
-          model.load(mode)
+          model.load(mode, with: provider)
         }
     }
   }
 }
 
 class BaseImageViewModel: ObservableObject {
-  var provider: ImageProvider = DefaultImageProvider()
   
   @Published var state: State = .none
   
@@ -68,7 +69,7 @@ class BaseImageViewModel: ObservableObject {
     case remote(String, placeholder: String?)
   }
   
-  func load(_ mode: Mode) {
+  func load(_ mode: Mode, with provider: ImageProvider) {
     switch mode {
     case let .remote(url, placeholder: placeholder):
       if let placeholder = placeholder {
@@ -98,16 +99,13 @@ private extension Image {
   func scale(_ scale: ImageScale) -> some View {
     switch scale {
     case .fillHeight:
-      self
-        .resizable()
+      resizable()
         .aspectRatio(contentMode: .fill)
     case .fillWidth:
-      self
-        .resizable()
+      resizable()
         .aspectRatio(contentMode: .fit)
     case .fillBounds:
-      self
-        .resizable()
+      resizable()
     case .center:
       self
     }

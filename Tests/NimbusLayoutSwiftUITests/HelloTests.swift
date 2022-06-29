@@ -22,18 +22,19 @@ import NimbusLayoutSwiftUI
 class HelloTests: XCTestCase {
   
   func testHello() {
-    let view = NimbusNavigator(json:
-    """
-    {
-      "_:component": "layout:text",
-      "properties": {
-        "text": "Hello!!!"
+    let view = Nimbus(baseUrl: "base") {
+      NimbusNavigator(json:
+      """
+      {
+        "_:component": "layout:text",
+        "properties": {
+          "text": "Hello!!!"
+        }
       }
+      """)
     }
-    """
-    )
-      .environmentObject(NimbusConfig())
-      .frame(width: 100, height: 100)
+    .layoutComponents()
+    .frame(width: 100, height: 100)
     assertSnapshot(matching: view, as: .image)
   }
   
