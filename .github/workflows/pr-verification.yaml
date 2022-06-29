@@ -38,7 +38,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: ZupIT/nimbus-swiftui
-          ref: swift-tools
+          ref: dependencies
           token: ${{ secrets.GIT_PAT }}
           path: nimbus-swiftui
 
