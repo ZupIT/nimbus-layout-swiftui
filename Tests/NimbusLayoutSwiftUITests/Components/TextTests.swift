@@ -41,11 +41,13 @@ class TextTests: XCTestCase {
       }
     }
     """
-    return NimbusNavigator(json:
-      json
-    )
-      .environmentObject(NimbusConfig())
-      .frame(width: 80, height: 80)
+    return Nimbus(baseUrl: "base") {
+      NimbusNavigator(json:
+        json
+      )
+    }
+    .layoutComponents()
+    .frame(width: 80, height: 80)
   }
   
 }

@@ -18,10 +18,10 @@ import SwiftUI
 import NimbusCore
 import NimbusSwiftUI
 
-public typealias NimbusConfig = NimbusSwiftUI.NimbusConfig
+public typealias Nimbus = NimbusSwiftUI.Nimbus
 public typealias NimbusNavigator = NimbusSwiftUI.NimbusNavigator
 
-let layoutComponents: [String: Component] = [
+let layoutComponentMap: [String: Component] = [
   "layout:text": { element, _ in
     AnyComponent(try! NimbusText(from: element.properties ?? [:]))
   },
@@ -62,8 +62,8 @@ protocol Deserializable {
   init(from map: [String: Any]) throws
 }
 
-extension NimbusConfig {
-  public convenience init() {
-    self.init(baseUrl: "base", components: layoutComponents)
+extension Nimbus {
+  public func layoutComponents() -> Self {
+    components(layoutComponentMap)
   }
 }

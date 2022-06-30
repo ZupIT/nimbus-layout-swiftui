@@ -22,64 +22,65 @@ import NimbusSwiftUI
 class ColumnTests: XCTestCase {
   
   func testColumnFlex() {
-    let view = NimbusNavigator(json:
-    """
-    {
-      "_:component": "layout:column",
-      "children": [
-        {
-          "_:component": "layout:column",
-          "children": [{
-            "_:component": "layout:text",
+    let view = Nimbus(baseUrl: "base") {
+      NimbusNavigator(json:
+      """
+      {
+        "_:component": "layout:column",
+        "children": [
+          {
+            "_:component": "layout:column",
+            "children": [{
+              "_:component": "layout:text",
+              "properties": {
+                "text": "r"
+              }
+            }],
             "properties": {
-              "text": "r"
+              "flex": 2,
+              "backgroundColor": "#FF0000",
+              "width": 30.0,
+              "margin": 5
             }
-          }],
-          "properties": {
-            "flex": 2,
-            "backgroundColor": "#FF0000",
-            "width": 30.0,
-            "margin": 5
-          }
-        },
-        {
-          "_:component": "layout:column",
-          "children": [{
-            "_:component": "layout:text",
+          },
+          {
+            "_:component": "layout:column",
+            "children": [{
+              "_:component": "layout:text",
+              "properties": {
+                "text": "g"
+              }
+            }],
             "properties": {
-              "text": "g"
+              "flex": 1,
+              "backgroundColor": "#00FF00",
+              "width": 30
             }
-          }],
-          "properties": {
-            "flex": 1,
-            "backgroundColor": "#00FF00",
-            "width": 30
-          }
-        },
-        {
-          "_:component": "layout:column",
-          "children": [{
-            "_:component": "layout:text",
+          },
+          {
+            "_:component": "layout:column",
+            "children": [{
+              "_:component": "layout:text",
+              "properties": {
+                "text": "b"
+              }
+            }],
             "properties": {
-              "text": "b"
+              "flex": 1,
+              "backgroundColor": "#0000FF",
+              "width": 30,
+              "paddingStart": 10
             }
-          }],
-          "properties": {
-            "flex": 1,
-            "backgroundColor": "#0000FF",
-            "width": 30,
-            "paddingStart": 10
           }
+        ],
+        "properties": {
+          "backgroundColor": "#FFCCCCCC"
         }
-      ],
-      "properties": {
-        "backgroundColor": "#FFCCCCCC"
       }
+      """)
     }
-    """
-    )
-      .environmentObject(NimbusConfig())
-      .frame(width: 100, height: 160)
+    .layoutComponents()
+    .frame(width: 100, height: 160)
     assertSnapshot(matching: view, as: .image)
   }
   
