@@ -27,13 +27,13 @@ struct Margin: Insets {
 }
 
 extension Margin: Deserializable {
-  init(from map: [String : Any]) throws {
-    self.all = getMapProperty(map: map, name: "margin")
-    self.start = getMapProperty(map: map, name: "marginStart")
-    self.end = getMapProperty(map: map, name: "marginEnd")
-    self.top = getMapProperty(map: map, name: "marginTop")
-    self.bottom = getMapProperty(map: map, name: "marginBottom")
-    self.horizontal = getMapProperty(map: map, name: "marginHorizontal")
-    self.vertical = getMapProperty(map: map, name: "marginVertical")
+  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+    self.all = try getMapProperty(map: map, name: "margin")
+    self.start = try getMapProperty(map: map, name: "marginStart")
+    self.end = try getMapProperty(map: map, name: "marginEnd")
+    self.top = try getMapProperty(map: map, name: "marginTop")
+    self.bottom = try getMapProperty(map: map, name: "marginBottom")
+    self.horizontal = try getMapProperty(map: map, name: "marginHorizontal")
+    self.vertical = try getMapProperty(map: map, name: "marginVertical")
   }
 }

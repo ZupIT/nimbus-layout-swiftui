@@ -28,13 +28,11 @@ struct Box {
 }
 
 extension Box: Deserializable {
-  init(from map: [String : Any]) throws {
-    let color: String? = getMapProperty(map: map, name: "backgroundColor")
-    self.backgroundColor = color.color ?? .clear
+  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+    self.backgroundColor = try getMapColorDefault(map: map, name: "backgroundColor", default: .clear)
     
-    let shadowModel: [[String: Any]]? = getMapProperty(map: map, name: "shadow")
-    // TODO: remove force try
-    self.shadow = shadowModel?.map { try! Shadow(from: $0) }
+    let shadowModel: [[String: Any]]? = try getMapProperty(map: map, name: "shadow")
+    self.shadow = shadowModel?.compactMap { try? Shadow(from: $0) }
     
     self.margin = try Margin(from: map)
     self.padding = try Padding(from: map)

@@ -53,14 +53,12 @@ extension Scroll.Direction {
 }
 
 let scrollComponent: Component = { element, children in
-  let direction: String? = getMapProperty(map: element.properties ?? [:], name: "direction")
-  let directionEnum = Scroll.Direction(rawValue: direction ?? "both") ?? .both
-  
-  let scrollIndicator: Bool? = getMapProperty(map: element.properties ?? [:], name: "scrollIndicator")
+  let direction: Scroll.Direction = try getMapEnumDefault(map: element.properties, name: "direction", default: .both)
+  let scrollIndicator: Bool = try getMapPropertyDefault(map: element.properties, name: "scrollIndicator", default: true)
   
   return AnyComponent(Scroll(
     children: children,
-    direction: directionEnum,
-    scrollIndicator: scrollIndicator ?? true)
+    direction: direction,
+    scrollIndicator: scrollIndicator)
   )
 }

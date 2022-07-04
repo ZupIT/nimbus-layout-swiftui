@@ -15,6 +15,7 @@
  */
 
 import SwiftUI
+import NimbusSwiftUI
 
 extension Color {
   /// Create a color from hex String.
@@ -54,4 +55,9 @@ extension Optional where Wrapped == String {
       return Color(hex: wrapped)
     }
   }
+}
+
+func getMapColorDefault(map: [String: Any]?, name: String, default: Color) throws -> Color {
+  let colorString: String? = try getMapProperty(map: map, name: name)
+  return colorString.color ?? `default`
 }

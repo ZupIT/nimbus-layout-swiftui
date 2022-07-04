@@ -36,15 +36,12 @@ struct RemoteImage: View, BaseImage {
 }
 
 extension RemoteImage: Deserializable {
-  init(from map: [String : Any]) throws {
-    self.url = getMapProperty(map: map, name: "url")
-    self.placeholder = getMapProperty(map: map, name: "placeholder")
-    
-    let scale: String? = getMapProperty(map: map, name: "scale")
-    self.scale = ImageScale(rawValue: scale ?? "center") ?? .center
+  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+    self.url = try getMapProperty(map: map, name: "url")
+    self.placeholder = try getMapProperty(map: map, name: "placeholder")
+    self.scale = try getMapEnumDefault(map: map, name: "scale", default: .center)
     
     self.size = try Size.init(from: map)
-    
-    self.accessibility = try Accessibility.init(from: (map["accessibility"] as? [String: Any]) ?? [:])
+    self.accessibility = try Accessibility.init(from: (map?["accessibility"] as? [String: Any]))
   }
 }

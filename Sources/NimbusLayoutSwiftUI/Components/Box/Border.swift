@@ -26,21 +26,12 @@ struct Border {
 }
 
 extension Border: Deserializable {
-  init(from map: [String : Any]) throws {
-    let color: String? = getMapProperty(map: map, name: "borderColor")
-    self.borderColor = color.color ?? .black
-    
-    let borderWidth: Double? = getMapProperty(map: map, name: "borderWidth")
-    self.borderWidth = borderWidth ?? 0
-    
-    let borderDashLength: Double? = getMapProperty(map: map, name: "borderDashLength")
-    self.borderDashLength = borderDashLength ?? 1
-    
-    let borderDashSpacing: Double? = getMapProperty(map: map, name: "borderDashSpacing")
-    self.borderDashSpacing = borderDashSpacing ?? 0
-    
-    let cornerRadius: Double? = getMapProperty(map: map, name: "cornerRadius")
-    self.cornerRadius = cornerRadius ?? 0
+  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+    self.borderColor = try getMapColorDefault(map: map, name: "borderColor", default: .black)
+    self.borderWidth = try getMapPropertyDefault(map: map, name: "borderWidth", default: 0)
+    self.borderDashLength = try getMapPropertyDefault(map: map, name: "borderDashLength", default: 1)
+    self.borderDashSpacing = try getMapPropertyDefault(map: map, name: "borderDashSpacing", default: 0)
+    self.cornerRadius = try getMapPropertyDefault(map: map, name: "cornerRadius", default: 0)
   }
 }
 

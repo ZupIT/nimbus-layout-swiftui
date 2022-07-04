@@ -34,14 +34,11 @@ struct Screen: View {
   }
 }
 
-extension Screen {
-  init(from map: [String : Any], children: [AnyComponent]) throws {
+extension Screen: Deserializable {
+  init(from map: [String : Any]?, children: [AnyComponent]) throws {
     self.ignoreSafeArea = try SafeArea(from: map)
-    self.title = getMapProperty(map: map, name: "title")
-    
-    let showBackButton: Bool? = getMapProperty(map: map, name: "showBackButton")
-    self.showBackButton = showBackButton ?? true
-    
+    self.title = try getMapProperty(map: map, name: "title")
+    self.showBackButton = try getMapPropertyDefault(map: map, name: "showBackButton", default: true)
     self.children = children
   }
 }
