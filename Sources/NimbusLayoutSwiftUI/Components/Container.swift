@@ -46,18 +46,11 @@ struct Container {
 }
 
 extension Container: Deserializable {
-  init(from map: [String : Any]) throws {
-    
-    self.flex = getMapProperty(map: map, name: "flex")
-    
-    let strech: Bool? = getMapProperty(map: map, name: "strech")
-    self.strech = strech ?? false
-    
-    let crossAxis: String? = getMapProperty(map: map, name: "crossAxisAlignment")
-    self.crossAxisAlignment = CrossAxisAlignment(rawValue: crossAxis ?? "start") ?? .start
-    
-    let mainAxis: String? = getMapProperty(map: map, name: "mainAxisAlignment")
-    self.mainAxisAlignment = MainAxisAlignment(rawValue: mainAxis ?? "start") ?? .start
+  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+    self.flex = try getMapProperty(map: map, name: "flex")
+    self.strech = try getMapPropertyDefault(map: map, name: "strech", default: false)
+    self.crossAxisAlignment = try getMapEnumDefault(map: map, name: "crossAxisAlignment", default: .start)
+    self.mainAxisAlignment = try getMapEnumDefault(map: map, name: "mainAxisAlignment", default: .start)
     
     self.box = try Box(from: map)
   }

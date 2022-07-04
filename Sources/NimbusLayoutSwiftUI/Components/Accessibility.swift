@@ -23,9 +23,9 @@ struct Accessibility {
 }
 
 extension Accessibility: Deserializable {
-  init(from map: [String : Any]) throws {
-    self.label = getMapProperty(map: map, name: "label")
-    self.isHeader = getMapProperty(map: map, name: "isHeader")
+  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+    self.label = try getMapProperty(map: map, name: "label")
+    self.isHeader = try getMapProperty(map: map, name: "isHeader")
   }
 }
 

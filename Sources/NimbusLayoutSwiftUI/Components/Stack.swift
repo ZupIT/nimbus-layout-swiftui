@@ -34,8 +34,8 @@ struct Stack: View {
   
 }
 
-extension Stack {
-  init(from map: [String : Any], children: [AnyComponent]) throws {
+extension Stack: Deserializable {
+  init(from map: [String : Any]?, children: [AnyComponent]) throws {
     self.box = try Box(from: map)
     self.children = children
   }
@@ -78,15 +78,11 @@ struct Positioned: View {
   
 }
 
-extension Positioned {
-  init(from map: [String : Any], children: [AnyComponent]) throws {
-    let alignment: String? = getMapProperty(map: map, name: "alignment")
-    self.alignment = Positioned.Alignment(rawValue: alignment ?? "topStart") ?? .topStart
-    
-    let x: Double? = getMapProperty(map: map, name: "x")
-    self.x = x ?? 0
-    let y: Double? = getMapProperty(map: map, name: "y")
-    self.y = y ?? 0
+extension Positioned: Deserializable {
+  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+    self.alignment = try getMapEnumDefault(map: map, name: "alignment", default: .topStart)
+    self.x = try getMapPropertyDefault(map: map, name: "x", default: 0)
+    self.y = try getMapPropertyDefault(map: map, name: "y", default: 0)
     
     self.box = try Box(from: map)
     self.children = children

@@ -17,10 +17,8 @@
 import SwiftUI
 import NimbusSwiftUI
 
-typealias Actions = @convention(block) (Any?) -> Void
-
 struct Touchable: View, HasAccessibility {
-  var onPress: Actions
+  var onPress: (Any?) -> Void
   var children: [AnyComponent]
   
   var accessibility: Accessibility
@@ -36,14 +34,9 @@ struct Touchable: View, HasAccessibility {
   }
 }
 
-extension Touchable {
-  init(from map: [String : Any], children: [AnyComponent]) throws {
-    
-    self.onPress = unsafeBitCast(
-      map["onPress"] as? AnyObject,
-      to: Actions.self
-    )
-    
+extension Touchable: Deserializable {
+  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+    self.onPress = getMapFunction(map: map, name: "onPress")
     self.children = children
     self.accessibility = try Accessibility(from: map)
   }

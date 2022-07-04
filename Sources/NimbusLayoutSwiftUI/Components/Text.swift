@@ -44,17 +44,11 @@ struct NimbusText: View {
 }
 
 extension NimbusText: Deserializable {
-  init(from map: [String : Any]) throws {
-    self.text = getMapProperty(map: map, name: "text")
-    
-    let weight: String? = getMapProperty(map: map, name: "weight")
-    self.weight = Weight(rawValue: weight ?? "normal") ?? .normal
-    
-    let color: String? = getMapProperty(map: map, name: "color")
-    self.color = color.color ?? .black
-    
-    let size: Double? = getMapProperty(map: map, name: "size")
-    self.size = size ?? 12
+  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+    self.text = try getMapProperty(map: map, name: "text")
+    self.weight = try getMapEnumDefault(map: map, name: "weight", default: .normal)
+    self.color = try getMapColorDefault(map: map, name: "color", default: .black)
+    self.size = try getMapPropertyDefault(map: map, name: "size", default: 12)
   }
 }
 

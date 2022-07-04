@@ -25,18 +25,11 @@ struct Shadow {
 }
 
 extension Shadow: Deserializable {
-  init(from map: [String : Any]) throws {
-    let x: Double? = getMapProperty(map: map, name: "x")
-    self.x = x ?? 0
-    
-    let y: Double? = getMapProperty(map: map, name: "y")
-    self.y = y ?? 0
-    
-    let blur: Double? = getMapProperty(map: map, name: "blur")
-    self.blur = blur ?? 0
-    
-    let color: String? = getMapProperty(map: map, name: "color")
-    self.color = color.color ?? .black
+  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+    self.x = try getMapPropertyDefault(map: map, name: "x", default: 0)
+    self.y = try getMapPropertyDefault(map: map, name: "y", default: 0)
+    self.blur = try getMapPropertyDefault(map: map, name: "blur", default: 0)
+    self.color = try getMapColorDefault(map: map, name: "color", default: .black)
   }
 }
 

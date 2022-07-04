@@ -18,7 +18,7 @@ import SwiftUI
 @testable import NimbusSwiftUI
 
 struct Lifecycle: View {
-  var onInit: Actions
+  var onInit: (Any?) -> Void
   var children: [AnyComponent]
   
   var body: some View {
@@ -31,14 +31,9 @@ struct Lifecycle: View {
   }
 }
 
-extension Lifecycle {
-  init(from map: [String : Any], children: [AnyComponent]) throws {
-    
-    self.onInit = unsafeBitCast(
-      map["onInit"] as? AnyObject,
-      to: Actions.self
-    )
-    
+extension Lifecycle: Deserializable {
+  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+    self.onInit = getMapFunction(map: map, name: "onInit")
     self.children = children
   }
 }

@@ -54,27 +54,14 @@ struct SafeArea {
 }
 
 extension SafeArea: Deserializable {
-  init(from map: [String : Any]) throws {
-    let top: Bool? = getMapProperty(map: map, name: "top")
-    self.top = top ?? true
-    
-    let bottom: Bool? = getMapProperty(map: map, name: "bottom")
-    self.bottom = bottom ?? true
-    
-    let trailing: Bool? = getMapProperty(map: map, name: "trailing")
-    self.trailing = trailing ?? true
-    
-    let leading: Bool? = getMapProperty(map: map, name: "leading")
-    self.leading = leading ?? true
-    
-    let vertical: Bool? = getMapProperty(map: map, name: "vertical")
-    self.vertical = vertical ?? true
-    
-    let horizontal: Bool? = getMapProperty(map: map, name: "horizontal")
-    self.horizontal = horizontal ?? true
-    
-    let all: Bool? = getMapProperty(map: map, name: "all")
-    self.all = all ?? true
+  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+    self.top = try getMapPropertyDefault(map: map, name: "top", default: true)
+    self.bottom = try getMapPropertyDefault(map: map, name: "bottom", default: true)
+    self.trailing = try getMapPropertyDefault(map: map, name: "trailing", default: true)
+    self.leading = try getMapPropertyDefault(map: map, name: "leading", default: true)
+    self.vertical = try getMapPropertyDefault(map: map, name: "vertical", default: true)
+    self.horizontal = try getMapPropertyDefault(map: map, name: "horizontal", default: true)
+    self.all = try getMapPropertyDefault(map: map, name: "all", default: true)
   }
 }
 

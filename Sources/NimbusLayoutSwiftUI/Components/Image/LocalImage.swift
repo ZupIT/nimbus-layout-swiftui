@@ -35,14 +35,11 @@ struct LocalImage: View, BaseImage {
 }
 
 extension LocalImage: Deserializable {
-  init(from map: [String : Any]) throws {
-    self.id = getMapProperty(map: map, name: "id")
-    
-    let scale: String? = getMapProperty(map: map, name: "scale")
-    self.scale = ImageScale(rawValue: scale ?? "center") ?? .center
+  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+    self.id = try getMapProperty(map: map, name: "id")
+    self.scale = try getMapEnumDefault(map: map, name: "scale", default: .center)
     
     self.size = try Size.init(from: map)
-    
-    self.accessibility = try Accessibility.init(from: (map["accessibility"] as? [String: Any]) ?? [:])
+    self.accessibility = try Accessibility.init(from: (map?["accessibility"] as? [String: Any]))
   }
 }

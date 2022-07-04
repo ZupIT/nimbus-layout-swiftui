@@ -27,13 +27,13 @@ struct Padding: Insets {
 }
 
 extension Padding: Deserializable {
-  init(from map: [String : Any]) throws {
-    self.all = getMapProperty(map: map, name: "padding")
-    self.start = getMapProperty(map: map, name: "paddingStart")
-    self.end = getMapProperty(map: map, name: "paddingEnd")
-    self.top = getMapProperty(map: map, name: "paddingTop")
-    self.bottom = getMapProperty(map: map, name: "paddingBottom")
-    self.horizontal = getMapProperty(map: map, name: "paddingHorizontal")
-    self.vertical = getMapProperty(map: map, name: "paddingVertical")
+  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+    self.all = try getMapProperty(map: map, name: "padding")
+    self.start = try getMapProperty(map: map, name: "paddingStart")
+    self.end = try getMapProperty(map: map, name: "paddingEnd")
+    self.top = try getMapProperty(map: map, name: "paddingTop")
+    self.bottom = try getMapProperty(map: map, name: "paddingBottom")
+    self.horizontal = try getMapProperty(map: map, name: "paddingHorizontal")
+    self.vertical = try getMapProperty(map: map, name: "paddingVertical")
   }
 }

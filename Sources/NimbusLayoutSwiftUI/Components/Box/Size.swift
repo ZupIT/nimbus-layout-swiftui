@@ -29,16 +29,15 @@ struct Size {
 }
 
 extension Size: Deserializable {
-  init(from map: [String : Any]) throws {
-    self.width = getMapProperty(map: map, name: "width")
-    self.height = getMapProperty(map: map, name: "height")
-    self.minWidth = getMapProperty(map: map, name: "minWidth")
-    self.minHeight = getMapProperty(map: map, name: "minHeight")
-    self.maxWidth = getMapProperty(map: map, name: "maxWidth")
-    self.maxHeight = getMapProperty(map: map, name: "maxHeight")
+  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+    self.width = try getMapProperty(map: map, name: "width")
+    self.height = try getMapProperty(map: map, name: "height")
+    self.minWidth = try getMapProperty(map: map, name: "minWidth")
+    self.minHeight = try getMapProperty(map: map, name: "minHeight")
+    self.maxWidth = try getMapProperty(map: map, name: "maxWidth")
+    self.maxHeight = try getMapProperty(map: map, name: "maxHeight")
     
-    let clipped: Bool? = getMapProperty(map: map, name: "clipped")
-    self.clipped = clipped ?? false
+    self.clipped = try getMapPropertyDefault(map: map, name: "clipped", default: false)
   }
 }
 
