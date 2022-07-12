@@ -1,0 +1,215 @@
+{
+  "_:component": "layout:screen",
+  "state": {
+    "id": "products",
+    "value": {
+      "isLoading": true,
+      "data": []
+    }
+  },
+  "children": [
+    {
+      "_:component": "layout:lifecycle",
+      "children": [
+        {
+          "_:component": "layout:column",
+          "children": [
+            {
+              "_:component": "if",
+              "children": [
+                {
+                  "_:component": "then",
+                  "children": [
+                    {
+                      "_:component": "material:spinner"
+                    }
+                  ]
+                },
+                {
+                  "_:component": "else",
+                  "children": [
+                    {
+                      "_:component": "layout:scroll",
+                      "properties": {
+                        "direction": "vertical"
+                      },
+                      "children": [
+                        {
+                          "_:component": "forEach",
+                          "children": [
+                            {
+                              "_:component": "layout:row",
+                              "children": [
+                                {
+                                  "_:component": "layout:column",
+                                  "children": [
+                                    {
+                                      "_:component": "layout:remoteimage",
+                                      "properties": {
+                                        "scale": "fillWidth",
+                                        "url": "@{item.image}",
+                                        "width": 100,
+                                        "height": 150
+                                      }
+                                    },
+                                    {
+                                      "_:component": "layout:text",
+                                      "properties": {
+                                        "size": 14,
+                                        "weight": "light",
+                                        "color": "#212121",
+                                        "minHeight": 80,
+                                        "marginTop": 8,
+                                        "text": "@{item.title}"
+                                      }
+                                    },
+                                    {
+                                      "_:component": "layout:text",
+                                      "properties": {
+                                        "size": 16,
+                                        "weight": "semiBold",
+                                        "color": "#212121",
+                                        "marginVertical": 14,
+                                        "text": "@{formatPrice(item.price, 'BRL')}"
+                                      }
+                                    },
+                                    {
+                                      "_:component": "if",
+                                      "children": [
+                                        {
+                                          "_:component": "then",
+                                          "children": [
+                                            {
+                                              "_:component": "layout:text",
+                                              "properties": {
+                                                "size": 18,
+                                                "weight": "bold",
+                                                "color": "#2E8B57",
+                                                "text": "In cart ✓"
+                                              }
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "_:component": "else",
+                                          "children": [
+                                            {
+                                              "_:component": "material:button",
+                                              "properties": {
+                                                "onPress": [
+                                                  {
+                                                    "_:action": "setState",
+                                                    "properties": {
+                                                      "path": "global.cart",
+                                                      "value": "@{insert(global.cart, item)}"
+                                                    }
+                                                  }
+                                                ],
+                                                "text": "Add to cart"
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "properties": {
+                                        "condition": "@{contains(global.cart, item)}"
+                                      }
+                                    }
+                                  ],
+                                  "properties": {
+                                    "stretch": false,
+                                    "crossAxisAlignment": "start",
+                                    "mainAxisAlignment": "center",
+                                    "backgroundColor": "#fff",
+                                    "borderColor": "#e3e3e3",
+                                    "borderWidth": 1,
+                                    "cornerRadius": 12,
+                                    "padding": 12,
+                                    "margin": 8,
+                                    "width": 350
+                                  }
+                                }
+                              ],
+                              "properties": {
+                                "stretch": false,
+                                "crossAxisAlignment": "start",
+                                "mainAxisAlignment": "start",
+                                "backgroundColor": "#0ff"
+                              }
+                            }
+                          ],
+                          "properties": {
+                            "items": "@{products.data}",
+                            "key": "product"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "properties": {
+                "condition": "@{products.isLoading}"
+              }
+            }
+          ],
+          "properties": {
+            "stretch": false,
+            "crossAxisAlignment": "start",
+            "mainAxisAlignment": "start",
+            "backgroundColor": "#eee",
+            "flex": 1
+          }
+        }
+      ],
+      "properties": {
+        "onInit": [
+          {
+            "_:action": "setState",
+            "properties": {
+              "path": "global.cart",
+              "value": []
+            }
+          },
+          {
+            "_:action": "sendRequest",
+            "properties": {
+              "onError": [
+                {
+                  "_:action": "log",
+                  "properties": {
+                    "message": "@{onError.message}",
+                    "level": "Error"
+                  }
+                }
+              ],
+              "onSuccess": [
+                {
+                  "_:action": "setState",
+                  "properties": {
+                    "path": "products.data",
+                    "value": "@{onSuccess.data}"
+                  }
+                }
+              ],
+              "onFinish": [
+                {
+                  "_:action": "setState",
+                  "properties": {
+                    "path": "products.isLoading",
+                    "value": false
+                  }
+                }
+              ],
+              "url": "http://127.0.0.1:3000/products"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "properties": {
+    "showBackButton": true,
+    "title": "Products"
+  }
+}

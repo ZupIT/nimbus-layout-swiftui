@@ -19,7 +19,7 @@ import NimbusSwiftUI
 
 struct NimbusText: View {
   var text: String
-  var size: Double = 12
+  var size: Double = 17
   
   var weight: Weight = .normal
   enum Weight: String {
@@ -48,7 +48,7 @@ extension NimbusText: Deserializable {
     self.text = try getMapProperty(map: map, name: "text")
     self.weight = try getMapEnumDefault(map: map, name: "weight", default: .normal)
     self.color = try getMapColorDefault(map: map, name: "color", default: .black)
-    self.size = try getMapPropertyDefault(map: map, name: "size", default: 12)
+    self.size = try getMapPropertyDefault(map: map, name: "size", default: 17)
   }
 }
 

@@ -28,7 +28,7 @@ struct Screen: View {
     ForEach(children.indices, id: \.self) { index in
       children[index]
     }
-    .modifier(SafeAreaModifier(safeArea: ignoreSafeArea))
+//    .modifier(SafeAreaModifier(safeArea: ignoreSafeArea))
     .navigationBarTitle(title ?? "")
     .navigationBarBackButtonHidden(!showBackButton)
   }
