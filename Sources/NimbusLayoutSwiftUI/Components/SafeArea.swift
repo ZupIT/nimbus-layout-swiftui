@@ -17,59 +17,46 @@
 import SwiftUI
 import NimbusSwiftUI
 
-struct SafeArea {
-  var top: Bool = true
-  var bottom: Bool = true
-  var trailing: Bool = true
-  var leading: Bool = true
-  var vertical: Bool = true
-  var horizontal: Bool = true
-  var all: Bool = true
-  
+enum SafeAreaEdge: String {
+  case top
+  case bottom
+  case trailing
+  case leading
+  case vertical
+  case horizontal
+  case all
+}
+
+extension Array where Element == SafeAreaEdge {
   var edges: Edge.Set {
     var edges: Edge.Set = []
-    if all {
-      edges.insert(.all)
-    }
-    if vertical {
-      edges.insert(.vertical)
-    }
-    if horizontal {
-      edges.insert(.horizontal)
-    }
-    if top {
-      edges.insert(.top)
-    }
-    if bottom {
-      edges.insert(.bottom)
-    }
-    if leading {
-      edges.insert(.leading)
-    }
-    if trailing {
-      edges.insert(.trailing)
+    for edge in self {
+      switch edge {
+      case .top:
+        edges.insert(.top)
+      case .bottom:
+        edges.insert(.bottom)
+      case .trailing:
+        edges.insert(.trailing)
+      case .leading:
+        edges.insert(.leading)
+      case .vertical:
+        edges.insert(.vertical)
+      case .horizontal:
+        edges.insert(.horizontal)
+      case .all:
+        edges.insert(.all)
+      }
     }
     return edges
   }
 }
 
-extension SafeArea: Deserializable {
-  init(from map: [String : Any]?, children: [AnyComponent]) throws {
-    self.top = try getMapPropertyDefault(map: map, name: "top", default: true)
-    self.bottom = try getMapPropertyDefault(map: map, name: "bottom", default: true)
-    self.trailing = try getMapPropertyDefault(map: map, name: "trailing", default: true)
-    self.leading = try getMapPropertyDefault(map: map, name: "leading", default: true)
-    self.vertical = try getMapPropertyDefault(map: map, name: "vertical", default: true)
-    self.horizontal = try getMapPropertyDefault(map: map, name: "horizontal", default: true)
-    self.all = try getMapPropertyDefault(map: map, name: "all", default: true)
-  }
-}
-
 struct SafeAreaModifier: ViewModifier {
-  var safeArea: SafeArea
+  var edgesIgnored: [SafeAreaEdge]
     
   func body(content: Content) -> some View {
     content
-      .edgesIgnoringSafeArea(safeArea.edges)
+      .edgesIgnoringSafeArea(edgesIgnored.edges)
   }
 }

@@ -31,13 +31,13 @@ let layoutComponentMap: [String: Component] = [
   "layout:column": { element, children in
     AnyComponent(Column(children: children, container: try Container(from: element.properties)))
   },
-  "layout:localimage": { element, _ in
+  "layout:localImage": { element, _ in
     AnyComponent(try LocalImage(from: element.properties))
   },
-  "layout:remoteimage": { element, _ in
+  "layout:remoteImage": { element, _ in
     AnyComponent(try RemoteImage(from: element.properties))
   },
-  "layout:scroll": scrollComponent,
+  "layout:scrollView": scrollComponent,
   "layout:lifecycle": { element, children in
     AnyComponent(try Lifecycle(from: element.properties, children: children))
   },

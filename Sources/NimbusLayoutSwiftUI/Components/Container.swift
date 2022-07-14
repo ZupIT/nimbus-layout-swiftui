@@ -48,7 +48,7 @@ struct Container {
 extension Container: Deserializable {
   init(from map: [String : Any]?, children: [AnyComponent]) throws {
     self.flex = try getMapProperty(map: map, name: "flex")
-    self.strech = try getMapPropertyDefault(map: map, name: "strech", default: false)
+    self.strech = try getMapPropertyDefault(map: map, name: "stretch", default: false)
     self.crossAxisAlignment = try getMapEnumDefault(map: map, name: "crossAxisAlignment", default: .start)
     self.mainAxisAlignment = try getMapEnumDefault(map: map, name: "mainAxisAlignment", default: .start)
     
@@ -135,11 +135,15 @@ public struct ContainerView: View, HasContainer {
         }
       }
     }
+    
     .modifier(BoxModifier(box: container.box))
-    .fixedSize(
-      horizontal: container.strech ? false : direction == .column,
-      vertical: container.strech ? false : direction == .row
-    )
+    
+//    TODO: revise stretch (or growth) logic
+//    .fixedSize(
+//      horizontal: container.strech ? false : direction == .column,
+//      vertical: container.strech ? false : direction == .row
+//    )
+  
   }
   
   @ViewBuilder

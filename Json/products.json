@@ -21,7 +21,7 @@
                   "_:component": "then",
                   "children": [
                     {
-                      "_:component": "material:spinner"
+                      "_:component": "store:spinner"
                     }
                   ]
                 },
@@ -29,7 +29,7 @@
                   "_:component": "else",
                   "children": [
                     {
-                      "_:component": "layout:scroll",
+                      "_:component": "layout:scrollView",
                       "properties": {
                         "direction": "vertical"
                       },
@@ -44,7 +44,7 @@
                                   "_:component": "layout:column",
                                   "children": [
                                     {
-                                      "_:component": "layout:remoteimage",
+                                      "_:component": "layout:remoteImage",
                                       "properties": {
                                         "scale": "fillWidth",
                                         "url": "@{item.image}",
@@ -94,7 +94,7 @@
                                           "_:component": "else",
                                           "children": [
                                             {
-                                              "_:component": "material:button",
+                                              "_:component": "store:button",
                                               "properties": {
                                                 "onPress": [
                                                   {
@@ -125,16 +125,14 @@
                                     "borderWidth": 1,
                                     "cornerRadius": 12,
                                     "padding": 12,
-                                    "margin": 8,
-                                    "width": 350
+                                    "margin": 8
                                   }
                                 }
                               ],
                               "properties": {
                                 "stretch": false,
                                 "crossAxisAlignment": "start",
-                                "mainAxisAlignment": "start",
-                                "backgroundColor": "#0ff"
+                                "mainAxisAlignment": "start"
                               }
                             }
                           ],
@@ -157,20 +155,12 @@
             "stretch": false,
             "crossAxisAlignment": "start",
             "mainAxisAlignment": "start",
-            "backgroundColor": "#eee",
             "flex": 1
           }
         }
       ],
       "properties": {
         "onInit": [
-          {
-            "_:action": "setState",
-            "properties": {
-              "path": "global.cart",
-              "value": []
-            }
-          },
           {
             "_:action": "sendRequest",
             "properties": {

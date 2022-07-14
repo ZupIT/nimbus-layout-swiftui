@@ -19,9 +19,9 @@ import NimbusSwiftUI
 
 extension Color {
   /// Create a color from hex String.
-  /// Format:  #RRGGBB[AA]
+  /// Format:  #RRGGBB[AA] or #RGB[A]
   init?(hex: String) {
-    guard hex.range(of: "^#[0-9A-F]{6,8}$", options: [.regularExpression, .caseInsensitive]) != nil else {
+    guard hex.range(of: "^#[0-9A-F]{3,8}$", options: [.regularExpression, .caseInsensitive]) != nil else {
       return nil
     }
     var int = UInt64()
@@ -29,7 +29,16 @@ extension Color {
     Scanner(string: hexDigits).scanHexInt64(&int)
     let r, g, b, a: UInt64
     switch hexDigits.count {
-      
+    case 3: // Short RGB (12-bit)
+      r = Color.expand(int >> 8)
+      g = Color.expand(int >> 4 & 0x0F)
+      b = Color.expand(int & 0x0F)
+      a = 255
+    case 4: // Short RGBA (16-bit)
+      r = Color.expand(int >> 12)
+      g = Color.expand(int >> 8 & 0x0F)
+      b = Color.expand(int >> 4 & 0x0F)
+      a = Color.expand(int & 0x0F)
     case 6: // RGB (24-bit)
       (r, g, b, a) = (int >> 16, int >> 8 & 0xFF, int & 0xFF, 255)
     case 8: // RGBA (32-bit)
@@ -43,6 +52,10 @@ extension Color {
       blue: Double(b) / 255,
       opacity: Double(a) / 255
     )
+  }
+  
+  private static func expand(_ shortColor: UInt64) -> UInt64 {
+    return shortColor | (shortColor << 4)
   }
 }
 

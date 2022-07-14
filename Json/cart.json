@@ -1,0 +1,173 @@
+{
+  "_:component": "layout:screen",
+  "children": [
+    {
+      "_:component": "layout:column",
+      "children": [
+        {
+          "_:component": "if",
+          "children": [
+            {
+              "_:component": "then",
+              "children": [
+                {
+                  "_:component": "layout:column",
+                  "children": [
+                    {
+                      "_:component": "layout:text",
+                      "properties": {
+                        "size": 12,
+                        "weight": "normal",
+                        "color": "#000",
+                        "text": "Your cart is empty"
+                      }
+                    }
+                  ],
+                  "properties": {
+                    
+                    "crossAxisAlignment": "center",
+                    "mainAxisAlignment": "start"
+                    
+                  }
+                }
+              ]
+            },
+            {
+              "_:component": "else",
+              "children": [
+                {
+                  "_:component": "layout:scrollView",
+                  "properties": {
+                    "direction": "vertical"
+                  },
+                  "children": [
+                {
+                  "_:component": "layout:column",
+                  "children": [
+                    {
+                      "_:component": "forEach",
+                      "children": [
+                        {
+                          "_:component": "layout:row",
+                          "children": [
+                            {
+                              "_:component": "layout:remoteImage",
+                              "properties": {
+                                "scale": "fillWidth",
+                                "width": 50,
+                                "height": 50,
+                                "url": "@{item.image}"
+                              }
+                            },
+                            {
+                              "_:component": "layout:text",
+                              "properties": {
+                                "size": 12,
+                                "weight": "normal",
+                                "color": "#000",
+                                "marginEnd": 15,
+                                "text": "@{item.title}"
+                              }
+                            },
+                            {
+                              "_:component": "layout:text",
+                              "properties": {
+                                "size": 12,
+                                "weight": "normal",
+                                "color": "#000",
+                                "text": "@{formatPrice(item.price, 'BRL')}"
+                              }
+                            }
+                          ],
+                          "properties": {
+                            "stretch": false,
+                            "crossAxisAlignment": "start",
+                            "mainAxisAlignment": "start",
+                            "padding": 10,
+                            "marginVertical": 10,
+                            "borderColor": "#e3e3e3",
+                            "borderWidth": 1,
+                            "backgroundColor": "#fff",
+                            "cornerRadius": 8
+                          }
+                        }
+                      ],
+                      "properties": {
+                        "items": "@{global.cart}"
+                      }
+                    }
+                  ],
+                  "properties": {
+                    "stretch": false,
+                    "crossAxisAlignment": "start",
+                    "mainAxisAlignment": "start",
+                    "paddingHorizontal": 15
+                  }
+                }]}
+              ]
+            }
+          ],
+          "properties": {
+            "condition": "@{isEmpty(global.cart)}"
+          }
+        },
+        {
+          "_:component": "layout:row",
+          "children": [
+            {
+              "_:component": "layout:column",
+              "children": [
+                {
+                  "_:component": "layout:text",
+                  "properties": {
+                    "size": 12,
+                    "weight": "normal",
+                    "color": "#000",
+                    "text": "Total"
+                  }
+                },
+                {
+                  "_:component": "layout:text",
+                  "properties": {
+                    "size": 12,
+                    "weight": "normal",
+                    "color": "#008000",
+                    "text": "@{formatPrice(sumProducts(global.cart), 'BRL')}"
+                  }
+                }
+              ]
+            },
+            {
+              "_:component": "store:button",
+              "properties": {
+                "enabled": "@{not(isEmpty(global.cart))}",
+                "onPress": [
+                  {
+                    "_:action": "push",
+                    "properties": {
+                      "url": "/address"
+                    }
+                  }
+                ],
+                "text": "Buy"
+              }
+            }
+          ],
+          "properties": {
+            "mainAxisAlignment": "spaceBetween",
+            "padding": 10,
+            "height": 50,
+            "backgroundColor": "#fff"
+          }
+        }
+      ],
+      "properties": {
+        
+      }
+    }
+  ],
+  "properties": {
+    "showBackButton": true,
+    "title": "Cart"
+  }
+}
