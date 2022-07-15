@@ -21,7 +21,7 @@ struct Scroll: View {
   
   var children: [AnyComponent]
   
-  var direction: Direction = .both
+  var direction: Direction = .vertical
   enum Direction: String {
     case vertical
     case horizontal
@@ -53,7 +53,7 @@ extension Scroll.Direction {
 }
 
 let scrollComponent: Component = { element, children in
-  let direction: Scroll.Direction = try getMapEnumDefault(map: element.properties, name: "direction", default: .both)
+  let direction: Scroll.Direction = try getMapEnumDefault(map: element.properties, name: "direction", default: .vertical)
   let scrollIndicator: Bool = try getMapPropertyDefault(map: element.properties, name: "scrollIndicator", default: true)
   
   return AnyComponent(Scroll(
