@@ -19,7 +19,7 @@ import NimbusLayoutSwiftUI
 
 struct ContentView: View {
   var body: some View {
-    Nimbus(baseUrl: "http://127.0.0.1:3000/nimbus") {
+    Nimbus(baseUrl: "http://127.0.0.1:3000") {
       Home()
     }
     .layoutComponents()
