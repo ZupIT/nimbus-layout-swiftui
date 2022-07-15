@@ -1,0 +1,49 @@
+{
+  "_:component": "layout:screen",
+  "state": {
+    "id": "screen",
+    "value": {
+      "body": {
+        "value1": "value1",
+        "value2": 2,
+        "value3": true
+      }
+    }
+  },
+  "children": [
+    {
+      "_:component": "store:button",
+      "properties": {
+        "onPress": [
+          {
+            "_:action": "sendRequest",
+            "properties": {
+              "onError": [
+                {
+                  "_:action": "log",
+                  "properties": {
+                    "message": "teste",
+                    "level": "Error"
+                  }
+                }
+              ],
+              "onSuccess": [
+                {
+                  "_:action": "log",
+                  "properties": {
+                    "message": "teste",
+                    "level": "Error"
+                  }
+                }
+              ],
+              "data": "@{screen.body}",
+              "method": "Post",
+              "url": "http://localhost:3000/order"
+            }
+          }
+        ],
+        "text": "Request"
+      }
+    }
+  ]
+}

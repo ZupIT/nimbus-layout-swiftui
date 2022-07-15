@@ -12,27 +12,25 @@
       "_:component": "layout:lifecycle",
       "children": [
         {
-          "_:component": "layout:column",
+          "_:component": "layout:scrollView",
           "children": [
             {
-              "_:component": "if",
+              "_:component": "layout:column",
               "children": [
                 {
-                  "_:component": "then",
+                  "_:component": "if",
                   "children": [
                     {
-                      "_:component": "store:spinner"
-                    }
-                  ]
-                },
-                {
-                  "_:component": "else",
-                  "children": [
+                      "_:component": "then",
+                      "children": [
+                        {
+                          "_:component": "store:spinner",
+                          "properties": {}
+                        }
+                      ]
+                    },
                     {
-                      "_:component": "layout:scrollView",
-                      "properties": {
-                        "direction": "vertical"
-                      },
+                      "_:component": "else",
                       "children": [
                         {
                           "_:component": "forEach",
@@ -46,31 +44,28 @@
                                     {
                                       "_:component": "layout:remoteImage",
                                       "properties": {
-                                        "scale": "fillWidth",
-                                        "url": "@{item.image}",
-                                        "width": 100,
-                                        "height": 150
+                                        "url": "@{product.image}"
                                       }
                                     },
                                     {
                                       "_:component": "layout:text",
                                       "properties": {
+                                        "minHeight": 80,
+                                        "color": "#212121",
                                         "size": 14,
                                         "weight": "light",
-                                        "color": "#212121",
-                                        "minHeight": 80,
                                         "marginTop": 8,
-                                        "text": "@{item.title}"
+                                        "text": "@{product.title}"
                                       }
                                     },
                                     {
                                       "_:component": "layout:text",
                                       "properties": {
+                                        "color": "#212121",
                                         "size": 16,
                                         "weight": "semiBold",
-                                        "color": "#212121",
                                         "marginVertical": 14,
-                                        "text": "@{formatPrice(item.price, 'BRL')}"
+                                        "text": "@{formatPrice(product.price, 'BRL')}"
                                       }
                                     },
                                     {
@@ -82,9 +77,9 @@
                                             {
                                               "_:component": "layout:text",
                                               "properties": {
+                                                "color": "#2E8B57",
                                                 "size": 18,
                                                 "weight": "bold",
-                                                "color": "#2E8B57",
                                                 "text": "In cart ✓"
                                               }
                                             }
@@ -96,67 +91,62 @@
                                             {
                                               "_:component": "store:button",
                                               "properties": {
+                                                "enabled": true,
+                                                "text": "Add to cart",
                                                 "onPress": [
                                                   {
-                                                    "_:action": "setState",
+                                                    "_:action": "log",
                                                     "properties": {
-                                                      "path": "global.cart",
-                                                      "value": "@{insert(global.cart, item)}"
+                                                      "message": "",
+                                                      "level": "Info"
                                                     }
                                                   }
-                                                ],
-                                                "text": "Add to cart"
+                                                ]
                                               }
                                             }
                                           ]
                                         }
                                       ],
                                       "properties": {
-                                        "condition": "@{contains(global.cart, item)}"
+                                        "condition": "@{contains(global.cart, product)}"
                                       }
                                     }
                                   ],
                                   "properties": {
-                                    "stretch": false,
-                                    "crossAxisAlignment": "start",
-                                    "mainAxisAlignment": "center",
                                     "backgroundColor": "#fff",
                                     "borderColor": "#e3e3e3",
                                     "borderWidth": 1,
                                     "cornerRadius": 12,
                                     "padding": 12,
+                                    "mainAxisAlignment": "center",
                                     "margin": 8
                                   }
                                 }
-                              ],
-                              "properties": {
-                                "stretch": false,
-                                "crossAxisAlignment": "start",
-                                "mainAxisAlignment": "start"
-                              }
+                              ]
                             }
                           ],
                           "properties": {
-                            "items": "@{products.data}",
-                            "key": "product"
+                            "key": "product",
+                            "indexName": "index",
+                            "items": "@{products.data}"
                           }
                         }
                       ]
                     }
-                  ]
+                  ],
+                  "properties": {
+                    "condition": "@{products.isLoading}"
+                  }
                 }
               ],
               "properties": {
-                "condition": "@{products.isLoading}"
+                "backgroundColor": "#eee",
+                "flex": 1,
+                "crossAxisAlignment": "start",
+                "mainAxisAlignment": "start"
               }
             }
-          ],
-          "properties": {
-            "stretch": false,
-            "crossAxisAlignment": "start",
-            "mainAxisAlignment": "start",
-            "flex": 1
-          }
+          ]
         }
       ],
       "properties": {
@@ -199,7 +189,6 @@
     }
   ],
   "properties": {
-    "showBackButton": true,
     "title": "Products"
   }
 }

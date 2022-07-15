@@ -53,12 +53,12 @@ extension CustomButton: Deserializable {
 struct TextInput: View {
   var label: String
   @State var value: String
-  var onChange: (String) -> Void
+  var onChange: ((String) -> Void)? = nil
   
   var body: some View {
     TextField(label, text: $value)
       .onChange(of: value) {
-        onChange($0)
+        onChange?($0)
       }
   }
 }
@@ -68,9 +68,12 @@ extension TextInput: Deserializable {
     self.label = try getMapProperty(map: map, name: "label")
     self.value = try getMapProperty(map: map, name: "value")
     
-    let function = getMapFunction(map: map, name: "onChange")
-    self.onChange = {
-      string in function(string)
+    self.onChange = nil
+    if map?["onChange"] != nil {
+      let function = getMapFunction(map: map, name: "onChange")
+      self.onChange = {
+        string in function(string)
+      }
     }
   }
 }

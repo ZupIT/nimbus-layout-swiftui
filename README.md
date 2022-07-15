@@ -103,7 +103,7 @@ struct SampleApp: App {
 ```
 ## 5. Running
 After running the application, you should see the following interface in the emulator's screen:
-<img src="https://github.com/ZupIT/nimbus-layout-swiftui/blob/main/screenshot/flex_test_layout1.png" width="228"/>
+<img src="https://github.com/ZupIT/nimbus-layout-swiftui/blob/main/Screenshot/flex-test-layout1.png" width="228"/>
 
 
 ## **License**
