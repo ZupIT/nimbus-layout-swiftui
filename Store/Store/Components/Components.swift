@@ -51,21 +51,28 @@ extension CustomButton: Deserializable {
 
 // MARK: - store:textInput
 struct TextInput: View {
-  var label: String
+  var placeholder: String
   @State var value: String
   var onChange: ((String) -> Void)? = nil
   
   var body: some View {
-    TextField(label, text: $value)
+    TextField(placeholder, text: $value)
       .onChange(of: value) {
         onChange?($0)
       }
+      .padding(.horizontal, 8)
+      .padding(.vertical, 12)
+      .font(Font.system(size: 14, weight: .light))
+      .background(Color.white)
+      .cornerRadius(6)
+      .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(Color(red: 227/255, green: 227/255, blue: 227/255), lineWidth: 1))
+      
   }
 }
 
 extension TextInput: Deserializable {
   init(from map: [String : Any]?, children: [AnyComponent]) throws {
-    self.label = try getMapProperty(map: map, name: "label")
+    self.placeholder = try getMapProperty(map: map, name: "placeholder")
     self.value = try getMapProperty(map: map, name: "value")
     
     self.onChange = nil
