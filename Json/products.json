@@ -44,17 +44,20 @@
                                     {
                                       "_:component": "layout:remoteImage",
                                       "properties": {
-                                        "url": "@{product.image}"
+                                        "url": "@{product.image}",
+                                        "width": 100,
+                                        "scale": "fillWidth",
+                                        "height": 150
                                       }
                                     },
                                     {
                                       "_:component": "layout:text",
                                       "properties": {
-                                        "minHeight": 80,
+                                        
                                         "color": "#212121",
                                         "size": 14,
                                         "weight": "light",
-                                        "marginTop": 8,
+                                        
                                         "text": "@{product.title}"
                                       }
                                     },
@@ -64,7 +67,7 @@
                                         "color": "#212121",
                                         "size": 16,
                                         "weight": "semiBold",
-                                        "marginVertical": 14,
+                                        
                                         "text": "@{formatPrice(product.price, 'BRL')}"
                                       }
                                     },
@@ -118,7 +121,7 @@
                                     "borderWidth": 1,
                                     "cornerRadius": 12,
                                     "padding": 12,
-                                    "mainAxisAlignment": "center",
+                                    "mainAxisAlignment": "start",
                                     "margin": 8
                                   }
                                 }
@@ -128,6 +131,7 @@
                           "properties": {
                             "key": "product",
                             "indexName": "index",
+                            "iteratorName": "product",
                             "items": "@{products.data}"
                           }
                         }

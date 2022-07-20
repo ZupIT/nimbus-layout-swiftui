@@ -70,10 +70,11 @@ struct Positioned: View {
       Color.clear
       ForEach(children.indices, id: \.self) { index in
         children[index]
+          
           .modifier(BoxModifier(box: box))
           .offset(x: x, y: y)
       }
-    }
+    }.environment(\.alignment, SwiftUI.Alignment(horizontal: .leading, vertical: .top))
   }
   
 }

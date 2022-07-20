@@ -44,6 +44,8 @@ extension Size: Deserializable {
 struct SizeModifier: ViewModifier {
   var size: Size
   
+  @Environment(\.alignment) var alignment
+  
   func body(content: Content) -> some View {
     content
       .frame(
@@ -52,7 +54,7 @@ struct SizeModifier: ViewModifier {
         minHeight: size.height == nil ? size.minHeight.cgFloat : nil,
         maxHeight: size.height == nil ? size.maxHeight.cgFloat : nil
       )
-      .frame(width: size.width.cgFloat, height: size.height.cgFloat)
+      .frame(width: size.width.cgFloat, height: size.height.cgFloat, alignment: alignment)
       .content(clipped: size.clipped)
   }
 }

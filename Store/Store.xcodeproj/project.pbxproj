@@ -63,8 +63,8 @@
 				93EB5A69288094920024036F /* Operations */,
 				93EB5A682880948A0024036F /* Components */,
 				93EB5A6A288094A40024036F /* Home.swift */,
-				9321C9BE287DBA5B00A23435 /* StoreApp.swift */,
 				9321C9C0287DBA5B00A23435 /* ContentView.swift */,
+				9321C9BE287DBA5B00A23435 /* StoreApp.swift */,
 				9321C9C2287DBA5D00A23435 /* Assets.xcassets */,
 				9321C9C4287DBA5D00A23435 /* Preview Content */,
 			);

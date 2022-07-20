@@ -37,4 +37,8 @@ class BorderTests: XCTestCase {
     border = Border(borderColor: .blue, borderWidth: 1, borderDashLength: 4, borderDashSpacing: 1, cornerRadius: 10)
     assertSnapshot(matching: view.modifier(BorderModifier(border: border)), as: .image)
   }
+  
+  override class func setUp() {
+    SnapshotTesting.diffTool = "code --diff"
+  }
 }

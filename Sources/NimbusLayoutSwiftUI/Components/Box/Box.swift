@@ -44,15 +44,40 @@ extension Box: Deserializable {
 struct BoxModifier: ViewModifier {
   var box: Box
   
+  // Container properties
+  @Environment(\.size) var size
+  @Environment(\.alignment) var alignment
+  
   func body(content: Content) -> some View {
-    ZStack(alignment: .topLeading) {
-      box.backgroundColor
-        .modifier(BorderModifier(border: box.border))
-      content
-        .modifier(InsetsModifier(insets: box.padding))
-    }
-    .modifier(SizeModifier(size: box.size))
-    .modifier(ShadowModifier(shadows: box.shadow ?? []))
-    .modifier(InsetsModifier(insets: box.margin))
+    content
+      .modifier(InsetsModifier(insets: box.padding))
+      .frame(width: size.width, height: size.height, alignment: alignment)
+      .modifier(SizeModifier(size: box.size))
+      .modifier(BorderModifier(border: box.border))
+      .background(box.backgroundColor)
+      .modifier(ShadowModifier(shadows: box.shadow ?? []))
+      .modifier(InsetsModifier(insets: box.margin))
+  }
+}
+
+struct SizeKey: EnvironmentKey {
+  static var defaultValue: (width: CGFloat?, height: CGFloat?) = (nil, nil)
+}
+
+extension EnvironmentValues {
+  var size: (width: CGFloat?, height: CGFloat?) {
+    get { self[SizeKey.self] }
+    set { self[SizeKey.self] = newValue }
+  }
+}
+
+struct AlignmentKey: EnvironmentKey {
+  static var defaultValue: Alignment = .center
+}
+
+extension EnvironmentValues {
+  var alignment: Alignment {
+    get { self[AlignmentKey.self] }
+    set { self[AlignmentKey.self] = newValue }
   }
 }

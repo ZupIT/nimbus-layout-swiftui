@@ -106,6 +106,9 @@ class RowTests: XCTestCase {
     {
       "_:component": "layout:row",
       "children": [
+    {
+      "_:component": "layout:row",
+      "children": [
         {
           "_:component": "layout:row",
           "properties": {
@@ -132,11 +135,12 @@ class RowTests: XCTestCase {
         }
       ],
       "properties": {
+        "flex": 1,
         "backgroundColor": "#FFCCCCCC",
         "mainAxisAlignment": "\(mainAxis)",
         "crossAxisAlignment": "\(crossAxis)"
       }
-    }
+    }]}
     """
     return Nimbus(baseUrl: "base") {
       NimbusNavigator(json:

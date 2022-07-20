@@ -58,6 +58,10 @@ extension Container: Deserializable {
 
 public struct ContainerView: View, HasContainer {
   
+  @Environment(\.size) var size
+  
+  var alignment: Alignment = .top
+  
   // TODO: verify a way of reduce fixed sizes
   @State var available: CGFloat = .zero
   @State var state: ContainerState = .initialSize
@@ -79,7 +83,11 @@ public struct ContainerView: View, HasContainer {
   var totalFlex: Int
   var fixedComponents: [AnyComponent]
   
-  init(direction: Direction, model: Container, children: [AnyComponent]) {
+  init(
+    direction: Direction,
+    model: Container,
+    children: [AnyComponent]
+  ) {
     self.direction = direction
     self.container = model
     self.children = children
@@ -87,6 +95,26 @@ public struct ContainerView: View, HasContainer {
     totalFlex = children.compactMap(\.flex)
       .reduce(0, +)
     fixedComponents = children.filter { $0.flex == nil }
+    alignment = getAlignment()
+  }
+  
+  init(
+    direction: Direction,
+    flex: Int? = nil,
+    crossAxisAlignment: CrossAxisAlignment = .start,
+    mainAxisAlignment: MainAxisAlignment = .start,
+    children: [AnyComponent] = []
+  ) {
+    self.init(
+      direction: direction,
+      model: Container(
+        flex: flex,
+        crossAxisAlignment: crossAxisAlignment,
+        mainAxisAlignment: mainAxisAlignment,
+        box: try! Box(from: nil)
+      ),
+      children: children
+    )
   }
   
   public var body: some View {
@@ -107,7 +135,13 @@ public struct ContainerView: View, HasContainer {
       }
       stack {
         if totalFlex == 0 { // rendering fixed components
-          mainAxis()
+          if children.count > 1 {
+            mainAxis()
+          } else {
+            ForEach(children.indices, id: \.self) { index in
+              children[index]
+            }
+          }
         } else {
           if state == .fixedSizes { // calculate all fixedPositions
             ForEach(fixedComponents.indices, id: \.self) { index in
@@ -123,10 +157,10 @@ public struct ContainerView: View, HasContainer {
             ForEach(children.indices, id: \.self) { index in
               if let flex = children[index].flex {
                 children[index]
-                  .frame(
+                  .environment(\.size, (
                     width: direction == .row ? available * (CGFloat(flex) / CGFloat(totalFlex)) : nil,
                     height: direction == .column ? available * (CGFloat(flex) / CGFloat(totalFlex)) : nil
-                  )
+                  ))
               } else {
                 children[index]
               }
@@ -135,15 +169,8 @@ public struct ContainerView: View, HasContainer {
         }
       }
     }
-    
     .modifier(BoxModifier(box: container.box))
-    
-//    TODO: revise stretch (or growth) logic
-//    .fixedSize(
-//      horizontal: container.strech ? false : direction == .column,
-//      vertical: container.strech ? false : direction == .row
-//    )
-  
+    .environment(\.alignment, alignment)
   }
   
   @ViewBuilder
@@ -163,43 +190,83 @@ public struct ContainerView: View, HasContainer {
   @ViewBuilder
   func mainAxis() -> some View {
     switch container.mainAxisAlignment {
-    case .start:
+    case .start, .end, .center:
       ForEach(children.indices, id: \.self) { index in
         children[index]
       }
-      Spacer(minLength: 0)
-    case .end:
-      Spacer(minLength: 0)
-      ForEach(children.indices, id: \.self) { index in
-        children[index]
-      }
-    case .center:
-      Spacer(minLength: 0)
-      ForEach(children.indices, id: \.self) { index in
-        children[index]
-      }
-      Spacer(minLength: 0)
     case .spaceAround:
-      ForEach(children.indices, id: \.self) { index in
-        Spacer(minLength: 0)
-        children[index]
-        Spacer(minLength: 0)
-      }
-    case .spaceEvenly:
-      Spacer(minLength: 0)
-      ForEach(children.indices, id: \.self) { index in
-        children[index]
-        Spacer(minLength: 0)
-      }
-    case .spaceBetween:
-      ForEach(children.indices, id: \.self) { index in
-        children[index]
-        if index != children.count - 1 {
-          Spacer(minLength: 0)
+      ContainerView(
+        direction: direction,
+        children: children.map {
+          AnyComponent(ContainerView(
+            direction: direction,
+            flex: 1,
+            crossAxisAlignment: container.crossAxisAlignment,
+            mainAxisAlignment: .center,
+            children: [$0]
+          ))
         }
-      }
+      )
+    case .spaceEvenly:
+      ContainerView(
+        direction: direction,
+        crossAxisAlignment: container.crossAxisAlignment,
+        children: spaceEvenlyChildren()
+      )
+    case .spaceBetween:
+      ContainerView(
+        direction: direction,
+        crossAxisAlignment: container.crossAxisAlignment,
+        children: spaceBetweenChildren()
+      )
     }
   }
+  
+  func spaceBetweenChildren() -> [AnyComponent] {
+    var result: [AnyComponent] = []
+    for index in children.indices {
+      result.append(children[index])
+      if index != children.count - 1 {
+        result.append(spacer)
+      }
+    }
+    return result
+  }
+  
+  func spaceEvenlyChildren() -> [AnyComponent] {
+    var result: [AnyComponent] = []
+    result.append(spacer)
+    for index in children.indices {
+      result.append(children[index])
+      result.append(spacer)
+    }
+    return result
+  }
+  
+  var spacer: AnyComponent {
+    AnyComponent(
+      ContainerView(
+        direction: direction,
+        flex: 1
+      )
+    )
+  }
+  
+  func getAlignment() -> Alignment {
+    switch direction {
+    case .row:
+      return Alignment(
+        horizontal: container.mainAxisAlignment.horizontalAlignment,
+        vertical: container.crossAxisAlignment.verticalAlignment
+      )
+    case .column:
+      return Alignment(
+        horizontal: container.crossAxisAlignment.horizontalAlignment,
+        vertical: container.mainAxisAlignment.verticalAlignment
+      )
+    }
+  }
+  
 }
 
 // MARK: - Extensions
@@ -230,6 +297,34 @@ extension CrossAxisAlignment {
       return .trailing
     case .center:
       return .center
+    }
+  }
+}
+
+extension MainAxisAlignment {
+  var verticalAlignment: VerticalAlignment {
+    switch self {
+    case .start:
+      return .top
+    case .end:
+      return .bottom
+    case .center:
+      return .center
+    default:
+      return .top
+    }
+  }
+  
+  var horizontalAlignment: HorizontalAlignment {
+    switch self {
+    case .start:
+      return .leading
+    case .end:
+      return .trailing
+    case .center:
+      return .center
+    default:
+      return .leading
     }
   }
 }
