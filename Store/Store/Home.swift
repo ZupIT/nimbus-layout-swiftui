@@ -50,7 +50,7 @@ struct Home: View {
           }
           .tag(HomeModel.Tab.cart)
         
-        NimbusNavigator(url: "/order")
+        NimbusNavigator(url: "/orders")
           .tabItem {
             Label("Orders", systemImage: "person.crop.square")
           }

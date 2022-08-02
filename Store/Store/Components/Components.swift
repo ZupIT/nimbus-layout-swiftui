@@ -64,6 +64,13 @@ struct TextInput: View {
       .onChange(of: value) {
         onChange?($0)
       }
+      .padding(.horizontal, 8)
+      .padding(.vertical, 12)
+      .font(Font.system(size: 14, weight: .light))
+      .background(Color.white)
+      .cornerRadius(6)
+      .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(Color(red: 227/255, green: 227/255, blue: 227/255), lineWidth: 1))
+      
   }
 }
 
