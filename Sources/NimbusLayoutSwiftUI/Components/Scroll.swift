@@ -56,9 +56,12 @@ let scrollComponent: Component = { element, children in
   let direction: Scroll.Direction = try getMapEnumDefault(map: element.properties, name: "direction", default: .vertical)
   let scrollIndicator: Bool = try getMapPropertyDefault(map: element.properties, name: "scrollIndicator", default: true)
   
-  return AnyComponent(Scroll(
-    children: children,
-    direction: direction,
-    scrollIndicator: scrollIndicator)
+  return AnyComponent(
+    Scroll(
+      children: children,
+      direction: direction,
+      scrollIndicator: scrollIndicator
+    ),
+    element.id
   )
 }

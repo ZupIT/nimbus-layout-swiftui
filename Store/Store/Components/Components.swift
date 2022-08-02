@@ -18,14 +18,14 @@ import SwiftUI
 import NimbusSwiftUI
 
 let components: [String: Component] = [
-  "store:spinner": { _, _ in
-    AnyComponent(ProgressView())
+  "store:spinner": { element, _ in
+    AnyComponent(ProgressView(), element.id)
   },
   "store:button": { element, _ in
-    AnyComponent(try CustomButton(from: element.properties))
+    AnyComponent(try CustomButton(from: element.properties), element.id)
   },
   "store:textInput": { element, _ in
-    AnyComponent(try TextInput(from: element.properties))
+    AnyComponent(try TextInput(from: element.properties), element.id)
   }
 ]
 
@@ -45,18 +45,22 @@ extension CustomButton: Deserializable {
   init(from map: [String : Any]?, children: [AnyComponent]) throws {
     self.text = try getMapProperty(map: map, name: "text")
     let function = getMapFunction(map: map, name: "onPress")
-    self.onPress = { function(nil) }
+    self.onPress = {
+      Task {
+        function(nil)
+      }
+    }
   }
 }
 
 // MARK: - store:textInput
 struct TextInput: View {
-  var label: String
+  var placeholder: String
   @State var value: String
   var onChange: ((String) -> Void)? = nil
   
   var body: some View {
-    TextField(label, text: $value)
+    TextField(placeholder, text: $value)
       .onChange(of: value) {
         onChange?($0)
       }
@@ -65,7 +69,7 @@ struct TextInput: View {
 
 extension TextInput: Deserializable {
   init(from map: [String : Any]?, children: [AnyComponent]) throws {
-    self.label = try getMapProperty(map: map, name: "label")
+    self.placeholder = try getMapProperty(map: map, name: "placeholder")
     self.value = try getMapProperty(map: map, name: "value")
     
     self.onChange = nil

@@ -58,8 +58,6 @@ extension Container: Deserializable {
 
 public struct ContainerView: View, HasContainer {
   
-  @Environment(\.size) var size
-  
   var alignment: Alignment = .top
   
   // TODO: verify a way of reduce fixed sizes

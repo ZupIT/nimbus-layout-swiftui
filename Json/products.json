@@ -12,25 +12,25 @@
       "_:component": "layout:lifecycle",
       "children": [
         {
-          "_:component": "layout:scrollView",
+          "_:component": "if",
           "children": [
             {
-              "_:component": "layout:column",
+              "_:component": "then",
               "children": [
                 {
-                  "_:component": "if",
+                  "_:component": "store:spinner",
+                  "properties": {}
+                }
+              ]
+            },
+            {
+              "_:component": "else",
+              "children": [
+                {
+                  "_:component": "layout:scrollView",
                   "children": [
                     {
-                      "_:component": "then",
-                      "children": [
-                        {
-                          "_:component": "store:spinner",
-                          "properties": {}
-                        }
-                      ]
-                    },
-                    {
-                      "_:component": "else",
+                      "_:component": "layout:column",
                       "children": [
                         {
                           "_:component": "forEach",
@@ -39,118 +39,87 @@
                               "_:component": "layout:row",
                               "children": [
                                 {
-                                  "_:component": "layout:column",
+                                  "_:component": "layout:text",
+                                  "properties": {
+                                    "size": 15,
+                                    "weight": "light",
+                                    "text": "@{product.title}"
+                                  }
+                                },
+                                {
+                                  "_:component": "if",
                                   "children": [
                                     {
-                                      "_:component": "layout:remoteImage",
-                                      "properties": {
-                                        "url": "@{product.image}",
-                                        "width": 100,
-                                        "scale": "fillWidth",
-                                        "height": 150
-                                      }
-                                    },
-                                    {
-                                      "_:component": "layout:text",
-                                      "properties": {
-                                        
-                                        "color": "#212121",
-                                        "size": 14,
-                                        "weight": "light",
-                                        
-                                        "text": "@{product.title}"
-                                      }
-                                    },
-                                    {
-                                      "_:component": "layout:text",
-                                      "properties": {
-                                        "color": "#212121",
-                                        "size": 16,
-                                        "weight": "semiBold",
-                                        
-                                        "text": "@{formatPrice(product.price, 'BRL')}"
-                                      }
-                                    },
-                                    {
-                                      "_:component": "if",
+                                      "_:component": "then",
                                       "children": [
                                         {
-                                          "_:component": "then",
-                                          "children": [
-                                            {
-                                              "_:component": "layout:text",
-                                              "properties": {
-                                                "color": "#2E8B57",
-                                                "size": 18,
-                                                "weight": "bold",
-                                                "text": "In cart ✓"
-                                              }
-                                            }
-                                          ]
-                                        },
-                                        {
-                                          "_:component": "else",
-                                          "children": [
-                                            {
-                                              "_:component": "store:button",
-                                              "properties": {
-                                                "enabled": true,
-                                                "text": "Add to cart",
-                                                "onPress": [
-                                                  {
-                                                    "_:action": "log",
-                                                    "properties": {
-                                                      "message": "",
-                                                      "level": "Info"
-                                                    }
-                                                  }
-                                                ]
-                                              }
-                                            }
-                                          ]
+                                          "_:component": "layout:text",
+                                          "properties": {
+                                            "color": "#2E8B57",
+                                            "size": 18,
+                                            "weight": "bold",
+                                            "text": "In cart ✓"
+                                          }
                                         }
-                                      ],
-                                      "properties": {
-                                        "condition": "@{contains(global.cart, product)}"
-                                      }
+                                      ]
+                                    },
+                                    {
+                                      "_:component": "else",
+                                      "children": [
+                                        {
+                                          "_:component": "store:button",
+                                          "properties": {
+                                            "enabled": true,
+                                            "text": "Add to cart",
+                                            "onPress": [
+                                              {
+                                                "_:action": "setState",
+                                                "properties": {
+                                                  "path": "global.cart",
+                                                  "value": "@{insert(global.cart, product)}"
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ]
                                     }
                                   ],
                                   "properties": {
-                                    "backgroundColor": "#fff",
-                                    "borderColor": "#e3e3e3",
-                                    "borderWidth": 1,
-                                    "cornerRadius": 12,
-                                    "padding": 12,
-                                    "mainAxisAlignment": "start",
-                                    "margin": 8
+                                    "condition": "@{contains(global.cart, product)}"
                                   }
                                 }
-                              ]
+                              ],
+                              "properties": {
+                                "backgroundColor": "#fff",
+                                "borderColor": "#f00",
+                                "height": 200,
+                                "width": 375,
+                                "borderWidth": 1,
+                                "cornerRadius": 12,
+                                "paddingHorizontal": 24,
+                                "paddingVertical": 16,
+                                "marginVertical": 6
+                              }
                             }
                           ],
                           "properties": {
-                            "key": "product",
-                            "indexName": "index",
                             "iteratorName": "product",
                             "items": "@{products.data}"
                           }
                         }
                       ]
+                      
+                  
                     }
-                  ],
-                  "properties": {
-                    "condition": "@{products.isLoading}"
-                  }
+                  ]
                 }
-              ],
-              "properties": {
-                "backgroundColor": "#eee",
-                "flex": 1,
-                "crossAxisAlignment": "start",
-                "mainAxisAlignment": "start"
-              }
+              ]
             }
-          ]
+          ],
+          "properties": {
+            "condition": "@{products.isLoading}"
+          }
         }
       ],
       "properties": {
@@ -185,7 +154,7 @@
                   }
                 }
               ],
-              "url": "http://127.0.0.1:3000/products"
+              "url": "/data.json"
             }
           }
         ]
@@ -193,6 +162,7 @@
     }
   ],
   "properties": {
-    "title": "Products"
+  "title": "Products"
   }
 }
+       

@@ -15,7 +15,7 @@
  */
 
 import SwiftUI
-@testable import NimbusSwiftUI
+import NimbusSwiftUI
 
 struct Lifecycle: View {
   var onInit: (Any?) -> Void

@@ -23,35 +23,35 @@ public typealias NimbusNavigator = NimbusSwiftUI.NimbusNavigator
 
 let layoutComponentMap: [String: Component] = [
   "layout:text": { element, _ in
-    AnyComponent(try NimbusText(from: element.properties))
+    AnyComponent(try NimbusText(from: element.properties), element.id)
   },
   "layout:row": { element, children in
-    AnyComponent(Row(children: children, container: try Container(from: element.properties)))
+    AnyComponent(Row(children: children, container: try Container(from: element.properties)), element.id)
   },
   "layout:column": { element, children in
-    AnyComponent(Column(children: children, container: try Container(from: element.properties)))
+    AnyComponent(Column(children: children, container: try Container(from: element.properties)), element.id)
   },
   "layout:localImage": { element, _ in
-    AnyComponent(try LocalImage(from: element.properties))
+    AnyComponent(try LocalImage(from: element.properties), element.id)
   },
   "layout:remoteImage": { element, _ in
-    AnyComponent(try RemoteImage(from: element.properties))
+    AnyComponent(try RemoteImage(from: element.properties), element.id)
   },
   "layout:scrollView": scrollComponent,
   "layout:lifecycle": { element, children in
-    AnyComponent(try Lifecycle(from: element.properties, children: children))
+    AnyComponent(try Lifecycle(from: element.properties, children: children), element.id)
   },
   "layout:screen": { element, children in
-    AnyComponent(try Screen(from: element.properties, children: children))
+    AnyComponent(try Screen(from: element.properties, children: children), element.id)
   },
   "layout:touchable": { element, children in
-    AnyComponent(try Touchable(from: element.properties, children: children))
+    AnyComponent(try Touchable(from: element.properties, children: children), element.id)
   },
   "layout:stack": { element, children in
-    AnyComponent(try Stack(from: element.properties, children: children))
+    AnyComponent(try Stack(from: element.properties, children: children), element.id)
   },
   "layout:positioned": { element, children in
-    AnyComponent(try Positioned(from: element.properties, children: children))
+    AnyComponent(try Positioned(from: element.properties, children: children), element.id)
   }
 ]
 
