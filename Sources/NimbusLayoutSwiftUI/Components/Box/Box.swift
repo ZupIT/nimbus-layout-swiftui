@@ -28,7 +28,7 @@ struct Box {
 }
 
 extension Box: Deserializable {
-  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+  init(from map: [String : Any]?) throws {
     self.backgroundColor = try getMapColorDefault(map: map, name: "backgroundColor", default: .clear)
     
     let shadowModel: [[String: Any]]? = try getMapProperty(map: map, name: "shadow")
@@ -43,16 +43,15 @@ extension Box: Deserializable {
 
 struct BoxModifier: ViewModifier {
   var box: Box
+  var alignment: Alignment?
   
   func body(content: Content) -> some View {
-    ZStack(alignment: .topLeading) {
-      box.backgroundColor
-        .modifier(BorderModifier(border: box.border))
-      content
-        .modifier(InsetsModifier(insets: box.padding))
-    }
-    .modifier(SizeModifier(size: box.size))
-    .modifier(ShadowModifier(shadows: box.shadow ?? []))
-    .modifier(InsetsModifier(insets: box.margin))
+    content
+      .modifier(InsetsModifier(insets: box.padding))
+      .modifier(SizeModifier(size: box.size, alignment: alignment))
+      .background(box.backgroundColor)
+      .modifier(BorderModifier(border: box.border))
+      .modifier(ShadowModifier(shadows: box.shadow ?? []))
+      .modifier(InsetsModifier(insets: box.margin))
   }
 }

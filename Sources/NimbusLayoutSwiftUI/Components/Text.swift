@@ -44,7 +44,7 @@ struct NimbusText: View {
 }
 
 extension NimbusText: Deserializable {
-  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+  init(from map: [String : Any]?) throws {
     self.text = try getMapProperty(map: map, name: "text")
     self.weight = try getMapEnumDefault(map: map, name: "weight", default: .normal)
     self.color = try getMapColorDefault(map: map, name: "color", default: .black)

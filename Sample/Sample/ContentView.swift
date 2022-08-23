@@ -21,98 +21,33 @@ struct ContentView: View {
   var body: some View {
     Nimbus(baseUrl: "https://localhost:8080") {
       NimbusNavigator(json: """
-      {
-        "_:component": "layout:stack",
-        "children": [
-          {
-            "_:component": "layout:positioned",
-            "children": [{
-              "_:component": "layout:row",
-              "children" : [{
-                "_:component": "layout:text",
-                "properties": {
-                  "text": "r"
-                }
-              }]
-            }],
-            "properties": {
-              "alignment": "topStart",
-              "backgroundColor": "#FF0000",
-              "width": 50.0,
-              "height": 50.0,
-              "x": 10.0,
-              "y": 10.0
-            }
-          },
-          {
-            "_:component": "layout:positioned",
-            "children": [{
-              "_:component": "layout:row",
-              "children" : [{
-                "_:component": "layout:text",
-                "properties": {
-                  "text": "g"
-                }
-              }]
-            }],
-            "properties": {
-              "alignment": "topEnd",
-              "backgroundColor": "#00FF00",
-              "width": 50.0,
-              "height": 50.0,
-              "x": -10.0,
-              "y": 10.0
-            }
-          },
-          {
-            "_:component": "layout:positioned",
-            "children": [{
-              "_:component": "layout:row",
-              "children" : [{
-                "_:component": "layout:text",
-                "properties": {
-                  "text": "b"
-                }
-              }]
-            }],
-            "properties": {
-              "alignment": "bottomStart",
-              "backgroundColor": "#0000FF",
-              "width": 50.0,
-              "height": 50.0,
-              "x": 10.0,
-              "y": -10.0
-            }
-          },
-          {
-            "_:component": "layout:positioned",
-            "children": [{
-              "_:component": "layout:row",
-              "children" : [{
-                "_:component": "layout:text",
-                "properties": {
-                  "text": "m"
-                }
-              }]
-            }],
-            "properties": {
-              "alignment": "bottomEnd",
-              "backgroundColor": "#FFFF00",
-              "width": 50.0,
-              "height": 50.0,
-              "x": -10.0,
-              "y": -10.0
-            }
-          }],
-        "properties": {
-          "backgroundColor": "#CCCCCCFF",
-          "width": 150.0,
-          "height": 150.0
-        }
-      }
+                      {
+                        "_:component": "layout:localimage",
+                        "properties": {
+                          "id": "nimbus-local",
+                          "scale": "fillBounds",
+                          "width": 70,
+                          "height": 70,
+                          "clipped": true
+                        }
+                      }
       """)
     }
     .layoutComponents()
+    /*HStack(alignment: .top, spacing: 0) {
+      HStack(alignment: .top, spacing: 0) {
+        Text("R")
+      }.frame(maxWidth: .infinity, maxHeight: nil).background(Color.red).padding(5)
+      HStack(alignment: .top, spacing: 0) {
+        Text("G")
+      }.frame(maxWidth: .infinity, maxHeight: nil).background(Color.green)
+      HStack(alignment: .top, spacing: 0) {
+        Text("B")
+      }.frame(maxWidth: .infinity, maxHeight: nil).background(Color.blue)
+    }.background(Color.gray)*/
+    /*VStack(alignment: .leading, spacing: 0) {
+      Text("r")
+    }.frame(width: 30, height: nil, alignment: .leading).frame(maxWidth: nil, maxHeight: .infinity, alignment: .leading).background(Color.red)*/
   }
 }
 

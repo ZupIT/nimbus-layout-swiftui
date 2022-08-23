@@ -36,7 +36,7 @@ struct RemoteImage: View, BaseImage {
 }
 
 extension RemoteImage: Deserializable {
-  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+  init(from map: [String : Any]?) throws {
     self.url = try getMapProperty(map: map, name: "url")
     self.placeholder = try getMapProperty(map: map, name: "placeholder")
     self.scale = try getMapEnumDefault(map: map, name: "scale", default: .center)

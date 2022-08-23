@@ -54,7 +54,7 @@ struct SafeArea {
 }
 
 extension SafeArea: Deserializable {
-  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+  init(from map: [String : Any]?) throws {
     self.top = try getMapPropertyDefault(map: map, name: "top", default: true)
     self.bottom = try getMapPropertyDefault(map: map, name: "bottom", default: true)
     self.trailing = try getMapPropertyDefault(map: map, name: "trailing", default: true)

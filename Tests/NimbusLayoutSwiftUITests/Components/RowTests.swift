@@ -22,7 +22,7 @@ import NimbusSwiftUI
 
 class RowTests: XCTestCase {
   
-  func testRowFlex() {
+  func testRowExpand() {
     let view = Nimbus(baseUrl: "base") {
       NimbusNavigator(json:
       """
@@ -38,7 +38,7 @@ class RowTests: XCTestCase {
               }
             }],
             "properties": {
-              "flex":2,
+              "width": "expand",
               "backgroundColor": "#FF0000",
               "height": 40.0,
               "marginTop": 10,
@@ -54,7 +54,7 @@ class RowTests: XCTestCase {
               }
             }],
             "properties": {
-              "flex":1,
+              "width": "expand",
               "backgroundColor": "#00FF00",
               "height": 40.0
             }
@@ -68,7 +68,7 @@ class RowTests: XCTestCase {
               }
             }],
             "properties": {
-              "flex":1,
+              "width":"expand",
               "backgroundColor": "#0000FF",
               "height": 40.0,
               "paddingTop": 10

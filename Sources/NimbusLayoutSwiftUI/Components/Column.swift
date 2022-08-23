@@ -17,8 +17,8 @@
 import SwiftUI
 import NimbusSwiftUI
 
-struct Column: View, HasContainer {
-  var children: [AnyComponent]
+struct Column<Content>: View, HasContainer where Content: View {
+  @ViewBuilder var children: () -> Content
   var container: Container
   
   var body: some View {

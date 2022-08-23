@@ -35,7 +35,7 @@ struct LocalImage: View, BaseImage {
 }
 
 extension LocalImage: Deserializable {
-  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+  init(from map: [String : Any]?) throws {
     self.id = try getMapProperty(map: map, name: "id")
     self.scale = try getMapEnumDefault(map: map, name: "scale", default: .center)
     
