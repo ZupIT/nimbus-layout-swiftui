@@ -132,6 +132,7 @@ class RowTests: XCTestCase {
         }
       ],
       "properties": {
+        "width": "expand",
         "backgroundColor": "#FFCCCCCC",
         "mainAxisAlignment": "\(mainAxis)",
         "crossAxisAlignment": "\(crossAxis)"

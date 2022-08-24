@@ -35,9 +35,19 @@ struct NimbusText: View {
   }
   
   var color: Color = .black
+  var iosAdaptiveSize: Bool
+  
+  @ViewBuilder
+  func applyAdaptiveSize(content: Text) -> some View {
+    if (iosAdaptiveSize) {
+      content.adaptiveSize()
+    } else {
+      content
+    }
+  }
   
   var body: some View {
-    Text(text)
+    applyAdaptiveSize(content: Text(text))
       .font(.system(size: size, weight: weight.swiftUI))
       .foregroundColor(color)
   }
@@ -49,6 +59,7 @@ extension NimbusText: Deserializable {
     self.weight = try getMapEnumDefault(map: map, name: "weight", default: .normal)
     self.color = try getMapColorDefault(map: map, name: "color", default: .black)
     self.size = try getMapPropertyDefault(map: map, name: "size", default: 12)
+    self.iosAdaptiveSize = try getMapPropertyDefault(map: map, name: "iosAdaptiveSize", default: false)
   }
 }
 

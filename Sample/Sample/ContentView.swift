@@ -21,33 +21,33 @@ struct ContentView: View {
   var body: some View {
     Nimbus(baseUrl: "https://localhost:8080") {
       NimbusNavigator(json: """
-                      {
-                        "_:component": "layout:localimage",
-                        "properties": {
-                          "id": "nimbus-local",
-                          "scale": "fillBounds",
-                          "width": 70,
-                          "height": 70,
-                          "clipped": true
-                        }
-                      }
+          {
+            "_:component":"layout:column",
+            "properties":{
+              "maxWidth":250,
+              "backgroundColor":"#CCCCCC"
+            },
+            "children":[
+              {
+                "_:component":"layout:column",
+                "properties":{
+                  "width":50,
+                  "height":50,
+                  "backgroundColor":"#FF0000"
+                }
+              },
+              {
+                "_:component":"layout:text",
+                "properties":{
+                  "iosAdaptiveSize": true,
+                  "text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut interdum purus, vitae lobortis magna. Fusce molestie sapien et erat dapibus lacinia. Etiam egestas non urna a tempor. Fusce vehicula, tellus id sodales tempor, orci tellus lobortis est, vitae commodo ligula dolor vel mi. Aliquam condimentum nulla erat, sed tincidunt arcu hendrerit ut. Suspendisse potenti. Maecenas efficitur ligula neque, pretium porttitor massa aliquam nec. Nulla iaculis tristique commodo. Vivamus ut augue ac tellus congue fringilla. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras pretium vitae arcu dictum malesuada. Cras sodales leo auctor, placerat elit in, aliquam neque. Duis vitae neque nec est dignissim consectetur ac nec ex. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Phasellus volutpat massa non nulla ultrices viverra. Cras sagittis quis lacus eu posuere."
+                }
+              }
+            ]
+          }
       """)
     }
     .layoutComponents()
-    /*HStack(alignment: .top, spacing: 0) {
-      HStack(alignment: .top, spacing: 0) {
-        Text("R")
-      }.frame(maxWidth: .infinity, maxHeight: nil).background(Color.red).padding(5)
-      HStack(alignment: .top, spacing: 0) {
-        Text("G")
-      }.frame(maxWidth: .infinity, maxHeight: nil).background(Color.green)
-      HStack(alignment: .top, spacing: 0) {
-        Text("B")
-      }.frame(maxWidth: .infinity, maxHeight: nil).background(Color.blue)
-    }.background(Color.gray)*/
-    /*VStack(alignment: .leading, spacing: 0) {
-      Text("r")
-    }.frame(width: 30, height: nil, alignment: .leading).frame(maxWidth: nil, maxHeight: .infinity, alignment: .leading).background(Color.red)*/
   }
 }
 

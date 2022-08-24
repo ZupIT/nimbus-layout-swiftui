@@ -45,9 +45,9 @@ enum AdaptiveSize: Equatable {
   }
 }
 
-struct Size: Equatable {
-  var width: AdaptiveSize?
-  var height: AdaptiveSize?
+struct Size {
+  var width: AdaptiveSize = .fitContent
+  var height: AdaptiveSize = .fitContent
   var minWidth: Double?
   var minHeight: Double?
   var maxWidth: Double?
@@ -59,9 +59,9 @@ struct Size: Equatable {
 extension Size: Deserializable {
   init(from map: [String : Any]?) throws {
     let width: Any? = try getMapProperty(map: map, name: "width")
-    self.width = try AdaptiveSize.fromAny(value: width)
+    self.width = try AdaptiveSize.fromAny(value: width) ?? .fitContent
     let height: Any? = try getMapProperty(map: map, name: "height")
-    self.height = try AdaptiveSize.fromAny(value: height)
+    self.height = try AdaptiveSize.fromAny(value: height) ?? .fitContent
     self.minWidth = try getMapProperty(map: map, name: "minWidth")
     self.minHeight = try getMapProperty(map: map, name: "minHeight")
     self.maxWidth = try getMapProperty(map: map, name: "maxWidth")
@@ -71,31 +71,7 @@ extension Size: Deserializable {
   }
 }
 
-struct SizeModifier: ViewModifier, Equatable {
-  /*
-   Se fit-content:
-     Se min-size ou max-size:
-       aplicar min-size e/ou max-size
-       aplicar fixedSize
-       aplicar spacers de acordo com o alinhamento
-       Bug esperado: textos serão comprimidos em uma única linha.
-         Workaround nesta versão:
-           modifier público no Text: adaptiveSize()
-           atributo específico para o iOS no componente Text: "iosAdaptiveSize: boolean" que aplica o modifier.
-     Caso contrário
-       não aplicar modifiers
-   
-   Se expand:
-     ignorar min-size
-     aplicar max-size ?? .infinite
-     aplicar spacers de acordo com o alinhamento
-   
-   Se fixed:
-     ignorar min-size e max-size
-     aplicar size
-     aplicar spacers de acordo com o alinhamento
-   */
-  
+struct SizeModifier: ViewModifier {
   private let alignment: Alignment
   private var minWidth: Double?
   private var maxWidth: Double?
@@ -106,10 +82,6 @@ struct SizeModifier: ViewModifier, Equatable {
   private var fixedWidth: Bool = false
   private var fixedHeight: Bool = false
   private let clipped: Bool
-  
-  static func == (lhs: SizeModifier, rhs: SizeModifier) -> Bool {
-    return false
-  }
   
   init (size: Size, alignment: Alignment?) {
     self.alignment = alignment ?? .topLeading
