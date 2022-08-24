@@ -120,15 +120,15 @@ struct SizeModifier: ViewModifier {
   func body(content: Content) -> some View {
     content
       .frame(
-        minWidth: minWidth?.toCGFloat(),
-        maxWidth: maxWidth?.toCGFloat(),
-        minHeight: minHeight?.toCGFloat(),
-        maxHeight: maxHeight?.toCGFloat(),
+        minWidth: minWidth.cgFloat,
+        maxWidth: maxWidth.cgFloat,
+        minHeight: minHeight.cgFloat,
+        maxHeight: maxHeight.cgFloat,
         alignment: alignment
       )
       .frame(
-        width: width?.toCGFloat(),
-        height: height?.toCGFloat(),
+        width: width.cgFloat,
+        height: height.cgFloat,
         alignment: alignment
       )
       .fixedSize(horizontal: fixedWidth, vertical: fixedHeight)
@@ -144,11 +144,5 @@ private extension View {
     } else {
       self
     }
-  }
-}
-
-private extension Double {
-  func toCGFloat() -> CGFloat {
-    return CGFloat(self)
   }
 }

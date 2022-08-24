@@ -50,7 +50,7 @@ class TextTests: XCTestCase {
     .frame(width: 80, height: 80)
   }
   
-  func adaptiveText(size: Double = 12, weight: String = "normal", color: String = "#000000") -> some View {
+  func adaptiveText() -> some View {
     let json = """
     {
       "_:component":"layout:column",

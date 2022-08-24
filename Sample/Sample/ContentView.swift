@@ -21,30 +21,95 @@ struct ContentView: View {
   var body: some View {
     Nimbus(baseUrl: "https://localhost:8080") {
       NimbusNavigator(json: """
+      {
+        "_:component": "layout:stack",
+        "children": [
           {
-            "_:component":"layout:column",
-            "properties":{
-              "maxWidth":250,
-              "backgroundColor":"#CCCCCC"
-            },
-            "children":[
-              {
-                "_:component":"layout:column",
-                "properties":{
-                  "width":50,
-                  "height":50,
-                  "backgroundColor":"#FF0000"
+            "_:component": "layout:positioned",
+            "children": [{
+              "_:component": "layout:row",
+              "children" : [{
+                "_:component": "layout:text",
+                "properties": {
+                  "text": "r"
                 }
-              },
-              {
-                "_:component":"layout:text",
-                "properties":{
-                  "iosAdaptiveSize": true,
-                  "text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut interdum purus, vitae lobortis magna. Fusce molestie sapien et erat dapibus lacinia. Etiam egestas non urna a tempor. Fusce vehicula, tellus id sodales tempor, orci tellus lobortis est, vitae commodo ligula dolor vel mi. Aliquam condimentum nulla erat, sed tincidunt arcu hendrerit ut. Suspendisse potenti. Maecenas efficitur ligula neque, pretium porttitor massa aliquam nec. Nulla iaculis tristique commodo. Vivamus ut augue ac tellus congue fringilla. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras pretium vitae arcu dictum malesuada. Cras sodales leo auctor, placerat elit in, aliquam neque. Duis vitae neque nec est dignissim consectetur ac nec ex. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Phasellus volutpat massa non nulla ultrices viverra. Cras sagittis quis lacus eu posuere."
+              }]
+            }],
+            "properties": {
+              "alignment": "topStart",
+              "backgroundColor": "#FF0000",
+              "width": 50.0,
+              "height": 50.0,
+              "x": 10.0,
+              "y": 10.0
+            }
+          },
+          {
+            "_:component": "layout:positioned",
+            "children": [{
+              "_:component": "layout:row",
+              "children" : [{
+                "_:component": "layout:text",
+                "properties": {
+                  "text": "g"
                 }
-              }
-            ]
-          }
+              }]
+            }],
+            "properties": {
+              "alignment": "topEnd",
+              "backgroundColor": "#00FF00",
+              "width": 50.0,
+              "height": 50.0,
+              "x": -10.0,
+              "y": 10.0
+            }
+          },
+          {
+            "_:component": "layout:positioned",
+            "children": [{
+              "_:component": "layout:row",
+              "children" : [{
+                "_:component": "layout:text",
+                "properties": {
+                  "text": "b"
+                }
+              }]
+            }],
+            "properties": {
+              "alignment": "bottomStart",
+              "backgroundColor": "#0000FF",
+              "width": 50.0,
+              "height": 50.0,
+              "x": 10.0,
+              "y": -10.0
+            }
+          },
+          {
+            "_:component": "layout:positioned",
+            "children": [{
+              "_:component": "layout:row",
+              "children" : [{
+                "_:component": "layout:text",
+                "properties": {
+                  "text": "m"
+                }
+              }]
+            }],
+            "properties": {
+              "alignment": "bottomEnd",
+              "backgroundColor": "#FFFF00",
+              "width": 50.0,
+              "height": 50.0,
+              "x": -10.0,
+              "y": -10.0
+            }
+          }],
+        "properties": {
+          "backgroundColor": "#CCCCCCFF",
+          "width": 150.0,
+          "height": 150.0
+        }
+      }
       """)
     }
     .layoutComponents()
