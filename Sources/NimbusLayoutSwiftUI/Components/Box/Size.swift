@@ -24,9 +24,6 @@ enum AdaptiveSize: Equatable {
   case fixed(Double)
   
   static func fromAny(value: Any?) throws -> AdaptiveSize? {
-    if (value == nil) {
-      return nil
-    }
     if (value is Int) {
       return .fixed(Double(value as! Int))
     }
@@ -41,7 +38,7 @@ enum AdaptiveSize: Equatable {
         return .fitContent
       }
     }
-    throw DeserializationError.invalidType("\(value!) is not a valid size.")
+    return nil
   }
 }
 
