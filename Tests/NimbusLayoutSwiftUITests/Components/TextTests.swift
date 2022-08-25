@@ -50,4 +50,38 @@ class TextTests: XCTestCase {
     .frame(width: 80, height: 80)
   }
   
+  func adaptiveText() -> some View {
+    let json = """
+    {
+      "_:component":"layout:column",
+      "properties":{
+        "maxWidth":250,
+        "backgroundColor":"#CCCCCC"
+      },
+      "children":[
+        {
+          "_:component":"layout:column",
+          "properties":{
+            "width":50,
+            "height":50,
+            "backgroundColor":"#FF0000"
+          }
+        },
+        {
+          "_:component":"layout:text",
+          "properties":{
+            "iosAdaptiveSize": true,
+            "text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut interdum purus, vitae lobortis magna. Fusce molestie sapien et erat dapibus lacinia. Etiam egestas non urna a tempor. Fusce vehicula, tellus id sodales tempor, orci tellus lobortis est, vitae commodo ligula dolor vel mi. Aliquam condimentum nulla erat, sed tincidunt arcu hendrerit ut. Suspendisse potenti. Maecenas efficitur ligula neque, pretium porttitor massa aliquam nec. Nulla iaculis tristique commodo. Vivamus ut augue ac tellus congue fringilla. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras pretium vitae arcu dictum malesuada. Cras sodales leo auctor, placerat elit in, aliquam neque. Duis vitae neque nec est dignissim consectetur ac nec ex. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Phasellus volutpat massa non nulla ultrices viverra. Cras sagittis quis lacus eu posuere."
+          }
+        }
+      ]
+    }
+    """
+    return Nimbus(baseUrl: "base") {
+      NimbusNavigator(json:
+        json
+      )
+    }
+    .layoutComponents()
+  }
 }

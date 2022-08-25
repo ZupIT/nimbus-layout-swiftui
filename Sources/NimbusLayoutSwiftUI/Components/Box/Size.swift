@@ -17,9 +17,34 @@
 import SwiftUI
 import NimbusSwiftUI
 
+
+enum AdaptiveSize: Equatable {
+  case expand
+  case fitContent
+  case fixed(Double)
+  
+  static func fromAny(value: Any?) throws -> AdaptiveSize? {
+    if (value is Int) {
+      return .fixed(Double(value as! Int))
+    }
+    if (value is Double) {
+      return .fixed(value as! Double)
+    }
+    if (value is String) {
+      if ((value as! String) == "expand") {
+        return .expand
+      }
+      if ((value as! String) == "fitContent") {
+        return .fitContent
+      }
+    }
+    return nil
+  }
+}
+
 struct Size {
-  var width: Double?
-  var height: Double?
+  var width: AdaptiveSize = .fitContent
+  var height: AdaptiveSize = .fitContent
   var minWidth: Double?
   var minHeight: Double?
   var maxWidth: Double?
@@ -29,9 +54,11 @@ struct Size {
 }
 
 extension Size: Deserializable {
-  init(from map: [String : Any]?, children: [AnyComponent]) throws {
-    self.width = try getMapProperty(map: map, name: "width")
-    self.height = try getMapProperty(map: map, name: "height")
+  init(from map: [String : Any]?) throws {
+    let width: Any? = try getMapProperty(map: map, name: "width")
+    self.width = try AdaptiveSize.fromAny(value: width) ?? .fitContent
+    let height: Any? = try getMapProperty(map: map, name: "height")
+    self.height = try AdaptiveSize.fromAny(value: height) ?? .fitContent
     self.minWidth = try getMapProperty(map: map, name: "minWidth")
     self.minHeight = try getMapProperty(map: map, name: "minHeight")
     self.maxWidth = try getMapProperty(map: map, name: "maxWidth")
@@ -42,18 +69,67 @@ extension Size: Deserializable {
 }
 
 struct SizeModifier: ViewModifier {
-  var size: Size
+  private let alignment: Alignment
+  private var minWidth: Double?
+  private var maxWidth: Double?
+  private var minHeight: Double?
+  private var maxHeight: Double?
+  private var width: Double?
+  private var height: Double?
+  private var fixedWidth: Bool = false
+  private var fixedHeight: Bool = false
+  private let clipped: Bool
+  
+  init (size: Size, alignment: Alignment?) {
+    self.alignment = alignment ?? .topLeading
+    clipped = size.clipped
+    switch(size.width) {
+    case .expand:
+      maxWidth = size.maxWidth ?? .infinity
+    case .fitContent, nil:
+      if (size.minWidth != nil || size.maxWidth != nil) {
+        minWidth = size.minWidth
+        maxWidth = size.maxWidth
+        fixedWidth = true
+      }
+    case .fixed(let value):
+      self.width = value
+    }
+    
+    switch(size.height) {
+    case .expand:
+      maxHeight = size.maxHeight ?? .infinity
+    case .fitContent, nil:
+      if (size.minHeight != nil || size.maxHeight != nil) {
+        minHeight = size.minHeight
+        maxHeight = size.maxHeight
+        fixedHeight = true
+      }
+    case .fixed(let value):
+      self.height = value
+    }
+  }
+  
+  init(size: Size) {
+    self.init(size: size, alignment: nil)
+  }
   
   func body(content: Content) -> some View {
     content
       .frame(
-        minWidth: size.width == nil ? size.minWidth.cgFloat : nil,
-        maxWidth: size.width == nil ? size.maxWidth.cgFloat : nil,
-        minHeight: size.height == nil ? size.minHeight.cgFloat : nil,
-        maxHeight: size.height == nil ? size.maxHeight.cgFloat : nil
+        minWidth: minWidth.cgFloat,
+        maxWidth: maxWidth.cgFloat,
+        minHeight: minHeight.cgFloat,
+        maxHeight: maxHeight.cgFloat,
+        alignment: alignment
       )
-      .frame(width: size.width.cgFloat, height: size.height.cgFloat)
-      .content(clipped: size.clipped)
+      .frame(
+        width: width.cgFloat,
+        height: height.cgFloat,
+        alignment: alignment
+      )
+      .fixedSize(horizontal: fixedWidth, vertical: fixedHeight)
+      .content(clipped: clipped)
   }
 }
 

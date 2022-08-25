@@ -20,8 +20,7 @@ import SnapshotTesting
 import NimbusSwiftUI
 
 class ColumnTests: XCTestCase {
-  
-  func testColumnFlex() {
+  func testColumnExpand() {
     let view = Nimbus(baseUrl: "base") {
       NimbusNavigator(json:
       """
@@ -37,7 +36,7 @@ class ColumnTests: XCTestCase {
               }
             }],
             "properties": {
-              "flex": 2,
+              "height": "expand",
               "backgroundColor": "#FF0000",
               "width": 30.0,
               "margin": 5
@@ -52,7 +51,7 @@ class ColumnTests: XCTestCase {
               }
             }],
             "properties": {
-              "flex": 1,
+              "height": "expand",
               "backgroundColor": "#00FF00",
               "width": 30
             }
@@ -66,7 +65,7 @@ class ColumnTests: XCTestCase {
               }
             }],
             "properties": {
-              "flex": 1,
+              "height": "expand",
               "backgroundColor": "#0000FF",
               "width": 30,
               "paddingStart": 10

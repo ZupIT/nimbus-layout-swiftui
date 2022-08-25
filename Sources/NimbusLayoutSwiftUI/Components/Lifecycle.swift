@@ -17,22 +17,19 @@
 import SwiftUI
 @testable import NimbusSwiftUI
 
-struct Lifecycle: View {
+struct Lifecycle<Content>: View where Content: View {
   var onInit: (Any?) -> Void
-  var children: [AnyComponent]
+  var children: () -> Content
   
   var body: some View {
-    ForEach(children.indices, id: \.self) { index in
-      children[index]
-    }
-    .onLoad {
+    VStack(alignment: .leading, spacing: 0, content: children).onLoad {
       onInit(nil)
     }
   }
 }
 
 extension Lifecycle: Deserializable {
-  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+  init(from map: [String : Any]?, @ViewBuilder children: @escaping () -> Content) throws {
     self.onInit = getMapFunction(map: map, name: "onInit")
     self.children = children
   }

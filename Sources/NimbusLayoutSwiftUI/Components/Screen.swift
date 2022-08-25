@@ -17,17 +17,14 @@
 import SwiftUI
 import NimbusSwiftUI
 
-struct Screen: View {
+struct Screen<Content>: View where Content: View {
   var ignoreSafeArea: SafeArea
   var title: String?
   var showBackButton: Bool = true
-  
-  var children: [AnyComponent]
+  var children: () -> Content
   
   var body: some View {
-    ForEach(children.indices, id: \.self) { index in
-      children[index]
-    }
+    VStack(alignment: .leading, spacing: 0, content: children)
     .modifier(SafeAreaModifier(safeArea: ignoreSafeArea))
     .navigationBarTitle(title ?? "")
     .navigationBarBackButtonHidden(!showBackButton)
@@ -35,7 +32,7 @@ struct Screen: View {
 }
 
 extension Screen: Deserializable {
-  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+  init(from map: [String : Any]?, @ViewBuilder children: @escaping () -> Content) throws {
     self.ignoreSafeArea = try SafeArea(from: map)
     self.title = try getMapProperty(map: map, name: "title")
     self.showBackButton = try getMapPropertyDefault(map: map, name: "showBackButton", default: true)

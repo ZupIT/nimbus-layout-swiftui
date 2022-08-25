@@ -23,7 +23,7 @@ struct Accessibility {
 }
 
 extension Accessibility: Deserializable {
-  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+  init(from map: [String : Any]?) throws {
     self.label = try getMapProperty(map: map, name: "label")
     self.isHeader = try getMapProperty(map: map, name: "isHeader")
   }

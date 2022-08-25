@@ -17,25 +17,20 @@
 import SwiftUI
 import NimbusSwiftUI
 
-struct Stack: View {
+struct Stack<Content>: View where Content: View {
   
   var box: Box
   
-  var children: [AnyComponent]
+  var children: () -> Content
   
   var body: some View {
-    ZStack {
-      ForEach(children.indices, id: \.self) { index in
-        children[index]
-      }
-    }
-    .modifier(BoxModifier(box: box))
+    ZStack(content: children).modifier(BoxModifier(box: box))
   }
   
 }
 
 extension Stack: Deserializable {
-  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+  init(from map: [String : Any]?, @ViewBuilder children: @escaping () -> Content) throws {
     self.box = try Box(from: map)
     self.children = children
   }
@@ -43,7 +38,7 @@ extension Stack: Deserializable {
 
 // MARK: - Positioned
 
-struct Positioned: View {
+struct Positioned<Content>: View where Content: View {
   
   enum Alignment: String {
     case topStart
@@ -63,23 +58,21 @@ struct Positioned: View {
   
   var box: Box
   
-  var children: [AnyComponent]
+  var children: () -> Content
   
   var body: some View {
     ZStack(alignment: alignment.zstack) {
       Color.clear
-      ForEach(children.indices, id: \.self) { index in
-        children[index]
-          .modifier(BoxModifier(box: box))
-          .offset(x: x, y: y)
-      }
+      VStack(alignment: .leading, spacing: 0, content: children)
+        .modifier(BoxModifier(box: box))
+        .offset(x: x, y: y)
     }
   }
   
 }
 
 extension Positioned: Deserializable {
-  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+  init(from map: [String : Any]?, @ViewBuilder children: @escaping () -> Content) throws {
     self.alignment = try getMapEnumDefault(map: map, name: "alignment", default: .topStart)
     self.x = try getMapPropertyDefault(map: map, name: "x", default: 0)
     self.y = try getMapPropertyDefault(map: map, name: "y", default: 0)

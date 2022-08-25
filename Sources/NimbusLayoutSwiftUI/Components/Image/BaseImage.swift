@@ -43,7 +43,7 @@ struct BaseImageView: View, BaseImage {
     case let .image(image):
       Image(uiImage: image)
         .scale(scale)
-        .modifier(SizeModifier(size: size))
+        .modifier(SizeModifier(size: size, alignment: .center)).clipped()
         .modifier(AccessibilityModifier(accessibility: accessibility))
     case .none:
       Color.clear

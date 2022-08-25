@@ -25,7 +25,7 @@ struct Shadow {
 }
 
 extension Shadow: Deserializable {
-  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+  init(from map: [String : Any]?) throws {
     self.x = try getMapPropertyDefault(map: map, name: "x", default: 0)
     self.y = try getMapPropertyDefault(map: map, name: "y", default: 0)
     self.blur = try getMapPropertyDefault(map: map, name: "blur", default: 0)

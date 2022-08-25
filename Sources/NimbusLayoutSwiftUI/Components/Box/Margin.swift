@@ -27,7 +27,7 @@ struct Margin: Insets {
 }
 
 extension Margin: Deserializable {
-  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+  init(from map: [String : Any]?) throws {
     self.all = try getMapProperty(map: map, name: "margin")
     self.start = try getMapProperty(map: map, name: "marginStart")
     self.end = try getMapProperty(map: map, name: "marginEnd")

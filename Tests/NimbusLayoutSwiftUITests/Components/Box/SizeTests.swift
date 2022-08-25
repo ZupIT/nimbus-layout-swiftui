@@ -28,18 +28,21 @@ class SizeTests: XCTestCase {
       Color.blue.frame(width: 60, height: 60)
     }
     
-    assertSnapshot(matching: view.modifier(SizeModifier(size: size)), as: .image)
+    assertSnapshot(matching: view.modifier(SizeModifier(size: size)), as: .image, named: "maxSize")
     
     size.minWidth = 45
     size.minHeight = 35
-    assertSnapshot(matching: view.modifier(SizeModifier(size: size)), as: .image)
+    assertSnapshot(matching: view.modifier(SizeModifier(size: size)), as: .image, named: "bounded")
     
-    size.width = 30
-    size.height = 20
-    assertSnapshot(matching: view.modifier(SizeModifier(size: size)), as: .image)
+    size.width = .fixed(30)
+    size.height = .fixed(20)
+    assertSnapshot(matching: view.modifier(SizeModifier(size: size)), as: .image, named: "fixed")
     
     size.clipped = false
-    let newView = ZStack { view.modifier(SizeModifier(size: size)) }.frame(width: 70, height: 70)
-    assertSnapshot(matching: newView, as: .image)
+    let newView = ZStack { view.modifier(SizeModifier(size: size, alignment: .center)) }.frame(width: 70, height: 70)
+    assertSnapshot(matching: newView, as: .image, named: "unclipped")
+    
+    let minSize = Size(minWidth: 90, minHeight: 70)
+    assertSnapshot(matching: view.modifier(SizeModifier(size: minSize, alignment: .center)), as: .image, named: "minSize")
   }
 }

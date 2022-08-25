@@ -27,7 +27,7 @@ struct Padding: Insets {
 }
 
 extension Padding: Deserializable {
-  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+  init(from map: [String : Any]?) throws {
     self.all = try getMapProperty(map: map, name: "padding")
     self.start = try getMapProperty(map: map, name: "paddingStart")
     self.end = try getMapProperty(map: map, name: "paddingEnd")

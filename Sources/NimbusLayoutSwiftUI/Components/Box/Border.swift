@@ -26,7 +26,7 @@ struct Border {
 }
 
 extension Border: Deserializable {
-  init(from map: [String : Any]?, children: [AnyComponent]) throws {
+  init(from map: [String : Any]?) throws {
     self.borderColor = try getMapColorDefault(map: map, name: "borderColor", default: .black)
     self.borderWidth = try getMapPropertyDefault(map: map, name: "borderWidth", default: 0)
     self.borderDashLength = try getMapPropertyDefault(map: map, name: "borderDashLength", default: 1)
