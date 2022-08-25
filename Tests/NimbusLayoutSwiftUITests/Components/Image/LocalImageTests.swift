@@ -28,7 +28,7 @@ class LocalImageTests: XCTestCase {
       NimbusNavigator(json:
       """
       {
-        "_:component": "layout:localimage",
+        "_:component": "layout:localImage",
         "properties": {
           "id": "nimbus-local",
           "scale": "\(scale)",

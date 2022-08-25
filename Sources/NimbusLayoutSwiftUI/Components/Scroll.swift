@@ -52,7 +52,7 @@ extension Scroll.Direction {
 
 extension Scroll: Deserializable {
   init(from map: [String : Any]?, @ViewBuilder children: @escaping () -> Content) throws {
-    self.direction = try getMapEnumDefault(map: map, name: "direction", default: .both)
+    self.direction = try getMapEnumDefault(map: map, name: "direction", default: .vertical)
     self.scrollIndicator = try getMapPropertyDefault(map: map, name: "scrollIndicator", default: true)
     self.children = children
   }

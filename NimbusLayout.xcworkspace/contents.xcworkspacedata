@@ -7,4 +7,14 @@
    <FileRef
       location = "group:Sample/Sample.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:Store/Store.xcodeproj">
+   </FileRef>
+   <Group
+      location = "group:Sample"
+      name = "Kotlin">
+      <FileRef
+         location = "group:../../nimbus-core/src/commonMain">
+      </FileRef>
+   </Group>
 </Workspace>
