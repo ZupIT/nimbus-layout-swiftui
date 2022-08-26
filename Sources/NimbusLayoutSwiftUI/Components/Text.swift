@@ -34,8 +34,23 @@ struct NimbusText: View {
     case black
   }
   
+  enum Alignment: String {
+    case start
+    case center
+    case end
+    
+    func textAlignment() -> TextAlignment {
+      switch self {
+      case .start: return .leading
+      case .center: return .center
+      case .end: return .trailing
+      }
+    }
+  }
+  
   var color: Color = .black
   var iosAdaptiveSize: Bool
+  var alignment: Alignment = .start
   
   @ViewBuilder
   func applyAdaptiveSize(content: Text) -> some View {
@@ -50,6 +65,7 @@ struct NimbusText: View {
     applyAdaptiveSize(content: Text(text))
       .font(.system(size: size, weight: weight.swiftUI))
       .foregroundColor(color)
+      .multilineTextAlignment(alignment.textAlignment())
   }
 }
 
@@ -60,6 +76,7 @@ extension NimbusText: Deserializable {
     self.color = try getMapColorDefault(map: map, name: "color", default: .black)
     self.size = try getMapPropertyDefault(map: map, name: "size", default: 12)
     self.iosAdaptiveSize = try getMapPropertyDefault(map: map, name: "iosAdaptiveSize", default: false)
+    self.alignment = try getMapEnumDefault(map: map, name: "alignment", default: .start)
   }
 }
 

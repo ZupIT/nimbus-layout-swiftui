@@ -34,13 +34,13 @@ let layoutComponentMap: [String: ComponentBuilder] = [
   "layout:screen": { element, children in
     AnyView(try Screen(from: element.properties, children: children))
   },
-  "layout:localimage": { element, _ in
+  "layout:localImage": { element, _ in
     AnyView(try LocalImage(from: element.properties))
   },
-  "layout:remoteimage": { element, _ in
+  "layout:remoteImage": { element, _ in
     AnyView(try RemoteImage(from: element.properties))
   },
-  "layout:scroll": { element, children in
+  "layout:scrollView": { element, children in
     AnyView(try Scroll(from: element.properties, children: children))
   },
   "layout:lifecycle": { element, children in
