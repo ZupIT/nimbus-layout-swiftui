@@ -17,8 +17,23 @@
 import SwiftUI
 import NimbusLayoutSwiftUI
 
+struct NativePerformanceTest: View {
+  @State var inCart = false
+  
+  var body: some View {
+    if (inCart) {
+      Text("In Cart!")
+    } else {
+      Button("Add to Cart") {
+        inCart = true
+      }
+    }
+  }
+}
+
 struct ContentView: View {
   var body: some View {
+    // NativePerformanceTest()
     Nimbus(baseUrl: "http://127.0.0.1:3000") {
       Home()
     }
