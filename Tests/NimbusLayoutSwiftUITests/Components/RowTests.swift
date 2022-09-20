@@ -19,6 +19,7 @@ import SwiftUI
 import SnapshotTesting
 
 import NimbusSwiftUI
+import NimbusLayoutSwiftUI
 
 class RowTests: XCTestCase {
   
@@ -81,7 +82,7 @@ class RowTests: XCTestCase {
       }
       """)
     }
-      .layoutComponents()
+      .ui([layout])
       .frame(width: 100, height: 130)
     assertSnapshot(matching: view, as: .image)
   }
@@ -144,7 +145,7 @@ class RowTests: XCTestCase {
         json
       )
     }
-    .layoutComponents()
+    .ui([layout])
     .frame(width: 80, height: 80)
   }
 }

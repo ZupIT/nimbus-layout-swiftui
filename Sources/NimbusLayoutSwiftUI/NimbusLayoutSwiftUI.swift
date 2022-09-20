@@ -15,51 +15,42 @@
  */
 
 import SwiftUI
-import NimbusCore
 import NimbusSwiftUI
 
 public typealias Nimbus = NimbusSwiftUI.Nimbus
 public typealias NimbusNavigator = NimbusSwiftUI.NimbusNavigator
 
-let layoutComponentMap: [String: ComponentBuilder] = [
-  "layout:text": { element, _ in
+public let layout = NimbusSwiftUILibrary("layout")
+  .addComponent("text") { (element, _) in
     AnyView(try NimbusText(from: element.properties))
-  },
-  "layout:row": { element, children in
-    AnyView(Row(children: children, container: try Container(from: element.properties)))
-  },
-  "layout:column": { element, children in
-    AnyView(Column(children: children, container: try Container(from: element.properties)))
-  },
-  "layout:screen": { element, children in
+  }
+  .addComponent("row") { (element, children) in
+    AnyView(Row(children: children, container: try Container(from: element.properties, id: element.id)))
+  }
+  .addComponent("column") { (element, children) in
+    AnyView(Column(children: children, container: try Container(from: element.properties, id: element.id)))
+  }
+  .addComponent("screen") { (element, children) in
     AnyView(try Screen(from: element.properties, children: children))
-  },
-  "layout:localImage": { element, _ in
+  }
+  .addComponent("localImage") { (element, _) in
     AnyView(try LocalImage(from: element.properties))
-  },
-  "layout:remoteImage": { element, _ in
+  }
+  .addComponent("remoteImage") { (element, _) in
     AnyView(try RemoteImage(from: element.properties))
-  },
-  "layout:scrollView": { element, children in
+  }
+  .addComponent("scrollView") { (element, children) in
     AnyView(try Scroll(from: element.properties, children: children))
-  },
-  "layout:lifecycle": { element, children in
+  }
+  .addComponent("lifecycle") { (element, children) in
     AnyView(try Lifecycle(from: element.properties, children: children))
-  },
-  
-  "layout:touchable": { element, children in
+  }
+  .addComponent("touchable") { (element, children) in
     AnyView(try Touchable(from: element.properties, children: children))
-  },
-  "layout:stack": { element, children in
+  }
+  .addComponent("stack") { (element, children) in
     AnyView(try Stack(from: element.properties, children: children))
-  },
-  "layout:positioned": { element, children in
+  }
+  .addComponent("positioned") { (element, children) in
     AnyView(try Positioned(from: element.properties, children: children))
   }
-]
-
-extension Nimbus {
-  public func layoutComponents() -> Self {
-    components(layoutComponentMap)
-  }
-}

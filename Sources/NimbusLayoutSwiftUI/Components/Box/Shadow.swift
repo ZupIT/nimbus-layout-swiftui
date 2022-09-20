@@ -22,6 +22,10 @@ struct Shadow {
   var y: Double = 0
   var blur: Double = 0
   var color: Color = .black
+  
+  func isEmpty() -> Bool {
+    return x == 0 && y == 0 && blur == 0
+  }
 }
 
 extension Shadow: Deserializable {
@@ -35,16 +39,35 @@ extension Shadow: Deserializable {
 
 struct ShadowModifier: ViewModifier {
   var shadows: [Shadow]
-    
+
   func body(content: Content) -> some View {
-    shadows.reduce(AnyView(content)) { partialResult, shadow in
-      AnyView(partialResult
-        .shadow(
-          color: shadow.color,
-          radius: shadow.blur,
-          x: shadow.x,
-          y: shadow.y
-        )
+    if (shadows.isEmpty) {
+      content
+    } else {
+      // The only way I found to do this without using AnyViews was to hardcode the maximum number of shadows =(
+      content
+        .applyShadow(shadow: shadows[safe: 0])
+        .applyShadow(shadow: shadows[safe: 1])
+        .applyShadow(shadow: shadows[safe: 2])
+        .applyShadow(shadow: shadows[safe: 3])
+        .applyShadow(shadow: shadows[safe: 4])
+        .applyShadow(shadow: shadows[safe: 5])
+        .applyShadow(shadow: shadows[safe: 6])
+        .applyShadow(shadow: shadows[safe: 7])
+        .applyShadow(shadow: shadows[safe: 8])
+        .applyShadow(shadow: shadows[safe: 9])    }
+  }
+}
+
+private extension View {
+  @ViewBuilder
+  func applyShadow(shadow: Shadow?) -> some View {
+    self.applyIf(shadow?.isEmpty() == false) {
+      $0.shadow(
+        color: shadow!.color,
+        radius: shadow!.blur,
+        x: shadow!.x,
+        y: shadow!.y
       )
     }
   }

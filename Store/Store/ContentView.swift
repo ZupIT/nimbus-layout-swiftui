@@ -18,31 +18,24 @@ import SwiftUI
 import NimbusLayoutSwiftUI
 
 struct NativePerformanceTest: View {
-  @State var inCart = false
+  @State var btns = ["Add to Cart"]
   
   var body: some View {
-    if (inCart) {
-      Text("In Cart!")
-    } else {
-      Button("Add to Cart") {
-        inCart = true
-      }
+    ForEach(btns, id: \.count) { item in
+      AnyView(Button(item) {
+        btns = item == "Add to Cart" ? ["In Cart!"] : ["Add to Cart"]
+      })
     }
   }
 }
 
 struct ContentView: View {
   var body: some View {
-    // NativePerformanceTest()
+    //NativePerformanceTest()
     Nimbus(baseUrl: "http://127.0.0.1:3000") {
       Home()
     }
-    .layoutComponents()
-    .operations(operations)
-    .components(components)
-    .core { core in
-      core.globalState.set(newValue: [], path: "cart")
-    }
+    .ui([layout, storeUI])
   }
 }
 

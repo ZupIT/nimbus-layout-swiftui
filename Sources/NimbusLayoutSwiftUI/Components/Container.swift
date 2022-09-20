@@ -131,10 +131,9 @@ struct Container {
 }
 
 extension Container: Deserializable {
-  init(from map: [String : Any]?) throws {
+  init(from map: [String : Any]?, id: String) throws {
     self.crossAxisAlignment = try getMapEnumDefault(map: map, name: "crossAxisAlignment", default: .start)
     self.mainAxisAlignment = try getMapEnumDefault(map: map, name: "mainAxisAlignment", default: .start)
-    
     self.box = try Box(from: map)
   }
 }
@@ -150,7 +149,7 @@ public struct ContainerView<Content>: View, HasContainer where Content: View {
     self.container = model
     self.children = children
   }
-  
+
   public var body: some View {
     _VariadicView.Tree(AlignedOnMainAxis(direction: direction, container: container), content: children)
       .modifier(BoxModifier(box: container.box, alignment: container.crossAxisAlignment.alignment))

@@ -16,18 +16,7 @@
 
 import SwiftUI
 import NimbusSwiftUI
-
-let components: [String: ComponentBuilder] = [
-  "store:spinner": { element, _ in
-    AnyView(ProgressView())
-  },
-  "store:button": { element, _ in
-    AnyView(try CustomButton(from: element.properties))
-  },
-  "store:textInput": { element, _ in
-    AnyView(try TextInput(from: element.properties))
-  }
-]
+import NimbusLayoutSwiftUI
 
 // MARK: - store:button
 struct CustomButton: View {
@@ -44,11 +33,11 @@ struct CustomButton: View {
 extension CustomButton: Deserializable {
   init(from map: [String : Any]?) throws {
     self.text = try getMapProperty(map: map, name: "text")
-    let function = getMapFunction(map: map, name: "onPress")
+    let event = getMapEvent(map: map, name: "onPress")
     self.onPress = {
-      Task {
-        function(nil)
-      }
+      //Task {
+      event?.run()
+      //}
     }
   }
 }
@@ -81,9 +70,9 @@ extension TextInput: Deserializable {
     
     self.onChange = nil
     if map?["onChange"] != nil {
-      let function = getMapFunction(map: map, name: "onChange")
+      let event = getMapEvent(map: map, name: "onChange")
       self.onChange = {
-        string in function(string)
+        string in event?.run(implicitStateValue: string)
       }
     }
   }

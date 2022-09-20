@@ -46,7 +46,7 @@ extension Color {
   }
 }
 
-extension Optional where Wrapped == String {
+private extension Optional where Wrapped == String {
   var color: Color? {
     switch self {
     case .none:
@@ -58,6 +58,10 @@ extension Optional where Wrapped == String {
 }
 
 func getMapColorDefault(map: [String: Any]?, name: String, default: Color) throws -> Color {
+  return try getMapColor(map: map, name: name) ?? `default`
+}
+
+func getMapColor(map: [String: Any]?, name: String) throws -> Color? {
   let colorString: String? = try getMapProperty(map: map, name: name)
-  return colorString.color ?? `default`
+  return colorString.color
 }

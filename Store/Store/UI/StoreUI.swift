@@ -14,28 +14,19 @@
  * limitations under the License.
  */
 
-import XCTest
-import SnapshotTesting
+import Foundation
+import SwiftUI
+import NimbusSwiftUI
 
-import NimbusLayoutSwiftUI
-
-class HelloTests: XCTestCase {
-  
-  func testHello() {
-    let view = Nimbus(baseUrl: "base") {
-      NimbusNavigator(json:
-      """
-      {
-        "_:component": "layout:text",
-        "properties": {
-          "text": "Hello!!!"
-        }
-      }
-      """)
-    }
-    .ui([layout])
-    .frame(width: 100, height: 100)
-    assertSnapshot(matching: view, as: .image)
+let storeUI = NimbusSwiftUILibrary("store")
+  .addComponent("spinner") { element, _ in
+    AnyView(ProgressView())
   }
-  
-}
+  .addComponent("button") { element, _ in
+    AnyView(try CustomButton(from: element.properties))
+  }
+  .addComponent("textInput") { element, _ in
+    AnyView(try TextInput(from: element.properties))
+  }
+  .addOperation("formatPrice", handler: formatPrice)
+  .addOperation("sumProducts", handler: sumProducts)

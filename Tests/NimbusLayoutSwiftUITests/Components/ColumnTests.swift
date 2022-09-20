@@ -18,6 +18,7 @@ import XCTest
 import SnapshotTesting
 
 import NimbusSwiftUI
+import NimbusLayoutSwiftUI
 
 class ColumnTests: XCTestCase {
   func testColumnExpand() {
@@ -78,7 +79,7 @@ class ColumnTests: XCTestCase {
       }
       """)
     }
-    .layoutComponents()
+    .ui([layout])
     .frame(width: 100, height: 160)
     assertSnapshot(matching: view, as: .image)
   }
