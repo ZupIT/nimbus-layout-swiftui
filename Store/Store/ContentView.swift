@@ -17,21 +17,8 @@
 import SwiftUI
 import NimbusLayoutSwiftUI
 
-struct NativePerformanceTest: View {
-  @State var btns = ["Add to Cart"]
-  
-  var body: some View {
-    ForEach(btns, id: \.count) { item in
-      AnyView(Button(item) {
-        btns = item == "Add to Cart" ? ["In Cart!"] : ["Add to Cart"]
-      })
-    }
-  }
-}
-
 struct ContentView: View {
   var body: some View {
-    //NativePerformanceTest()
     Nimbus(baseUrl: "http://127.0.0.1:3000") {
       Home()
     }
