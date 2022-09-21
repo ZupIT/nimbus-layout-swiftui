@@ -25,10 +25,10 @@ public let layout = NimbusSwiftUILibrary("layout")
     AnyView(try NimbusText(from: element.properties))
   }
   .addComponent("row") { (element, children) in
-    AnyView(Row(children: children, container: try Container(from: element.properties, id: element.id)))
+    AnyView(Row(children: children, container: try Container(from: element.properties)))
   }
   .addComponent("column") { (element, children) in
-    AnyView(Column(children: children, container: try Container(from: element.properties, id: element.id)))
+    AnyView(Column(children: children, container: try Container(from: element.properties)))
   }
   .addComponent("screen") { (element, children) in
     AnyView(try Screen(from: element.properties, children: children))
