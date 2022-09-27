@@ -26,6 +26,17 @@ protocol Insets {
   var vertical: Double? { get }
 }
 
+extension Insets {
+  private func isEmpty(_ value: Double?) -> Bool {
+    return value == nil || value == 0
+  }
+  
+  func isEmpty() -> Bool {
+    return isEmpty(all) && isEmpty(start) && isEmpty(end) && isEmpty(top)
+      && isEmpty(bottom) && isEmpty(horizontal) && isEmpty(vertical)
+  }
+}
+
 struct InsetsModifier: ViewModifier {
   var insets: Insets
   
@@ -61,7 +72,6 @@ struct InsetsModifier: ViewModifier {
   }
   
   func body(content: Content) -> some View {
-    content
-      .padding(edgeInsets)
+    content.applyIf(!insets.isEmpty()) { $0.padding(edgeInsets) }
   }
 }

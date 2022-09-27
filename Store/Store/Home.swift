@@ -29,8 +29,26 @@ class HomeModel: ObservableObject {
   }
 }
 
+class ObservedCart: ObservableObject, Dependent {
+  @Published var count = 0
+  private var globalState: ServerDrivenState? = nil
+  
+  func start(globalState: ServerDrivenState) {
+    self.globalState = globalState
+    update()
+    globalState.addDependent(dependent: self)
+  }
+  
+  func update() {
+    if let state = globalState?.get() as? [String: Any], let count = (state["cart"] as? [Any])?.count {
+      self.count = count
+    }
+  }
+}
+
 struct Home: View {
   @ObservedObject var model = HomeModel()
+  @ObservedObject var cart = ObservedCart()
   
   @State var badgeNumber = 0
   @State var nimbus: NimbusCore.Nimbus?
@@ -68,22 +86,19 @@ struct Home: View {
       ZStack {
         Circle()
           .foregroundColor(.red)
-        Text("\(self.badgeNumber)")
+        Text("\(self.cart.count)")
           .foregroundColor(.white)
           .font(Font.system(size: 12))
       }
       .frame(width: 20, height: 20)
       .offset(x: 2 * (geometry.size.width / 5), y: geometry.size.height - 45)
-      .opacity(self.badgeNumber == 0 ? 0 : 1)
+      .opacity(self.cart.count == 0 ? 0 : 1)
     }
     // configuring cart badge number
     .core { core in
       self.nimbus = core
-      core.globalState.onChange { newValue in
-        if let state = newValue as? [String: Any],
-           let count = (state["cart"] as? [Any])?.count {
-          badgeNumber = count
-        }
+      if let globalState = core.states?.last {
+        cart.start(globalState: globalState)
       }
     }
   }

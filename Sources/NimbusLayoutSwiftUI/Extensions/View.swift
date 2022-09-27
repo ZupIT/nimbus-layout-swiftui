@@ -31,6 +31,15 @@ extension View {
     print(string)
     return self
   }
+  
+  @ViewBuilder
+  func applyIf<Content: View>(_ condition: Bool, @ViewBuilder builder: (Self) -> Content) -> some View {
+    if (condition) {
+      builder(self)
+    } else {
+      self
+    }
+  }
 }
 
 struct SizePreferenceKey: PreferenceKey {

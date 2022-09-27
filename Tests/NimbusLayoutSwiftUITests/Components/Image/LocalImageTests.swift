@@ -39,7 +39,7 @@ class LocalImageTests: XCTestCase {
       }
       """)
     }
-    .layoutComponents()
+    .ui([layout])
     .imageProvider(MockedImageProvider())
     .frame(width: 80, height: 125)
   }

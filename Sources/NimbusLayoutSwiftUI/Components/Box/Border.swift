@@ -23,6 +23,10 @@ struct Border {
   var borderDashLength: Double = 1
   var borderDashSpacing: Double = 0
   var cornerRadius: Double = 0
+  
+  func isEmpty() -> Bool {
+    return borderWidth == 0
+  }
 }
 
 extension Border: Deserializable {
@@ -39,20 +43,21 @@ struct BorderModifier: ViewModifier {
   var border: Border
     
   func body(content: Content) -> some View {
-    content
-    .overlay(
-      RoundedRectangle(cornerRadius: border.cornerRadius)
-        .stroke(
-          border.borderColor,
-          style: StrokeStyle(
-            lineWidth: border.borderWidth * 2,
-            dash: [
-              border.borderDashLength,
-              border.borderDashSpacing
-            ]
+    content.applyIf(!border.isEmpty()) {
+      $0.overlay(
+        RoundedRectangle(cornerRadius: border.cornerRadius)
+          .stroke(
+            border.borderColor,
+            style: StrokeStyle(
+              lineWidth: border.borderWidth * 2,
+              dash: [
+                border.borderDashLength,
+                border.borderDashSpacing
+              ]
+            )
           )
-        )
-    )
-    .clipShape(RoundedRectangle(cornerRadius: border.cornerRadius))
+      )
+      .clipShape(RoundedRectangle(cornerRadius: border.cornerRadius))
+    }
   }
 }

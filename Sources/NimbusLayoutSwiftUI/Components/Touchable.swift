@@ -18,7 +18,7 @@ import SwiftUI
 import NimbusSwiftUI
 
 struct Touchable<Content>: View, HasAccessibility where Content: View {
-  var onPress: (Any?) -> Void
+  var onPress: () -> Void
   @ViewBuilder var children: () -> Content
   
   var accessibility: Accessibility
@@ -27,14 +27,15 @@ struct Touchable<Content>: View, HasAccessibility where Content: View {
     VStack(alignment: .leading, spacing: 0, content: children)
     .modifier(AccessibilityModifier(accessibility: accessibility))
     .onTapGesture {
-      onPress(nil)
+      onPress()
     }
   }
 }
 
 extension Touchable: Deserializable {
   init(from map: [String : Any]?, @ViewBuilder children: @escaping () -> Content) throws {
-    self.onPress = getMapFunction(map: map, name: "onPress")
+    let event = getMapEvent(map: map, name: "onPress")
+    self.onPress = { event?.run() }
     self.children = children
     self.accessibility = try Accessibility(from: map)
   }

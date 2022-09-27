@@ -14,28 +14,11 @@
  * limitations under the License.
  */
 
-import XCTest
-import SnapshotTesting
+import Foundation
 
-import NimbusLayoutSwiftUI
-
-class HelloTests: XCTestCase {
-  
-  func testHello() {
-    let view = Nimbus(baseUrl: "base") {
-      NimbusNavigator(json:
-      """
-      {
-        "_:component": "layout:text",
-        "properties": {
-          "text": "Hello!!!"
-        }
-      }
-      """)
+extension Collection {
+    /// Returns the element at the specified index if it is within bounds, otherwise nil.
+    subscript (safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
     }
-    .ui([layout])
-    .frame(width: 100, height: 100)
-    assertSnapshot(matching: view, as: .image)
-  }
-  
 }

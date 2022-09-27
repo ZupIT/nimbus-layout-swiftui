@@ -18,6 +18,7 @@ import XCTest
 import SwiftUI
 import SnapshotTesting
 import NimbusSwiftUI
+import NimbusLayoutSwiftUI
 
 class TextTests: XCTestCase {
   
@@ -46,7 +47,7 @@ class TextTests: XCTestCase {
         json
       )
     }
-    .layoutComponents()
+    .ui([layout])
     .frame(width: 80, height: 80)
   }
   
@@ -82,6 +83,6 @@ class TextTests: XCTestCase {
         json
       )
     }
-    .layoutComponents()
+    .ui([layout])
   }
 }

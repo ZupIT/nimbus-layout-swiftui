@@ -18,7 +18,7 @@ import SwiftUI
 import NimbusSwiftUI
 
 struct Box {
-  var backgroundColor: Color = .clear
+  var backgroundColor: Color? = nil
   var shadow: [Shadow]?
   
   var margin: Margin
@@ -29,7 +29,7 @@ struct Box {
 
 extension Box: Deserializable {
   init(from map: [String : Any]?) throws {
-    self.backgroundColor = try getMapColorDefault(map: map, name: "backgroundColor", default: .clear)
+    self.backgroundColor = try getMapColor(map: map, name: "backgroundColor")
     
     let shadowModel: [[String: Any]]? = try getMapProperty(map: map, name: "shadow")
     self.shadow = shadowModel?.compactMap { try? Shadow(from: $0) }
@@ -49,7 +49,7 @@ struct BoxModifier: ViewModifier {
     content
       .modifier(InsetsModifier(insets: box.padding))
       .modifier(SizeModifier(size: box.size, alignment: alignment))
-      .background(box.backgroundColor)
+      .applyIf(box.backgroundColor != nil) { $0.background(box.backgroundColor) }
       .modifier(BorderModifier(border: box.border))
       .modifier(ShadowModifier(shadows: box.shadow ?? []))
       .modifier(InsetsModifier(insets: box.margin))

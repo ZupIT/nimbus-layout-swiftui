@@ -17,11 +17,6 @@
 import NimbusCore
 import NimbusSwiftUI
 
-let operations: [String: NimbusSwiftUI.Operation] = [
-  "formatPrice": formatPrice,
-  "sumProducts": sumProducts
-]
-
 // TODO: create a wrapper function for KotlinArray returning a Swift Array
 let formatPrice: ([Any]) -> Any? = { array in
   if let value = array[0] as? Double, let code = array[1] as? String {

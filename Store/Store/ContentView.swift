@@ -22,12 +22,7 @@ struct ContentView: View {
     Nimbus(baseUrl: "http://127.0.0.1:3000") {
       Home()
     }
-    .layoutComponents()
-    .operations(operations)
-    .components(components)
-    .core { core in
-      core.globalState.set(newValue: [], path: "cart")
-    }
+    .ui([layout, storeUI])
   }
 }
 

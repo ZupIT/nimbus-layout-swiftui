@@ -112,7 +112,7 @@ struct ContentView: View {
       }
       """)
     }
-    .layoutComponents()
+    .ui([layout])
   }
 }
 

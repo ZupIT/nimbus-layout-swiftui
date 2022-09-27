@@ -49,8 +49,19 @@ struct Size {
   var minHeight: Double?
   var maxWidth: Double?
   var maxHeight: Double?
-  
   var clipped: Bool = false
+  
+  private func isEmpty(_ value: Double?) -> Bool {
+    return value == nil || value == 0
+  }
+  
+  func isFixedEmpty() -> Bool {
+    return width == .fitContent && height == .fitContent
+  }
+  
+  func isMinMaxEmpty() -> Bool {
+    return isEmpty(minWidth) && maxWidth == nil && isEmpty(minHeight) && maxHeight == nil && width != .expand && height != .expand
+  }
 }
 
 extension Size: Deserializable {
@@ -79,14 +90,18 @@ struct SizeModifier: ViewModifier {
   private var fixedWidth: Bool = false
   private var fixedHeight: Bool = false
   private let clipped: Bool
+  private let fixedEmpty: Bool
+  private let minMaxEmpty: Bool
   
   init (size: Size, alignment: Alignment?) {
     self.alignment = alignment ?? .topLeading
     clipped = size.clipped
+    fixedEmpty = size.isFixedEmpty()
+    minMaxEmpty = size.isMinMaxEmpty()
     switch(size.width) {
     case .expand:
       maxWidth = size.maxWidth ?? .infinity
-    case .fitContent, nil:
+    case .fitContent:
       if (size.minWidth != nil || size.maxWidth != nil) {
         minWidth = size.minWidth
         maxWidth = size.maxWidth
@@ -99,7 +114,7 @@ struct SizeModifier: ViewModifier {
     switch(size.height) {
     case .expand:
       maxHeight = size.maxHeight ?? .infinity
-    case .fitContent, nil:
+    case .fitContent:
       if (size.minHeight != nil || size.maxHeight != nil) {
         minHeight = size.minHeight
         maxHeight = size.maxHeight
@@ -116,30 +131,25 @@ struct SizeModifier: ViewModifier {
   
   func body(content: Content) -> some View {
     content
-      .frame(
-        minWidth: minWidth.cgFloat,
-        maxWidth: maxWidth.cgFloat,
-        minHeight: minHeight.cgFloat,
-        maxHeight: maxHeight.cgFloat,
-        alignment: alignment
-      )
-      .frame(
-        width: width.cgFloat,
-        height: height.cgFloat,
-        alignment: alignment
-      )
-      .fixedSize(horizontal: fixedWidth, vertical: fixedHeight)
-      .content(clipped: clipped)
-  }
-}
-
-private extension View {
-  @ViewBuilder
-  func content(clipped: Bool) -> some View {
-    if clipped {
-      self.clipped()
-    } else {
-      self
-    }
+      .applyIf(!minMaxEmpty) {
+        $0.frame(
+          minWidth: minWidth.cgFloat,
+          maxWidth: maxWidth.cgFloat,
+          minHeight: minHeight.cgFloat,
+          maxHeight: maxHeight.cgFloat,
+          alignment: alignment
+        )
+      }
+      .applyIf(!fixedEmpty) {
+        $0.frame(
+          width: width.cgFloat,
+          height: height.cgFloat,
+          alignment: alignment
+        )
+      }
+      .applyIf(fixedWidth || fixedHeight) {
+        $0.fixedSize(horizontal: fixedWidth, vertical: fixedHeight)
+      }
+      .applyIf(clipped) { $0.clipped() }
   }
 }
