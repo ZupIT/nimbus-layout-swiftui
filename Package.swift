@@ -28,7 +28,10 @@ let package = Package(
     )
   ],
   dependencies: [
-    .package(path: "../nimbus-swiftui"),
+    .package(
+      url: "https://github.com/ZupIT/nimbus-swiftui.git",
+      from: "1.0.0-alpha1"
+    ),
     .package(
       url: "https://github.com/pointfreeco/swift-snapshot-testing.git",
       from: "1.9.0"
