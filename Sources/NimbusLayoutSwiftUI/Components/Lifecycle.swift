@@ -15,23 +15,15 @@
  */
 
 import SwiftUI
-@testable import NimbusSwiftUI
+import NimbusSwiftUI
 
-struct Lifecycle<Content>: View where Content: View {
-  var onInit: () -> Void
-  var children: () -> Content
+struct Lifecycle<Content: View>: View, Decodable {
+  @Event var onInit: () -> Void
+  @Children var children: () -> Content
   
   var body: some View {
     VStack(alignment: .leading, spacing: 0, content: children).onLoad {
       onInit()
     }
-  }
-}
-
-extension Lifecycle: Deserializable {
-  init(from map: [String : Any]?, @ViewBuilder children: @escaping () -> Content) throws {
-    let event = getMapEvent(map: map, name: "onInit")
-    self.onInit = { event?.run() }
-    self.children = children
   }
 }

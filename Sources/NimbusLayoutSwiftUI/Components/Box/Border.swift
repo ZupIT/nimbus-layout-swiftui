@@ -15,35 +15,29 @@
  */
 
 import SwiftUI
-import NimbusSwiftUI
 
-struct Border {
-  var borderColor: Color = .black
-  var borderWidth: Double = 0
-  var borderDashLength: Double = 1
-  var borderDashSpacing: Double = 0
-  var cornerRadius: Double = 0
+struct Border: Decodable {
+  @Default<ColorBlack>
+  var borderColor: Color
   
-  func isEmpty() -> Bool {
-    return borderWidth == 0
-  }
-}
-
-extension Border: Deserializable {
-  init(from map: [String : Any]?) throws {
-    self.borderColor = try getMapColorDefault(map: map, name: "borderColor", default: .black)
-    self.borderWidth = try getMapPropertyDefault(map: map, name: "borderWidth", default: 0)
-    self.borderDashLength = try getMapPropertyDefault(map: map, name: "borderDashLength", default: 1)
-    self.borderDashSpacing = try getMapPropertyDefault(map: map, name: "borderDashSpacing", default: 0)
-    self.cornerRadius = try getMapPropertyDefault(map: map, name: "cornerRadius", default: 0)
-  }
+  @Default<DoubleZero>
+  var borderWidth: Double
+  
+  @Default<DoubleOne>
+  var borderDashLength: Double
+  
+  @Default<DoubleZero>
+  var borderDashSpacing: Double
+  
+  @Default<DoubleZero>
+  var cornerRadius: Double
 }
 
 struct BorderModifier: ViewModifier {
   var border: Border
     
   func body(content: Content) -> some View {
-    content.applyIf(!border.isEmpty()) {
+    content.applyIf(border.borderWidth > 0) {
       $0.overlay(
         RoundedRectangle(cornerRadius: border.cornerRadius)
           .stroke(

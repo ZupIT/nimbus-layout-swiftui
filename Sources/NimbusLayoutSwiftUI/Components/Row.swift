@@ -17,9 +17,10 @@
 import SwiftUI
 import NimbusSwiftUI
 
-struct Row<Content>: View, HasContainer where Content: View {
-  @ViewBuilder var children: () -> Content
-  var container: Container
+struct Row<Content: View>: View, Decodable, HasContainer {
+  
+  @Children var children: () -> Content
+  @Root var container: Container
   
   var body: some View {
     ContainerView(direction: .row, model: container, children: children)

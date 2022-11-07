@@ -17,11 +17,10 @@
 import SwiftUI
 import NimbusSwiftUI
 
-struct Stack<Content>: View where Content: View {
+struct Stack<Content: View>: View, Decodable {
   
-  var box: Box
-  
-  var children: () -> Content
+  @Root var box: Box
+  @Children var children: () -> Content
   
   var body: some View {
     ZStack(content: children).modifier(BoxModifier(box: box))
@@ -29,35 +28,23 @@ struct Stack<Content>: View where Content: View {
   
 }
 
-extension Stack: Deserializable {
-  init(from map: [String : Any]?, @ViewBuilder children: @escaping () -> Content) throws {
-    self.box = try Box(from: map)
-    self.children = children
-  }
-}
-
 // MARK: - Positioned
 
-struct Positioned<Content>: View where Content: View {
+struct Positioned<Content>: View, Decodable where Content: View {
   
-  enum Alignment: String {
-    case topStart
-    case topEnd
-    case bottomStart
-    case bottomEnd
-    case topCenter
-    case bottomCenter
-    case centerStart
-    case centerEnd
-    case center
-  }
-  var alignment: Alignment = .topStart
+  @Default<TopStart>
+  var alignment: PositionedAlignment
   
-  var x: Double = 0
-  var y: Double = 0
+  @Default<DoubleZero>
+  var x: Double
   
+  @Default<DoubleZero>
+  var y: Double
+  
+  @Root
   var box: Box
   
+  @Children
   var children: () -> Content
   
   var body: some View {
@@ -71,19 +58,24 @@ struct Positioned<Content>: View where Content: View {
   
 }
 
-extension Positioned: Deserializable {
-  init(from map: [String : Any]?, @ViewBuilder children: @escaping () -> Content) throws {
-    self.alignment = try getMapEnumDefault(map: map, name: "alignment", default: .topStart)
-    self.x = try getMapPropertyDefault(map: map, name: "x", default: 0)
-    self.y = try getMapPropertyDefault(map: map, name: "y", default: 0)
-    
-    self.box = try Box(from: map)
-    self.children = children
-  }
+enum PositionedAlignment: String, Decodable {
+  case topStart
+  case topEnd
+  case bottomStart
+  case bottomEnd
+  case topCenter
+  case bottomCenter
+  case centerStart
+  case centerEnd
+  case center
 }
 
-extension Positioned.Alignment {
-  var zstack: Alignment {
+struct TopStart: DefaultProtocol {
+  static var defaultValue = PositionedAlignment.topStart
+}
+
+extension PositionedAlignment {
+  var zstack: SwiftUI.Alignment {
     switch self {
     case .topStart: return .topLeading
     case .topEnd: return .topTrailing

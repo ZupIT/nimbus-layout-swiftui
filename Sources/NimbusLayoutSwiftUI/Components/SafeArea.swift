@@ -15,9 +15,8 @@
  */
 
 import SwiftUI
-import NimbusSwiftUI
 
-enum SafeAreaEdge: String {
+enum SafeAreaEdge: String, Decodable {
   case top
   case bottom
   case trailing

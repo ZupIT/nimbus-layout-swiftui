@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-import NimbusSwiftUI
-
-struct Padding: Insets {
+struct Padding: Insets, Decodable {
   var all: Double?
   var start: Double?
   var end: Double?
@@ -24,16 +22,4 @@ struct Padding: Insets {
   var bottom: Double?
   var horizontal: Double?
   var vertical: Double?
-}
-
-extension Padding: Deserializable {
-  init(from map: [String : Any]?) throws {
-    self.all = try getMapProperty(map: map, name: "padding")
-    self.start = try getMapProperty(map: map, name: "paddingStart")
-    self.end = try getMapProperty(map: map, name: "paddingEnd")
-    self.top = try getMapProperty(map: map, name: "paddingTop")
-    self.bottom = try getMapProperty(map: map, name: "paddingBottom")
-    self.horizontal = try getMapProperty(map: map, name: "paddingHorizontal")
-    self.vertical = try getMapProperty(map: map, name: "paddingVertical")
-  }
 }

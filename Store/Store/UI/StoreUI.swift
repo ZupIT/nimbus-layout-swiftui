@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-import Foundation
 import SwiftUI
 import NimbusSwiftUI
 
 let storeUI = NimbusSwiftUILibrary("store")
-  .addComponent("spinner") { element, _ in
+  .addComponent("spinner") { _ in
     AnyView(ProgressView())
   }
-  .addComponent("button") { element, _ in
-    AnyView(try CustomButton(from: element.properties))
-  }
-  .addComponent("textInput") { element, _ in
-    AnyView(try TextInput(from: element.properties))
-  }
+  .addComponent("button", CustomButton.self)
+  .addComponent("textInput", TextInput.self)
   .addOperation("formatPrice", handler: formatPrice)
   .addOperation("sumProducts", handler: sumProducts)

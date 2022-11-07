@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-import NimbusSwiftUI
-
-struct Margin: Insets {
+struct Margin: Insets, Decodable {
   var all: Double?
   var start: Double?
   var end: Double?
@@ -24,16 +22,4 @@ struct Margin: Insets {
   var bottom: Double?
   var horizontal: Double?
   var vertical: Double?
-}
-
-extension Margin: Deserializable {
-  init(from map: [String : Any]?) throws {
-    self.all = try getMapProperty(map: map, name: "margin")
-    self.start = try getMapProperty(map: map, name: "marginStart")
-    self.end = try getMapProperty(map: map, name: "marginEnd")
-    self.top = try getMapProperty(map: map, name: "marginTop")
-    self.bottom = try getMapProperty(map: map, name: "marginBottom")
-    self.horizontal = try getMapProperty(map: map, name: "marginHorizontal")
-    self.vertical = try getMapProperty(map: map, name: "marginVertical")
-  }
 }

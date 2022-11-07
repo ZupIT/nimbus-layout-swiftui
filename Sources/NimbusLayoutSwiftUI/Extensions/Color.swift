@@ -15,7 +15,6 @@
  */
 
 import SwiftUI
-import NimbusSwiftUI
 
 extension Color {
   /// Create a color from hex String.
@@ -46,22 +45,13 @@ extension Color {
   }
 }
 
-private extension Optional where Wrapped == String {
-  var color: Color? {
-    switch self {
-    case .none:
-      return nil
-    case .some(let wrapped):
-      return Color(hex: wrapped)
+extension Color: Decodable {
+  public init(from decoder: Decoder) throws {
+    let container = try decoder.singleValueContainer()
+    let hexColor = try container.decode(String.self)
+    guard let color = Color(hex: hexColor) else {
+      fatalError("cannot decode color")
     }
+    self = color
   }
-}
-
-func getMapColorDefault(map: [String: Any]?, name: String, default: Color) throws -> Color {
-  return try getMapColor(map: map, name: name) ?? `default`
-}
-
-func getMapColor(map: [String: Any]?, name: String) throws -> Color? {
-  let colorString: String? = try getMapProperty(map: map, name: name)
-  return colorString.color
 }

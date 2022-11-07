@@ -28,11 +28,11 @@ protocol Insets {
 
 extension Insets {
   private func isEmpty(_ value: Double?) -> Bool {
-    return value == nil || value == 0
+    value == nil || value == 0
   }
   
   func isEmpty() -> Bool {
-    return isEmpty(all) && isEmpty(start) && isEmpty(end) && isEmpty(top)
+    isEmpty(all) && isEmpty(start) && isEmpty(end) && isEmpty(top)
       && isEmpty(bottom) && isEmpty(horizontal) && isEmpty(vertical)
   }
 }

@@ -17,16 +17,9 @@
 import SwiftUI
 import NimbusSwiftUI
 
-struct Accessibility {
+struct Accessibility: Decodable {
   var label: String?
   var isHeader: Bool?
-}
-
-extension Accessibility: Deserializable {
-  init(from map: [String : Any]?) throws {
-    self.label = try getMapProperty(map: map, name: "label")
-    self.isHeader = try getMapProperty(map: map, name: "isHeader")
-  }
 }
 
 protocol HasAccessibility {

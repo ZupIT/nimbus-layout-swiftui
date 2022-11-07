@@ -16,19 +16,14 @@
 
 import SwiftUI
 
-enum ImageScale: String {
+enum ImageScale: String, Decodable {
   case fillHeight // CENTER_CROP
   case fillWidth // FIT_CENTER
   case fillBounds // FIT_XY
   case center // CENTER
 }
 
-protocol BaseImage: HasAccessibility {
-  var scale: ImageScale { get }
-  var size: Size { get }
-}
-
-struct BaseImageView: View, BaseImage {
+struct BaseImageView: View {
   @ObservedObject var model: BaseImageViewModel = BaseImageViewModel()
   var mode: BaseImageViewModel.Mode
   

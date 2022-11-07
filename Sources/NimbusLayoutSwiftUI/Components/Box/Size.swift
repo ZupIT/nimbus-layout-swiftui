@@ -15,41 +15,43 @@
  */
 
 import SwiftUI
-import NimbusSwiftUI
 
-
-enum AdaptiveSize: Equatable {
+enum AdaptiveSize: Equatable, Decodable {
   case expand
   case fitContent
   case fixed(Double)
   
-  static func fromAny(value: Any?) throws -> AdaptiveSize? {
-    if (value is Int) {
-      return .fixed(Double(value as! Int))
-    }
-    if (value is Double) {
-      return .fixed(value as! Double)
-    }
-    if (value is String) {
-      if ((value as! String) == "expand") {
-        return .expand
+  init(from decoder: Decoder) throws {
+    let container = try decoder.singleValueContainer()
+    if let value = try? container.decode(Int.self) {
+      self = .fixed(Double(value))
+    } else if let value = try? container.decode(Double.self) {
+      self = .fixed(value)
+    } else {
+      let string = try container.decode(String.self)
+      switch string {
+      case "expand": self = .expand
+      case "fitContent": self = .fitContent
+      default: fatalError()
       }
-      if ((value as! String) == "fitContent") {
-        return .fitContent
-      }
     }
-    return nil
   }
 }
 
-struct Size {
-  var width: AdaptiveSize = .fitContent
-  var height: AdaptiveSize = .fitContent
+struct Size: Decodable {
+  @Default<FitContent>
+  var width: AdaptiveSize
+  
+  @Default<FitContent>
+  var height: AdaptiveSize
+  
   var minWidth: Double?
   var minHeight: Double?
   var maxWidth: Double?
   var maxHeight: Double?
-  var clipped: Bool = false
+  
+  @Default<False>
+  var clipped: Bool
   
   private func isEmpty(_ value: Double?) -> Bool {
     return value == nil || value == 0
@@ -62,20 +64,9 @@ struct Size {
   func isMinMaxEmpty() -> Bool {
     return isEmpty(minWidth) && maxWidth == nil && isEmpty(minHeight) && maxHeight == nil && width != .expand && height != .expand
   }
-}
-
-extension Size: Deserializable {
-  init(from map: [String : Any]?) throws {
-    let width: Any? = try getMapProperty(map: map, name: "width")
-    self.width = try AdaptiveSize.fromAny(value: width) ?? .fitContent
-    let height: Any? = try getMapProperty(map: map, name: "height")
-    self.height = try AdaptiveSize.fromAny(value: height) ?? .fitContent
-    self.minWidth = try getMapProperty(map: map, name: "minWidth")
-    self.minHeight = try getMapProperty(map: map, name: "minHeight")
-    self.maxWidth = try getMapProperty(map: map, name: "maxWidth")
-    self.maxHeight = try getMapProperty(map: map, name: "maxHeight")
-    
-    self.clipped = try getMapPropertyDefault(map: map, name: "clipped", default: false)
+  
+  struct FitContent: DefaultProtocol {
+    static var defaultValue = AdaptiveSize.fitContent
   }
 }
 
