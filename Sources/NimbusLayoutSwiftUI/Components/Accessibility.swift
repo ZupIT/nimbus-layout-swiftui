@@ -27,12 +27,12 @@ protocol HasAccessibility {
 }
 
 struct AccessibilityModifier: ViewModifier {
-  var accessibility: Accessibility
+  var accessibility: Accessibility?
     
   func body(content: Content) -> some View {
     content
-      .label(accessibility.label)
-      .isHeader(accessibility.isHeader)
+      .label(accessibility?.label)
+      .isHeader(accessibility?.isHeader)
   }
 }
 

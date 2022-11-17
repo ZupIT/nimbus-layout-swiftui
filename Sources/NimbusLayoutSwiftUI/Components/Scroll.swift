@@ -20,7 +20,7 @@ import NimbusSwiftUI
 struct Scroll<Content: View>: View, Decodable {
   
   @Children var children: () -> Content
-  var direction: Direction // = .vertical
+  var direction: Direction?
   enum Direction: String, Decodable {
     case vertical
     case horizontal
@@ -30,7 +30,10 @@ struct Scroll<Content: View>: View, Decodable {
   @Default<True> var scrollIndicator: Bool
   
   var body: some View {
-    ScrollView(direction.axis, showsIndicators: scrollIndicator) {
+    ScrollView(
+      direction?.axis ?? Direction.vertical.axis,
+      showsIndicators: scrollIndicator
+    ) {
       VStack(alignment: .leading, spacing: 0, content: children)
     }
   }

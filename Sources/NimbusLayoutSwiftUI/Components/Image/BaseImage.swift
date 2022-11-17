@@ -31,7 +31,7 @@ struct BaseImageView: View {
   
   var scale: ImageScale
   var size: Size
-  var accessibility: Accessibility
+  var accessibility: Accessibility?
   
   var body: some View {
     switch model.state {

@@ -27,11 +27,6 @@ extension View {
     .onPreferenceChange(SizePreferenceKey.self, perform: onChange)
   }
   
-  func debug(_ string: String) -> some View {
-    print(string)
-    return self
-  }
-  
   @ViewBuilder
   func applyIf<Content: View>(_ condition: Bool, @ViewBuilder builder: (Self) -> Content) -> some View {
     if (condition) {

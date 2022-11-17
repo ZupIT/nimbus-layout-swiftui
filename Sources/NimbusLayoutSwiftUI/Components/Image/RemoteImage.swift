@@ -22,7 +22,7 @@ struct RemoteImage: View, Decodable {
   
   var scale: ImageScale?
   @Root var size: Size
-  var accessibility: Accessibility
+  var accessibility: Accessibility?
   
   var body: some View {
     BaseImageView(

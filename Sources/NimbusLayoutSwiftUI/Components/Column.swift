@@ -18,7 +18,6 @@ import SwiftUI
 import NimbusSwiftUI
 
 struct Column<Content: View>: View, Decodable, HasContainer {
-  
   @Children var children: () -> Content
   @Root var container: Container
   

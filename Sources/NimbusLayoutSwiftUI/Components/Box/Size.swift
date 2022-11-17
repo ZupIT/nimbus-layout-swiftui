@@ -32,7 +32,10 @@ enum AdaptiveSize: Equatable, Decodable {
       switch string {
       case "expand": self = .expand
       case "fitContent": self = .fitContent
-      default: fatalError()
+      default:
+        throw DecodingError.dataCorrupted(
+          DecodingError.Context(codingPath: container.codingPath, debugDescription: "Invalid adaptiveSize content.")
+        )
       }
     }
   }

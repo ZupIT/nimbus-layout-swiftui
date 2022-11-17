@@ -50,7 +50,7 @@ extension Color: Decodable {
     let container = try decoder.singleValueContainer()
     let hexColor = try container.decode(String.self)
     guard let color = Color(hex: hexColor) else {
-      fatalError("cannot decode color")
+      throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: container.codingPath, debugDescription: "Invalid color string."))
     }
     self = color
   }

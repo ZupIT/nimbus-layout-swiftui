@@ -47,4 +47,4 @@ jobs:
       - name: xcodebuild
         run: |
           cd nimbus-layout-swiftui
-          xcodebuild test -scheme NimbusLayoutSwiftUI -workspace NimbusLayout.xcworkspace -destination 'platform=iOS Simulator,name=iPhone 13 mini,OS=15.2' | xcpretty && exit ${PIPESTATUS[0]}
+          set -o pipefail && xcodebuild test -scheme NimbusLayoutSwiftUI -workspace NimbusLayout.xcworkspace -destination 'platform=iOS Simulator,name=iPhone 13 mini,OS=15.2' | xcpretty && exit ${PIPESTATUS[0]}

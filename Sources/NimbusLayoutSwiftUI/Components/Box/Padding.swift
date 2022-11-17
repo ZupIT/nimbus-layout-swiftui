@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-struct Padding: Insets, Decodable {
+struct Padding: Insets {
   var all: Double?
   var start: Double?
   var end: Double?
@@ -22,4 +22,27 @@ struct Padding: Insets, Decodable {
   var bottom: Double?
   var horizontal: Double?
   var vertical: Double?
+}
+
+extension Padding: Decodable {
+  enum CodingKeys: String, CodingKey {
+    case all = "padding"
+    case start = "paddingStart"
+    case end = "paddingEnd"
+    case top = "paddingTop"
+    case bottom = "paddingBottom"
+    case horizontal = "paddingHorizontal"
+    case vertical = "paddingVertical"
+  }
+  
+  init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    self.all = try container.decodeIfPresent(Double.self, forKey: .all)
+    self.start = try container.decodeIfPresent(Double.self, forKey: .start)
+    self.end = try container.decodeIfPresent(Double.self, forKey: .end)
+    self.top = try container.decodeIfPresent(Double.self, forKey: .top)
+    self.bottom = try container.decodeIfPresent(Double.self, forKey: .bottom)
+    self.horizontal = try container.decodeIfPresent(Double.self, forKey: .horizontal)
+    self.vertical = try container.decodeIfPresent(Double.self, forKey: .vertical)
+  }
 }
