@@ -27,8 +27,14 @@ public let layout = NimbusSwiftUILibrary("layout")
   .addComponent("row") { (element, children) in
     AnyView(Row(children: children, container: try Container(from: element.properties)))
   }
+  .addComponent("lazyRow") { (element, children) in
+    AnyView(LazyRow(children: children, container: try Container(from: element.properties)))
+  }
   .addComponent("column") { (element, children) in
     AnyView(Column(children: children, container: try Container(from: element.properties)))
+  }
+  .addComponent("lazyColumn") { (element, children) in
+    AnyView(LazyColumn(children: children, container: try Container(from: element.properties)))
   }
   .addComponent("screen") { (element, children) in
     AnyView(try Screen(from: element.properties, children: children))
