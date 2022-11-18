@@ -15,25 +15,22 @@
  */
 
 import SwiftUI
-import NimbusSwiftUI
 
-struct Shadow {
-  var x: Double = 0
-  var y: Double = 0
-  var blur: Double = 0
-  var color: Color = .black
+struct Shadow: Decodable {
+  @Default<DoubleZero>
+  var x: Double
+  
+  @Default<DoubleZero>
+  var y: Double
+  
+  @Default<DoubleZero>
+  var blur: Double
+  
+  @Default<ColorBlack>
+  var color: Color
   
   func isEmpty() -> Bool {
-    return x == 0 && y == 0 && blur == 0
-  }
-}
-
-extension Shadow: Deserializable {
-  init(from map: [String : Any]?) throws {
-    self.x = try getMapPropertyDefault(map: map, name: "x", default: 0)
-    self.y = try getMapPropertyDefault(map: map, name: "y", default: 0)
-    self.blur = try getMapPropertyDefault(map: map, name: "blur", default: 0)
-    self.color = try getMapColorDefault(map: map, name: "color", default: .black)
+    x == 0 && y == 0 && blur == 0
   }
 }
 
@@ -60,9 +57,8 @@ struct ShadowModifier: ViewModifier {
 }
 
 private extension View {
-  @ViewBuilder
   func applyShadow(shadow: Shadow?) -> some View {
-    self.applyIf(shadow?.isEmpty() == false) {
+    applyIf(shadow?.isEmpty() == false) {
       $0.shadow(
         color: shadow!.color,
         radius: shadow!.blur,

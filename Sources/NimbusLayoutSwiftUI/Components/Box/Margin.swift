@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import NimbusSwiftUI
-
 struct Margin: Insets {
   var all: Double?
   var start: Double?
@@ -26,14 +24,25 @@ struct Margin: Insets {
   var vertical: Double?
 }
 
-extension Margin: Deserializable {
-  init(from map: [String : Any]?) throws {
-    self.all = try getMapProperty(map: map, name: "margin")
-    self.start = try getMapProperty(map: map, name: "marginStart")
-    self.end = try getMapProperty(map: map, name: "marginEnd")
-    self.top = try getMapProperty(map: map, name: "marginTop")
-    self.bottom = try getMapProperty(map: map, name: "marginBottom")
-    self.horizontal = try getMapProperty(map: map, name: "marginHorizontal")
-    self.vertical = try getMapProperty(map: map, name: "marginVertical")
+extension Margin: Decodable {
+  enum CodingKeys: String, CodingKey {
+    case all = "margin"
+    case start = "marginStart"
+    case end = "marginEnd"
+    case top = "marginTop"
+    case bottom = "marginBottom"
+    case horizontal = "marginHorizontal"
+    case vertical = "marginVertical"
+  }
+  
+  init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    self.all = try container.decodeIfPresent(Double.self, forKey: .all)
+    self.start = try container.decodeIfPresent(Double.self, forKey: .start)
+    self.end = try container.decodeIfPresent(Double.self, forKey: .end)
+    self.top = try container.decodeIfPresent(Double.self, forKey: .top)
+    self.bottom = try container.decodeIfPresent(Double.self, forKey: .bottom)
+    self.horizontal = try container.decodeIfPresent(Double.self, forKey: .horizontal)
+    self.vertical = try container.decodeIfPresent(Double.self, forKey: .vertical)
   }
 }

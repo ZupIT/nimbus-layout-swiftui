@@ -17,9 +17,9 @@
 import SwiftUI
 import NimbusSwiftUI
 
-struct LazyRow<Content>: View, HasContainer where Content: View {
-  @ViewBuilder var children: () -> Content
-  var container: Container
+struct LazyRow<Content: View>: View, Decodable, HasContainer {
+  @Children var children: () -> Content
+  @Root var container: Container
   
   var body: some View {
     ContainerView(direction: .row, model: container, children: children, isLazy: true)

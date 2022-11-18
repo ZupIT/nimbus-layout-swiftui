@@ -18,30 +18,31 @@ import XCTest
 import SwiftUI
 import SnapshotTesting
 
+@testable import NimbusSwiftUI
 @testable import NimbusLayoutSwiftUI
 
 class SizeTests: XCTestCase {
   func testModifier() throws {
-    var size = Size(maxWidth: 50, maxHeight: 50, clipped: true)
-    
+    var size = try NimbusDecoder.decode(Size.self, from: ["maxWidth": Double(50), "maxHeight": Double(50), "clipped": true])
+
     let view = ZStack(alignment: .top) {
       Color.blue.frame(width: 60, height: 60)
     }
-    
+
     assertSnapshot(matching: view.modifier(SizeModifier(size: size)), as: .image, named: "maxSize")
-    
+
     size.minWidth = 45
     size.minHeight = 35
     assertSnapshot(matching: view.modifier(SizeModifier(size: size)), as: .image, named: "bounded")
-    
+
     size.width = .fixed(30)
     size.height = .fixed(20)
     assertSnapshot(matching: view.modifier(SizeModifier(size: size)), as: .image, named: "fixed")
-    
+
     size.clipped = false
     let newView = ZStack { view.modifier(SizeModifier(size: size, alignment: .center)) }.frame(width: 70, height: 70)
     assertSnapshot(matching: newView, as: .image, named: "unclipped")
-    
+
     let minSize = Size(minWidth: 90, minHeight: 70)
     assertSnapshot(matching: view.modifier(SizeModifier(size: minSize, alignment: .center)), as: .image, named: "minSize")
   }

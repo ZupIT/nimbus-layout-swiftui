@@ -15,33 +15,21 @@
  */
 
 import SwiftUI
-import NimbusSwiftUI
 
-struct RemoteImage: View, BaseImage {
+struct RemoteImage: View, Decodable {
   var url: String
   var placeholder: String?
   
-  var scale: ImageScale
-  var size: Size
-  var accessibility: Accessibility
+  var scale: ImageScale?
+  @Root var size: Size
+  var accessibility: Accessibility?
   
   var body: some View {
     BaseImageView(
       mode: .remote(url, placeholder: placeholder),
-      scale: scale,
+      scale: scale ?? .center,
       size: size,
       accessibility: accessibility
     )
-  }
-}
-
-extension RemoteImage: Deserializable {
-  init(from map: [String : Any]?) throws {
-    self.url = try getMapProperty(map: map, name: "url")
-    self.placeholder = try getMapProperty(map: map, name: "placeholder")
-    self.scale = try getMapEnumDefault(map: map, name: "scale", default: .center)
-    
-    self.size = try Size.init(from: map)
-    self.accessibility = try Accessibility.init(from: (map?["accessibility"] as? [String: Any]))
   }
 }

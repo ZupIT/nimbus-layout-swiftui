@@ -17,21 +17,23 @@
 import SwiftUI
 import NimbusSwiftUI
 
-struct Scroll<Content>: View where Content: View {
+struct Scroll<Content: View>: View, Decodable {
   
-  @ViewBuilder var children: () -> Content
-  
-  private let  direction: Direction
-  enum Direction: String {
+  @Children var children: () -> Content
+  var direction: Direction?
+  enum Direction: String, Decodable {
     case vertical
     case horizontal
     case both
   }
-  
-  private let scrollIndicator: Bool
+    
+  @Default<True> var scrollIndicator: Bool
   
   var body: some View {
-    ScrollView(direction.axis, showsIndicators: scrollIndicator) {
+    ScrollView(
+      direction?.axis ?? Direction.vertical.axis,
+      showsIndicators: scrollIndicator
+    ) {
       VStack(alignment: .leading, spacing: 0, content: children)
     }
   }
@@ -47,13 +49,5 @@ extension Scroll.Direction {
     case .horizontal:
       return .horizontal
     }
-  }
-}
-
-extension Scroll: Deserializable {
-  init(from map: [String : Any]?, @ViewBuilder children: @escaping () -> Content) throws {
-    self.direction = try getMapEnumDefault(map: map, name: "direction", default: .vertical)
-    self.scrollIndicator = try getMapPropertyDefault(map: map, name: "scrollIndicator", default: true)
-    self.children = children
   }
 }

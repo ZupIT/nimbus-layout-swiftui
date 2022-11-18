@@ -15,15 +15,14 @@
  */
 
 import SwiftUI
-import NimbusSwiftUI
 
-enum CrossAxisAlignment: String {
+enum CrossAxisAlignment: String, Decodable {
   case start
   case end
   case center
 }
 
-enum MainAxisAlignment: String {
+enum MainAxisAlignment: String, Decodable {
   case start
   case end
   case center
@@ -138,17 +137,22 @@ struct AlignedOnMainAxis: _VariadicView_UnaryViewRoot {
   }
 }
 
-struct Container {
+struct Container: Decodable {
+  @Default<CrossAxisAlignmentStart>
   var crossAxisAlignment: CrossAxisAlignment
+  
+  @Default<MainAxisAlignmentStart>
   var mainAxisAlignment: MainAxisAlignment
+  
+  @Root
   var box: Box
-}
-
-extension Container: Deserializable {
-  init(from map: [String : Any]?) throws {
-    self.crossAxisAlignment = try getMapEnumDefault(map: map, name: "crossAxisAlignment", default: .start)
-    self.mainAxisAlignment = try getMapEnumDefault(map: map, name: "mainAxisAlignment", default: .start)
-    self.box = try Box(from: map)
+  
+  struct CrossAxisAlignmentStart: DefaultProtocol {
+    static var defaultValue = CrossAxisAlignment.start
+  }
+  
+  struct MainAxisAlignmentStart: DefaultProtocol {
+    static var defaultValue = MainAxisAlignment.start
   }
 }
 

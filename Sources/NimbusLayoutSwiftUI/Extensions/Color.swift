@@ -15,13 +15,15 @@
  */
 
 import SwiftUI
-import NimbusSwiftUI
 
 extension Color {
   /// Create a color from hex String.
   /// Format:  #RRGGBB[AA]
   init?(hex: String) {
-    guard hex.range(of: "^#[0-9A-F]{6,8}$", options: [.regularExpression, .caseInsensitive]) != nil else {
+    func expand(_ shortColor: UInt64) -> UInt64 {
+      shortColor | (shortColor << 4)
+    }
+    guard hex.range(of: "^#[0-9A-F]{3,8}$", options: [.regularExpression, .caseInsensitive]) != nil else {
       return nil
     }
     var int = UInt64()
@@ -30,6 +32,16 @@ extension Color {
     let r, g, b, a: UInt64
     switch hexDigits.count {
       
+    case 3: // Short RGB (12-bit)
+      r = expand(int >> 8)
+      g = expand(int >> 4 & 0x0F)
+      b = expand(int & 0x0F)
+      a = 255
+    case 4: // Short RGBA (16-bit)
+      r = expand(int >> 12)
+      g = expand(int >> 8 & 0x0F)
+      b = expand(int >> 4 & 0x0F)
+      a = expand(int & 0x0F)
     case 6: // RGB (24-bit)
       (r, g, b, a) = (int >> 16, int >> 8 & 0xFF, int & 0xFF, 255)
     case 8: // RGBA (32-bit)
@@ -46,22 +58,13 @@ extension Color {
   }
 }
 
-private extension Optional where Wrapped == String {
-  var color: Color? {
-    switch self {
-    case .none:
-      return nil
-    case .some(let wrapped):
-      return Color(hex: wrapped)
+extension Color: Decodable {
+  public init(from decoder: Decoder) throws {
+    let container = try decoder.singleValueContainer()
+    let hexColor = try container.decode(String.self)
+    guard let color = Color(hex: hexColor) else {
+      throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: container.codingPath, debugDescription: "Invalid color string."))
     }
+    self = color
   }
-}
-
-func getMapColorDefault(map: [String: Any]?, name: String, default: Color) throws -> Color {
-  return try getMapColor(map: map, name: name) ?? `default`
-}
-
-func getMapColor(map: [String: Any]?, name: String) throws -> Color? {
-  let colorString: String? = try getMapProperty(map: map, name: name)
-  return colorString.color
 }
