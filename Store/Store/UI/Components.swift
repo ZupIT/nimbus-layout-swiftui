@@ -16,11 +16,12 @@
 
 import SwiftUI
 import NimbusSwiftUI
-import NimbusLayoutSwiftUI
 
 // MARK: - store:button
-struct CustomButton: View {
+struct CustomButton: View, Decodable {
   var text: String
+  
+  @Event
   var onPress: () -> Void
   
   var body: some View {
@@ -30,28 +31,17 @@ struct CustomButton: View {
   }
 }
 
-extension CustomButton: Deserializable {
-  init(from map: [String : Any]?) throws {
-    self.text = try getMapProperty(map: map, name: "text")
-    let event = getMapEvent(map: map, name: "onPress")
-    self.onPress = {
-      //Task {
-      event?.run()
-      //}
-    }
-  }
-}
-
 // MARK: - store:textInput
-struct TextInput: View {
+struct TextInput: View, Decodable {
   var placeholder: String
+  
   @State var value: String
-  var onChange: ((String) -> Void)? = nil
+  @StatefulEvent var onChange: (String) -> Void
   
   var body: some View {
     TextField(placeholder, text: $value)
       .onChange(of: value) {
-        onChange?($0)
+        onChange($0)
       }
       .padding(.horizontal, 8)
       .padding(.vertical, 12)
@@ -59,21 +49,20 @@ struct TextInput: View {
       .background(Color.white)
       .cornerRadius(6)
       .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(Color(red: 227/255, green: 227/255, blue: 227/255), lineWidth: 1))
-      
   }
-}
-
-extension TextInput: Deserializable {
-  init(from map: [String : Any]?) throws {
-    self.placeholder = try getMapProperty(map: map, name: "placeholder")
-    self.value = try getMapProperty(map: map, name: "value")
+  
+  enum CodingKeys: CodingKey {
+    case placeholder
+    case value
+    case onChange
+  }
+  
+  init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    self.placeholder = try container.decode(String.self, forKey: .placeholder)
     
-    self.onChange = nil
-    if map?["onChange"] != nil {
-      let event = getMapEvent(map: map, name: "onChange")
-      self.onChange = {
-        string in event?.run(implicitStateValue: string)
-      }
-    }
+    let value = try container.decodeIfPresent(String.self, forKey: .value)
+    self._value = State(wrappedValue: value ?? "")
+    self._onChange = try container.decode(StatefulEvent<String>.self, forKey: .onChange)
   }
 }

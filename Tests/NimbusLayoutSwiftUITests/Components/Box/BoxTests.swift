@@ -18,19 +18,22 @@ import XCTest
 import SwiftUI
 import SnapshotTesting
 
+@testable import NimbusSwiftUI
 @testable import NimbusLayoutSwiftUI
 
 class BoxTests: XCTestCase {
   
   func testModifier() throws {
-    let box = Box(
-      backgroundColor: .red,
-      shadow: [Shadow(blur: 4, color: .red)],
-      margin: Margin(all: 5),
-      padding: Padding(all: 5),
-      size: Size(width: .fixed(50), height: .fixed(50), clipped: true),
-      border: Border(borderWidth: 1)
-    )
+    let box = try NimbusDecoder.decode(Box.self, from: [
+      "backgroundColor": "#FF0000",
+      "shadow": [["blur": 4.0, "color": "#FF0000"]],
+      "margin": 5.0,
+      "padding": 5.0,
+      "width": 50.0,
+      "height": 50.0,
+      "clipped": true,
+      "borderWidth": 1.0
+    ])
     
     let view = HStack {
       Color.green

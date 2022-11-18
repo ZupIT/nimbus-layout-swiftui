@@ -15,31 +15,20 @@
  */
 
 import SwiftUI
-import NimbusSwiftUI
 
-struct LocalImage: View, BaseImage {
+struct LocalImage: View, Decodable {
   var id: String
   
-  var scale: ImageScale
-  var size: Size
-  var accessibility: Accessibility
+  var scale: ImageScale?
+  @Root var size: Size
+  var accessibility: Accessibility?
   
   var body: some View {
     BaseImageView(
       mode: .local(id),
-      scale: scale,
+      scale: scale ?? .center,
       size: size,
       accessibility: accessibility
     )
-  }
-}
-
-extension LocalImage: Deserializable {
-  init(from map: [String : Any]?) throws {
-    self.id = try getMapProperty(map: map, name: "id")
-    self.scale = try getMapEnumDefault(map: map, name: "scale", default: .center)
-    
-    self.size = try Size.init(from: map)
-    self.accessibility = try Accessibility.init(from: (map?["accessibility"] as? [String: Any]))
   }
 }

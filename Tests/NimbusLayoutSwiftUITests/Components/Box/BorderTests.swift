@@ -18,6 +18,7 @@ import XCTest
 import SwiftUI
 import SnapshotTesting
 
+@testable import NimbusSwiftUI
 @testable import NimbusLayoutSwiftUI
 
 class BorderTests: XCTestCase {
@@ -25,16 +26,33 @@ class BorderTests: XCTestCase {
   func testModifier() throws {
     let view = Color.green.frame(width: 50, height: 50)
     
-    var border = Border(borderWidth: 2)
+    var border = try getBorder(borderWidth: 2)
     assertSnapshot(matching: view.modifier(BorderModifier(border: border)), as: .image)
     
-    border = Border(borderColor: .red, borderWidth: 2, cornerRadius: 25)
+    border = try getBorder(borderColor: "#FF0000", borderWidth: 2, cornerRadius: 25)
     assertSnapshot(matching: view.modifier(BorderModifier(border: border)), as: .image)
     
-    border = Border(borderColor: .blue, borderWidth: 1, borderDashSpacing: 2)
+    border = try getBorder(borderColor: "#0000FF", borderWidth: 1, borderDashSpacing: 2)
     assertSnapshot(matching: view.modifier(BorderModifier(border: border)), as: .image)
     
-    border = Border(borderColor: .blue, borderWidth: 1, borderDashLength: 4, borderDashSpacing: 1, cornerRadius: 10)
+    border = try getBorder(borderColor: "#0000FF", borderWidth: 1, borderDashLength: 4, borderDashSpacing: 1, cornerRadius: 10)
     assertSnapshot(matching: view.modifier(BorderModifier(border: border)), as: .image)
+  }
+  
+  private func getBorder(
+    borderColor: String? = nil,
+    borderWidth: Double? = nil,
+    borderDashLength: Double? = nil,
+    borderDashSpacing: Double? = nil,
+    cornerRadius: Double? = nil
+  ) throws -> Border {
+    let value: [String: Any] = [
+      "borderColor": borderColor ?? NSNull(),
+      "borderWidth": borderWidth ?? NSNull(),
+      "cornerRadius": cornerRadius ?? NSNull(),
+      "borderDashLength": borderDashLength ?? NSNull(),
+      "borderDashSpacing": borderDashSpacing ?? NSNull()
+    ]
+    return try NimbusDecoder.decode(Border.self, from: value)
   }
 }

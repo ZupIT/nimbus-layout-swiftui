@@ -14,9 +14,17 @@
  * limitations under the License.
  */
 
-extension Collection {
-  /// Returns the element at the specified index if it is within bounds, otherwise nil.
-  subscript (safe index: Index) -> Element? {
-    indices.contains(index) ? self[index] : nil
+@propertyWrapper
+struct Root<T: Decodable> {
+  var wrappedValue: T
+}
+
+extension Root: Decodable {}
+
+extension KeyedDecodingContainer {
+  func decode<T: Decodable>(_ type: Root<T>.Type, forKey key: K) throws -> Root<T> {
+    let decoder = try superDecoder()
+    let value = try decoder.singleValueContainer().decode(T.self)
+    return Root(wrappedValue: value)
   }
 }

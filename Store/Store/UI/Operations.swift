@@ -14,34 +14,42 @@
  * limitations under the License.
  */
 
-import NimbusCore
+import Foundation
 import NimbusSwiftUI
 
-// TODO: create a wrapper function for KotlinArray returning a Swift Array
-let formatPrice: ([Any]) -> Any? = { array in
-  if let value = array[0] as? Double, let code = array[1] as? String {
-    
-//    var arraySwift: [Any?] = []
-//    for index in 0..<array.size {
-//      arraySwift.append(array.get(index: index))
-//    }
-    
+// MARK: - formatPrice
+let formatPrice: (FormatPriceOperation) -> Any? = { operation in
+  operation.format()
+}
+
+struct FormatPriceOperation: OperationDecodable {
+  static var properties = ["value", "code"]
+  
+  var code: String
+  var value: Double
+  
+  func format() -> String? {
     let formatter = NumberFormatter()
     formatter.numberStyle = .currency
     formatter.currencyCode = code
     return formatter.string(from: NSNumber(value: value))
   }
-  return ""
 }
 
-let sumProducts: ([Any]) -> Any? = { array in
-  guard let products = array[0] as? [[String: Any]] else { return 0 }
-  
-  var sum = 0.0
-  for product in products {
-    if let price = product["price"] as? Double {
-      sum += price
-    }
+// MARK: - sumProducts
+let sumProducts: (ProductsOperation) -> Any? = { operation in
+  operation.products.map {
+    $0.price
   }
-  return sum
+  .reduce(0.0, +)
+}
+
+struct ProductsOperation: OperationDecodable {
+  static var properties = ["products"]
+  
+  struct Item: Decodable {
+    var price: Double
+  }
+  
+  var products: [Item]
 }

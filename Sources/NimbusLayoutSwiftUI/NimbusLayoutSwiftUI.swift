@@ -21,36 +21,14 @@ public typealias Nimbus = NimbusSwiftUI.Nimbus
 public typealias NimbusNavigator = NimbusSwiftUI.NimbusNavigator
 
 public let layout = NimbusSwiftUILibrary("layout")
-  .addComponent("text") { (element, _) in
-    AnyView(try NimbusText(from: element.properties))
-  }
-  .addComponent("row") { (element, children) in
-    AnyView(Row(children: children, container: try Container(from: element.properties)))
-  }
-  .addComponent("column") { (element, children) in
-    AnyView(Column(children: children, container: try Container(from: element.properties)))
-  }
-  .addComponent("screen") { (element, children) in
-    AnyView(try Screen(from: element.properties, children: children))
-  }
-  .addComponent("localImage") { (element, _) in
-    AnyView(try LocalImage(from: element.properties))
-  }
-  .addComponent("remoteImage") { (element, _) in
-    AnyView(try RemoteImage(from: element.properties))
-  }
-  .addComponent("scrollView") { (element, children) in
-    AnyView(try Scroll(from: element.properties, children: children))
-  }
-  .addComponent("lifecycle") { (element, children) in
-    AnyView(try Lifecycle(from: element.properties, children: children))
-  }
-  .addComponent("touchable") { (element, children) in
-    AnyView(try Touchable(from: element.properties, children: children))
-  }
-  .addComponent("stack") { (element, children) in
-    AnyView(try Stack(from: element.properties, children: children))
-  }
-  .addComponent("positioned") { (element, children) in
-    AnyView(try Positioned(from: element.properties, children: children))
-  }
+  .addComponent("text", NimbusText.self)
+  .addComponent("row", Row<AnyView>.self)
+  .addComponent("column", Column<AnyView>.self)
+  .addComponent("screen", Screen<AnyView>.self)
+  .addComponent("localImage", LocalImage.self)
+  .addComponent("remoteImage", RemoteImage.self)
+  .addComponent("scrollView", Scroll<AnyView>.self)
+  .addComponent("lifecycle", Lifecycle<AnyView>.self)
+  .addComponent("touchable", Touchable<AnyView>.self)
+  .addComponent("stack", Stack<AnyView>.self)
+  .addComponent("positioned", Positioned<AnyView>.self)

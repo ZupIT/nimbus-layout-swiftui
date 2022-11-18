@@ -17,12 +17,16 @@
 import SwiftUI
 import NimbusSwiftUI
 
-struct NimbusText: View {
+struct NimbusText: View, Decodable {
   var text: String
-  var size: Double = 12
   
-  var weight: Weight = .normal
-  enum Weight: String {
+  @Default<DoubleTwelve>
+  var size: Double
+  
+  @Default<WeightNormal>
+  var weight: Weight
+  
+  enum Weight: String, Decodable {
     case thin
     case extraLight
     case light
@@ -34,7 +38,7 @@ struct NimbusText: View {
     case black
   }
   
-  enum Alignment: String {
+  enum Alignment: String, Decodable {
     case start
     case center
     case end
@@ -48,9 +52,14 @@ struct NimbusText: View {
     }
   }
   
+  @Default<ColorBlack>
   var color: Color = .black
+  
+  @Default<False>
   var iosAdaptiveSize: Bool
-  var alignment: Alignment = .start
+  
+  @Default<AlignmentStart>
+  var alignment: Alignment
   
   @ViewBuilder
   func applyAdaptiveSize(content: Text) -> some View {
@@ -69,17 +78,6 @@ struct NimbusText: View {
   }
 }
 
-extension NimbusText: Deserializable {
-  init(from map: [String : Any]?) throws {
-    self.text = try getMapProperty(map: map, name: "text")
-    self.weight = try getMapEnumDefault(map: map, name: "weight", default: .normal)
-    self.color = try getMapColorDefault(map: map, name: "color", default: .black)
-    self.size = try getMapPropertyDefault(map: map, name: "size", default: 12)
-    self.iosAdaptiveSize = try getMapPropertyDefault(map: map, name: "iosAdaptiveSize", default: false)
-    self.alignment = try getMapEnumDefault(map: map, name: "alignment", default: .start)
-  }
-}
-
 extension NimbusText.Weight {
   var swiftUI: Font.Weight {
     switch self {
@@ -94,4 +92,16 @@ extension NimbusText.Weight {
     case .black: return .black
     }
   }
+}
+
+struct DoubleTwelve: DefaultProtocol {
+  static var defaultValue: Double = 12
+}
+
+struct WeightNormal: DefaultProtocol {
+  static var defaultValue: NimbusText.Weight = .normal
+}
+
+struct AlignmentStart: DefaultProtocol {
+  static var defaultValue: NimbusText.Alignment = .start
 }
