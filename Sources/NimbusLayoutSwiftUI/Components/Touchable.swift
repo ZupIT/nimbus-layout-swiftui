@@ -17,11 +17,11 @@
 import SwiftUI
 import NimbusSwiftUI
 
-struct Touchable<Content: View>: View, Decodable, HasAccessibility {
+struct Touchable<Content: View>: View, Decodable {
   @Event var onPress: () -> Void
   @Children var children: () -> Content
   
-  var accessibility: Accessibility
+  var accessibility: Accessibility?
   
   var body: some View {
     VStack(alignment: .leading, spacing: 0, content: children)

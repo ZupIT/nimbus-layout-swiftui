@@ -18,14 +18,14 @@ import SwiftUI
 import NimbusSwiftUI
 
 struct Screen<Content: View>: View, Decodable {
-  var ignoreSafeArea: [SafeAreaEdge]
+  var ignoreSafeArea: [SafeAreaEdge]?
   var title: String?
   @Default<True> var showBackButton: Bool
   @Children var children: () -> Content
   
   var body: some View {
     VStack(alignment: .leading, spacing: 0, content: children)
-      .modifier(SafeAreaModifier(edgesIgnored: ignoreSafeArea))
+      .modifier(SafeAreaModifier(edgesIgnored: ignoreSafeArea ?? []))
       .navigationBarTitle(Text(title ?? ""), displayMode: .inline)
       .navigationBarBackButtonHidden(!showBackButton)
   }

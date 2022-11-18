@@ -36,8 +36,7 @@ struct TextInput: View, Decodable {
   var placeholder: String
   
   @State var value: String
-  
-  @Event var onChange: (String) -> Void
+  @StatefulEvent var onChange: (String) -> Void
   
   var body: some View {
     TextField(placeholder, text: $value)
@@ -50,6 +49,20 @@ struct TextInput: View, Decodable {
       .background(Color.white)
       .cornerRadius(6)
       .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(Color(red: 227/255, green: 227/255, blue: 227/255), lineWidth: 1))
-      
+  }
+  
+  enum CodingKeys: CodingKey {
+    case placeholder
+    case value
+    case onChange
+  }
+  
+  init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    self.placeholder = try container.decode(String.self, forKey: .placeholder)
+    
+    let value = try container.decodeIfPresent(String.self, forKey: .value)
+    self._value = State(wrappedValue: value ?? "")
+    self._onChange = try container.decode(StatefulEvent<String>.self, forKey: .onChange)
   }
 }

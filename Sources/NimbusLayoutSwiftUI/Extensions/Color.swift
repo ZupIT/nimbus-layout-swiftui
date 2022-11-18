@@ -20,7 +20,10 @@ extension Color {
   /// Create a color from hex String.
   /// Format:  #RRGGBB[AA]
   init?(hex: String) {
-    guard hex.range(of: "^#[0-9A-F]{6,8}$", options: [.regularExpression, .caseInsensitive]) != nil else {
+    func expand(_ shortColor: UInt64) -> UInt64 {
+      shortColor | (shortColor << 4)
+    }
+    guard hex.range(of: "^#[0-9A-F]{3,8}$", options: [.regularExpression, .caseInsensitive]) != nil else {
       return nil
     }
     var int = UInt64()
@@ -29,6 +32,16 @@ extension Color {
     let r, g, b, a: UInt64
     switch hexDigits.count {
       
+    case 3: // Short RGB (12-bit)
+      r = expand(int >> 8)
+      g = expand(int >> 4 & 0x0F)
+      b = expand(int & 0x0F)
+      a = 255
+    case 4: // Short RGBA (16-bit)
+      r = expand(int >> 12)
+      g = expand(int >> 8 & 0x0F)
+      b = expand(int >> 4 & 0x0F)
+      a = expand(int & 0x0F)
     case 6: // RGB (24-bit)
       (r, g, b, a) = (int >> 16, int >> 8 & 0xFF, int & 0xFF, 255)
     case 8: // RGBA (32-bit)

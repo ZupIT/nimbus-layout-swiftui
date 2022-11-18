@@ -23,7 +23,7 @@ let formatPrice: (FormatPriceOperation) -> Any? = { operation in
 }
 
 struct FormatPriceOperation: OperationDecodable {
-  static var properties = ["code", "value"] // TODO: reflection??
+  static var properties = ["value", "code"]
   
   var code: String
   var value: Double
@@ -38,11 +38,18 @@ struct FormatPriceOperation: OperationDecodable {
 
 // MARK: - sumProducts
 let sumProducts: (ProductsOperation) -> Any? = { operation in
-  String(operation.products.reduce(0, +))
+  operation.products.map {
+    $0.price
+  }
+  .reduce(0.0, +)
 }
 
 struct ProductsOperation: OperationDecodable {
   static var properties = ["products"]
   
-  var products: [Double]
+  struct Item: Decodable {
+    var price: Double
+  }
+  
+  var products: [Item]
 }

@@ -22,10 +22,6 @@ struct Accessibility: Decodable {
   var isHeader: Bool?
 }
 
-protocol HasAccessibility {
-  var accessibility: Accessibility { get }
-}
-
 struct AccessibilityModifier: ViewModifier {
   var accessibility: Accessibility?
     
