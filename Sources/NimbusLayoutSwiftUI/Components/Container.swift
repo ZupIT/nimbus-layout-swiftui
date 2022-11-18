@@ -43,6 +43,7 @@ protocol HasContainer {
 struct AlignedOnMainAxis: _VariadicView_UnaryViewRoot {
   var direction: Direction
   var container: Container
+  var isLazy: Bool = false
   
   private func shouldIgnoreAlignment(size: AdaptiveSize?, min: Double?, max: Double?) -> Bool {
     return size == .fitContent && min == nil && max == nil
@@ -111,12 +112,26 @@ struct AlignedOnMainAxis: _VariadicView_UnaryViewRoot {
   func body(children: _VariadicView.Children) -> some View {
     switch direction {
     case .row:
-      HStack(alignment: container.crossAxisAlignment.verticalAlignment, spacing: 0) {
-        content(children: children)
+      let alignment = container.crossAxisAlignment.verticalAlignment
+      if #available(iOS 14.0, *), isLazy {
+        LazyHStack(alignment: alignment, spacing: 0) {
+          content(children: children)
+        }
+      } else {
+        HStack(alignment: alignment, spacing: 0) {
+          content(children: children)
+        }
       }
     case .column:
-      VStack(alignment: container.crossAxisAlignment.horizontalAlignment, spacing: 0) {
-        content(children: children)
+      let alignment = container.crossAxisAlignment.horizontalAlignment
+      if #available(iOS 14.0, *), isLazy {
+        LazyVStack(alignment: alignment, spacing: 0) {
+          content(children: children)
+        }
+      } else {
+        VStack(alignment: alignment, spacing: 0) {
+          content(children: children)
+        }
       }
     }
   }
@@ -143,17 +158,19 @@ struct Container: Decodable {
 
 public struct ContainerView<Content>: View, HasContainer where Content: View {
   var direction: Direction
-  
   var container: Container
   var children: () -> Content
+  var isLazy: Bool = false
   
-  init(direction: Direction, model: Container, @ViewBuilder children: @escaping () -> Content) {
+  init(direction: Direction, model: Container, @ViewBuilder children: @escaping () -> Content, isLazy: Bool = false) {
     self.direction = direction
     self.container = model
     self.children = children
+    self.isLazy = isLazy
   }
+    
   public var body: some View {
-    _VariadicView.Tree(AlignedOnMainAxis(direction: direction, container: container), content: children)
+    _VariadicView.Tree(AlignedOnMainAxis(direction: direction, container: container, isLazy: isLazy), content: children)
       .modifier(BoxModifier(box: container.box, alignment: container.crossAxisAlignment.alignment))
   }
 }
