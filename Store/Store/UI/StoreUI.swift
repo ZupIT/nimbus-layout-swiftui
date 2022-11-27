@@ -23,5 +23,5 @@ let storeUI = NimbusSwiftUILibrary("store")
   }
   .addComponent("button", CustomButton.self)
   .addComponent("textInput", TextInput.self)
-  .addOperation("formatPrice", handler: formatPrice)
-  .addOperation("sumProducts", handler: sumProducts)
+  .addOperation("formatPrice", FormatPrice.self)
+  .addOperation("sumProducts", SumProducts.self)

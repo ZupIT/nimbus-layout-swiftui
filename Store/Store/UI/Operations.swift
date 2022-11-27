@@ -18,17 +18,13 @@ import Foundation
 import NimbusSwiftUI
 
 // MARK: - formatPrice
-let formatPrice: (FormatPriceOperation) -> Any? = { operation in
-  operation.format()
-}
-
-struct FormatPriceOperation: OperationDecodable {
+struct FormatPrice: OperationDecodable {
   static var properties = ["value", "code"]
   
   var code: String
   var value: Double
   
-  func format() -> String? {
+  func execute() -> String? {
     let formatter = NumberFormatter()
     formatter.numberStyle = .currency
     formatter.currencyCode = code
@@ -37,14 +33,7 @@ struct FormatPriceOperation: OperationDecodable {
 }
 
 // MARK: - sumProducts
-let sumProducts: (ProductsOperation) -> Any? = { operation in
-  operation.products.map {
-    $0.price
-  }
-  .reduce(0.0, +)
-}
-
-struct ProductsOperation: OperationDecodable {
+struct SumProducts: OperationDecodable {
   static var properties = ["products"]
   
   struct Item: Decodable {
@@ -52,4 +41,8 @@ struct ProductsOperation: OperationDecodable {
   }
   
   var products: [Item]
+  
+  func execute() -> Double {
+    products.map(\.price).reduce(0.0, +)
+  }
 }
