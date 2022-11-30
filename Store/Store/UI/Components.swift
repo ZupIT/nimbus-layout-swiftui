@@ -35,12 +35,12 @@ struct CustomButton: View, Decodable {
 struct TextInput: View, Decodable {
   var placeholder: String
   
-  @State var value: String
+  @State var value: String?
   @StatefulEvent var onChange: (String) -> Void
   
   var body: some View {
-    TextField(placeholder, text: $value)
-      .onChange(of: value) {
+    TextField(placeholder, text: $value.toUnwrapped(defaultValue: ""))
+      .onChange(of: value ?? "") {
         onChange($0)
       }
       .padding(.horizontal, 8)
@@ -50,19 +50,10 @@ struct TextInput: View, Decodable {
       .cornerRadius(6)
       .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(Color(red: 227/255, green: 227/255, blue: 227/255), lineWidth: 1))
   }
-  
-  enum CodingKeys: CodingKey {
-    case placeholder
-    case value
-    case onChange
-  }
-  
-  init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.placeholder = try container.decode(String.self, forKey: .placeholder)
-    
-    let value = try container.decodeIfPresent(String.self, forKey: .value)
-    self._value = State(wrappedValue: value ?? "")
-    self._onChange = try container.decode(StatefulEvent<String>.self, forKey: .onChange)
+}
+
+extension Binding {
+  func toUnwrapped<T>(defaultValue: T) -> Binding<T> where Value == Optional<T>  {
+    Binding<T>(get: { self.wrappedValue ?? defaultValue }, set: { self.wrappedValue = $0 })
   }
 }
