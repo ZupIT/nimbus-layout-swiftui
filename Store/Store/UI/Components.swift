@@ -35,34 +35,42 @@ struct CustomButton: View, Decodable {
 struct TextInput: View, Decodable {
   var placeholder: String
   
-  @State var value: String
+  var value: String?
+  // this is only needed because of "onBlur" and "onFocus". These events have no access to the current value otherwise.
+  @State private var currentValue: String = ""
   @StatefulEvent var onChange: (String) -> Void
+  @StatefulEvent var onFocus: (String) -> Void
+  @StatefulEvent var onBlur: (String) -> Void
+  
+  enum CodingKeys: CodingKey {
+    case placeholder
+    case value
+    case onChange
+    case onFocus
+    case onBlur
+  }
   
   var body: some View {
-    TextField(placeholder, text: $value)
-      .onChange(of: value) {
-        onChange($0)
+    let binding = Binding(
+        get: { value ?? "" },
+        set: {
+          onChange($0)
+          currentValue = $0
+        }
+    )
+    
+    TextField(placeholder, text: binding, onEditingChanged: { editingChanged in
+      if (editingChanged) {
+        onFocus(currentValue)
+      } else {
+        onBlur(currentValue)
       }
+    })
       .padding(.horizontal, 8)
       .padding(.vertical, 12)
       .font(Font.system(size: 14, weight: .light))
       .background(Color.white)
       .cornerRadius(6)
       .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(Color(red: 227/255, green: 227/255, blue: 227/255), lineWidth: 1))
-  }
-  
-  enum CodingKeys: CodingKey {
-    case placeholder
-    case value
-    case onChange
-  }
-  
-  init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.placeholder = try container.decode(String.self, forKey: .placeholder)
-    
-    let value = try container.decodeIfPresent(String.self, forKey: .value)
-    self._value = State(wrappedValue: value ?? "")
-    self._onChange = try container.decode(StatefulEvent<String>.self, forKey: .onChange)
   }
 }
