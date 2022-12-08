@@ -18,6 +18,8 @@ import SwiftUI
 import NimbusCore
 import NimbusLayoutSwiftUI
 
+let homeModelKey = "bottomNavigator"
+
 class HomeModel: ObservableObject {
   @Published var selectedTab: Tab = .products
   
@@ -26,6 +28,29 @@ class HomeModel: ObservableObject {
     case cart
     case orders
     case exit
+  }
+  
+  func changeTab(route: String) {
+    switch(route) {
+    case "Products": selectedTab = Tab.products
+    case "Cart": selectedTab = Tab.cart
+    case "Orders": selectedTab = Tab.orders
+    case "exit": selectedTab = Tab.exit
+    default: print("Invalid route: \(route)")
+    }
+  }
+  
+  func save(_ scope: NimbusCore.Scope) {
+    scope.set(key: homeModelKey, value: self)
+  }
+  
+  static func clear(_ scope: NimbusCore.Scope) {
+    scope.unset(key: homeModelKey)
+  }
+  
+  static func get(_ scope: NimbusCore.Scope) -> HomeModel? {
+    let raw = scope.get(key: "bottomNavigator")
+    return raw is HomeModel ? raw as? HomeModel : nil
   }
 }
 
@@ -40,8 +65,11 @@ class ObservedCart: ObservableObject, Dependent {
   }
   
   func update() {
-    if let state = globalState?.get() as? [String: Any], let count = (state["cart"] as? [Any])?.count {
-      self.count = count
+    let data = AnyServerDrivenData(value: globalState?.get())
+    if let products = data.get(key: "cart").get(key: "products").asListOrNull() {
+      self.count = products.reduce(0) { total, current in
+        total + (current.get(key: "quantity").asIntOrNull()?.intValue ?? 0)
+      }
     }
   }
 }
@@ -99,6 +127,12 @@ struct Home: View {
       self.nimbus = core
       if let globalState = core.states?.last {
         cart.start(globalState: globalState)
+      }
+      model.save(core)
+    }
+    .onDisappear {
+      if let nimbus = nimbus {
+        HomeModel.clear(nimbus)
       }
     }
   }

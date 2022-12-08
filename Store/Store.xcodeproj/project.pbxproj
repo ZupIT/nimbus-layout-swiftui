@@ -15,6 +15,7 @@
 		93EB5A6B288094A40024036F /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EB5A6A288094A40024036F /* Home.swift */; };
 		93EB5A6D288094D20024036F /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EB5A6C288094D20024036F /* Operations.swift */; };
 		93EB5A6F288094E00024036F /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EB5A6E288094E00024036F /* Components.swift */; };
+		AFAE104B2937764B003B5650 /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFAE104A2937764B003B5650 /* Actions.swift */; };
 		AFCE759828CFC8FD004EF849 /* StoreUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCE759728CFC8FD004EF849 /* StoreUI.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,7 @@
 		93EB5A6A288094A40024036F /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		93EB5A6C288094D20024036F /* Operations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operations.swift; sourceTree = "<group>"; };
 		93EB5A6E288094E00024036F /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
+		AFAE104A2937764B003B5650 /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
 		AFCE759728CFC8FD004EF849 /* StoreUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreUI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -93,6 +95,7 @@
 				93EB5A6C288094D20024036F /* Operations.swift */,
 				93EB5A6E288094E00024036F /* Components.swift */,
 				AFCE759728CFC8FD004EF849 /* StoreUI.swift */,
+				AFAE104A2937764B003B5650 /* Actions.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -176,6 +179,7 @@
 				93EB5A6F288094E00024036F /* Components.swift in Sources */,
 				9321C9BF287DBA5B00A23435 /* StoreApp.swift in Sources */,
 				93EB5A6D288094D20024036F /* Operations.swift in Sources */,
+				AFAE104B2937764B003B5650 /* Actions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

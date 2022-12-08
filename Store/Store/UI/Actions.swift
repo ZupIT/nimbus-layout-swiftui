@@ -14,35 +14,13 @@
  * limitations under the License.
  */
 
-import Foundation
 import NimbusSwiftUI
 
-// MARK: - formatPrice
-struct FormatPriceOperation: OperationDecodable {
-  static var properties = ["value", "code"]
+struct ChangeBottomNavigatorRoute: ActionDecodable {
+  var route: String
+  @CoreAction var event: ActionTriggeredEvent
   
-  var code: String
-  var value: Double?
-  
-  func execute() -> String? {
-    let formatter = NumberFormatter()
-    formatter.numberStyle = .currency
-    formatter.currencyCode = code
-    return formatter.string(from: NSNumber(value: value ?? 0))
-  }
-}
-
-// MARK: - sumProducts
-struct ProductsOperation: OperationDecodable {
-  static var properties = ["products"]
-  
-  struct Item: Decodable {
-    var price: Double
-  }
-  
-  var products: [Item]
-  
-  func execute() -> Double {
-    products.map(\.price).reduce(0.0, +)
+  func execute() {
+    HomeModel.get(event.scope)?.changeTab(route: route)
   }
 }

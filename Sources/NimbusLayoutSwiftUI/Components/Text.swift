@@ -18,7 +18,7 @@ import SwiftUI
 import NimbusSwiftUI
 
 struct NimbusText: View, Decodable {
-  var text: String
+  var text: String?
   
   @Default<DoubleTwelve>
   var size: Double
@@ -71,7 +71,7 @@ struct NimbusText: View, Decodable {
   }
   
   var body: some View {
-    applyAdaptiveSize(content: Text(text))
+    applyAdaptiveSize(content: Text(text ?? ""))
       .font(.system(size: size, weight: weight.swiftUI))
       .foregroundColor(color)
       .multilineTextAlignment(alignment.textAlignment())
