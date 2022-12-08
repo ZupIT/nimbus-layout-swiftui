@@ -22,6 +22,8 @@ struct LazyRow<Content: View>: View, Decodable, HasContainer {
   @Root var container: Container
   
   var body: some View {
-    ContainerView(direction: .row, model: container, children: children, isLazy: true)
+    ScrollView(.horizontal) {
+      ContainerView(direction: .row, model: container, children: children, isLazy: true)
+    }
   }
 }
