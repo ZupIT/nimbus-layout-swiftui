@@ -23,10 +23,11 @@ struct FlowColumn<Content: View>: View, Decodable {
   
   var body: some View {
     if #available(iOS 14.0, *) {
-      FlowLayout(axis: .vertical, alignment: Alignment(horizontal: .leading, vertical: .top), content: children)
+      return FlowLayout(axis: .vertical, alignment: Alignment(horizontal: .leading, vertical: .top), content: children)
         .modifier(BoxModifier(box: box))
     } else {
-      Column(children: children, container: Container(box: box))
+      print("Nimbus Caught Error: The FlowColumn component is only available on iOS 14+")
+      return Column(children: children, container: Container(box: box))
     }
   }
 }
