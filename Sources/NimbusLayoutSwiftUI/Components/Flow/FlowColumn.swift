@@ -25,6 +25,8 @@ struct FlowColumn<Content: View>: View, Decodable {
     if #available(iOS 14.0, *) {
       FlowLayout(axis: .vertical, alignment: Alignment(horizontal: .leading, vertical: .top), content: children)
         .modifier(BoxModifier(box: box))
+    } else {
+      Column(children: children, container: Container(box: box))
     }
   }
 }

@@ -25,6 +25,8 @@ struct FlowRow<Content: View>: View, Decodable {
     if #available(iOS 14.0, *) {
       FlowLayout(axis: .horizontal, alignment: Alignment(horizontal: .leading, vertical: .top), content: children)
         .modifier(BoxModifier(box: box))
+    } else {
+      Row(children: children, container: Container(box: box))
     }
   }
 }
