@@ -46,7 +46,7 @@ jobs:
 
       - name: swiftlint
         run: |
-          cd NimbusLayoutSwiftUI
+          cd nimbus-layout-swiftui/NimbusLayoutSwiftUI
           swiftlint
 
       - name: xcodebuild
