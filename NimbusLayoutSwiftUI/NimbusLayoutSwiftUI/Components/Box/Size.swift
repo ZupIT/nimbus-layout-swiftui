@@ -92,11 +92,11 @@ struct SizeModifier: ViewModifier {
     clipped = size.clipped
     fixedEmpty = size.isFixedEmpty()
     minMaxEmpty = size.isMinMaxEmpty()
-    switch(size.width) {
+    switch size.width {
     case .expand:
       maxWidth = size.maxWidth ?? .infinity
     case .fitContent:
-      if (size.minWidth != nil || size.maxWidth != nil) {
+      if size.minWidth != nil || size.maxWidth != nil {
         minWidth = size.minWidth
         maxWidth = size.maxWidth
         fixedWidth = true
@@ -105,11 +105,11 @@ struct SizeModifier: ViewModifier {
       self.width = value
     }
     
-    switch(size.height) {
+    switch size.height {
     case .expand:
       maxHeight = size.maxHeight ?? .infinity
     case .fitContent:
-      if (size.minHeight != nil || size.maxHeight != nil) {
+      if size.minHeight != nil || size.maxHeight != nil {
         minHeight = size.minHeight
         maxHeight = size.maxHeight
         fixedHeight = true

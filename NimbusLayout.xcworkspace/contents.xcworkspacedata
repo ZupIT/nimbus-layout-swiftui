@@ -2,7 +2,10 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:">
+      location = "group:../nimbus-swiftui">
+   </FileRef>
+   <FileRef
+      location = "group:NimbusLayoutSwiftUI/NimbusLayoutSwiftUI.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Sample/Sample.xcodeproj">

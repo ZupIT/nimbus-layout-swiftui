@@ -57,49 +57,49 @@ struct AlignedOnMainAxis: _VariadicView_UnaryViewRoot {
   
   @ViewBuilder
   func buildWithAlignment(children: _VariadicView.Children) -> some View {
-    switch(container.mainAxisAlignment) {
-      case .start:
-        ForEach(children) { child in
-          child
-        }
+    switch container.mainAxisAlignment {
+    case .start:
+      ForEach(children) { child in
+        child
+      }
+      Spacer(minLength: 0)
+    case .end:
+      Spacer(minLength: 0)
+      ForEach(children) { child in
+        child
+      }
+    case .center:
+      Spacer(minLength: 0)
+      ForEach(children) { child in
+        child
+      }
+      Spacer(minLength: 0)
+    case .spaceAround:
+      ForEach(children) { child in
         Spacer(minLength: 0)
-      case .end:
+        child
         Spacer(minLength: 0)
-        ForEach(children) { child in
-          child
-        }
-      case .center:
+      }
+    case .spaceEvenly:
+      Spacer(minLength: 0)
+      ForEach(children) { child in
+        child
         Spacer(minLength: 0)
-        ForEach(children) { child in
-          child
-        }
-        Spacer(minLength: 0)
-      case .spaceAround:
-        ForEach(children) { child in
+      }
+    case .spaceBetween:
+      let last = children.last?.id
+      ForEach(children) { child in
+        child
+        if child.id != last {
           Spacer(minLength: 0)
-          child
-          Spacer(minLength: 0)
         }
-      case .spaceEvenly:
-        Spacer(minLength: 0)
-        ForEach(children) { child in
-          child
-          Spacer(minLength: 0)
-        }
-      case .spaceBetween:
-        let last = children.last?.id
-        ForEach(children) { child in
-          child
-          if child.id != last {
-            Spacer(minLength: 0)
-          }
-        }
+      }
     }
   }
   
   @ViewBuilder
   func content(children: _VariadicView.Children) -> some View {
-    if (shouldIgnoreAlignment()) {
+    if shouldIgnoreAlignment() {
       ForEach(children) { child in
         child
       }

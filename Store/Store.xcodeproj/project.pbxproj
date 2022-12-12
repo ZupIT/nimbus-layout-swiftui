@@ -11,7 +11,8 @@
 		9321C9C1287DBA5B00A23435 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9321C9C0287DBA5B00A23435 /* ContentView.swift */; };
 		9321C9C3287DBA5D00A23435 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9321C9C2287DBA5D00A23435 /* Assets.xcassets */; };
 		9321C9C6287DBA5D00A23435 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9321C9C5287DBA5D00A23435 /* Preview Assets.xcassets */; };
-		9321C9CE287DBB7200A23435 /* NimbusLayoutSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9321C9CD287DBB7200A23435 /* NimbusLayoutSwiftUI */; };
+		9341CC692943C3D500F99A9B /* NimbusLayoutSwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9341CC682943C3D500F99A9B /* NimbusLayoutSwiftUI.framework */; };
+		9341CC6A2943C3D500F99A9B /* NimbusLayoutSwiftUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9341CC682943C3D500F99A9B /* NimbusLayoutSwiftUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		93EB5A6B288094A40024036F /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EB5A6A288094A40024036F /* Home.swift */; };
 		93EB5A6D288094D20024036F /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EB5A6C288094D20024036F /* Operations.swift */; };
 		93EB5A6F288094E00024036F /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EB5A6E288094E00024036F /* Components.swift */; };
@@ -19,12 +20,27 @@
 		AFCE759828CFC8FD004EF849 /* StoreUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCE759728CFC8FD004EF849 /* StoreUI.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		9341CC6B2943C3D500F99A9B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9341CC6A2943C3D500F99A9B /* NimbusLayoutSwiftUI.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		9321C9BB287DBA5B00A23435 /* Store.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Store.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9321C9BE287DBA5B00A23435 /* StoreApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreApp.swift; sourceTree = "<group>"; };
 		9321C9C0287DBA5B00A23435 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9321C9C2287DBA5D00A23435 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9321C9C5287DBA5D00A23435 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		9341CC682943C3D500F99A9B /* NimbusLayoutSwiftUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NimbusLayoutSwiftUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93EB5A6A288094A40024036F /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		93EB5A6C288094D20024036F /* Operations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operations.swift; sourceTree = "<group>"; };
 		93EB5A6E288094E00024036F /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
@@ -37,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9321C9CE287DBB7200A23435 /* NimbusLayoutSwiftUI in Frameworks */,
+				9341CC692943C3D500F99A9B /* NimbusLayoutSwiftUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +101,7 @@
 		9321C9CC287DBB7200A23435 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9341CC682943C3D500F99A9B /* NimbusLayoutSwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -110,6 +127,7 @@
 				9321C9B7287DBA5B00A23435 /* Sources */,
 				9321C9B8287DBA5B00A23435 /* Frameworks */,
 				9321C9B9287DBA5B00A23435 /* Resources */,
+				9341CC6B2943C3D500F99A9B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -117,7 +135,6 @@
 			);
 			name = Store;
 			packageProductDependencies = (
-				9321C9CD287DBB7200A23435 /* NimbusLayoutSwiftUI */,
 			);
 			productName = Store;
 			productReference = 9321C9BB287DBA5B00A23435 /* Store.app */;
@@ -388,13 +405,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		9321C9CD287DBB7200A23435 /* NimbusLayoutSwiftUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = NimbusLayoutSwiftUI;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9321C9B3287DBA5B00A23435 /* Project object */;
 }

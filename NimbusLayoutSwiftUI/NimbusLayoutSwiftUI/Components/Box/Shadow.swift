@@ -38,7 +38,7 @@ struct ShadowModifier: ViewModifier {
   var shadows: [Shadow]
 
   func body(content: Content) -> some View {
-    if (shadows.isEmpty) {
+    if shadows.isEmpty {
       content
     } else {
       // The only way I found to do this without using AnyViews was to hardcode the maximum number of shadows =(

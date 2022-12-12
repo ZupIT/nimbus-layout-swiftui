@@ -63,7 +63,7 @@ struct NimbusText: View, Decodable {
   
   @ViewBuilder
   func applyAdaptiveSize(content: Text) -> some View {
-    if (iosAdaptiveSize) {
+    if iosAdaptiveSize {
       content.adaptiveSize()
     } else {
       content

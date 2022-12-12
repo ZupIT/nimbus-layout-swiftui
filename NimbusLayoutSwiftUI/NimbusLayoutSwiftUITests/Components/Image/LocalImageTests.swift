@@ -17,6 +17,7 @@
 import XCTest
 import SwiftUI
 import SnapshotTesting
+import Foundation
 
 import NimbusSwiftUI
 @testable import NimbusLayoutSwiftUI
@@ -103,10 +104,10 @@ class LocalImageTests: XCTestCase {
 
 struct MockedImageProvider: ImageProvider {
   func fetch(url: String, completion: @escaping (UIImage?) -> Void) {
-    completion(UIImage(named: url, in: .module, with: nil))
+    completion(UIImage(named: url, in: Bundle(for: LocalImageTests.self), with: nil))
   }
   
   func image(named: String) -> UIImage? {
-    UIImage(named: named, in: .module, with: nil)
+    UIImage(named: named, in: Bundle(for: LocalImageTests.self), with: nil)
   }
 }

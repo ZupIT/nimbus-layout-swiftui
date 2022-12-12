@@ -25,7 +25,7 @@ class ShadowTests: XCTestCase {
   func testModifier() throws {
     let shadows = try [
       ["x": 2.0, "y": 2.0, "blur": 2.0, "color": "#FF0000"],
-      ["x": -2.0, "y": -2.0, "blur": 4.0],
+      ["x": -2.0, "y": -2.0, "blur": 4.0]
     ].map {
       try NimbusDecoder.decode(Shadow.self, from: $0)
     }

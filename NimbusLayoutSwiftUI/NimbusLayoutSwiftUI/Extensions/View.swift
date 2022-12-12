@@ -29,7 +29,7 @@ extension View {
   
   @ViewBuilder
   func applyIf<Content: View>(_ condition: Bool, @ViewBuilder builder: (Self) -> Content) -> some View {
-    if (condition) {
+    if condition {
       builder(self)
     } else {
       self

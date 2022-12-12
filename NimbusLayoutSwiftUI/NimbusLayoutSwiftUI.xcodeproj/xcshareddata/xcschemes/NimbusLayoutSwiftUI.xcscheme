@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1330"
+   LastUpgradeVersion = "1400"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "NimbusLayoutSwiftUI"
-               BuildableName = "NimbusLayoutSwiftUI"
+               BlueprintIdentifier = "93BCD9332943B50500751085"
+               BuildableName = "NimbusLayoutSwiftUI.framework"
                BlueprintName = "NimbusLayoutSwiftUI"
-               ReferencedContainer = "container:">
+               ReferencedContainer = "container:NimbusLayoutSwiftUI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -26,27 +26,16 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      codeCoverageEnabled = "YES"
-      onlyGenerateCoverageForSpecifiedTargets = "YES">
-      <CodeCoverageTargets>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "NimbusLayoutSwiftUI"
-            BuildableName = "NimbusLayoutSwiftUI"
-            BlueprintName = "NimbusLayoutSwiftUI"
-            ReferencedContainer = "container:">
-         </BuildableReference>
-      </CodeCoverageTargets>
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "NimbusLayoutSwiftUITests"
-               BuildableName = "NimbusLayoutSwiftUITests"
+               BlueprintIdentifier = "93049B682943BEBC001B2000"
+               BuildableName = "NimbusLayoutSwiftUITests.xctest"
                BlueprintName = "NimbusLayoutSwiftUITests"
-               ReferencedContainer = "container:">
+               ReferencedContainer = "container:NimbusLayoutSwiftUI.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -71,10 +60,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "NimbusLayoutSwiftUI"
-            BuildableName = "NimbusLayoutSwiftUI"
+            BlueprintIdentifier = "93BCD9332943B50500751085"
+            BuildableName = "NimbusLayoutSwiftUI.framework"
             BlueprintName = "NimbusLayoutSwiftUI"
-            ReferencedContainer = "container:">
+            ReferencedContainer = "container:NimbusLayoutSwiftUI.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

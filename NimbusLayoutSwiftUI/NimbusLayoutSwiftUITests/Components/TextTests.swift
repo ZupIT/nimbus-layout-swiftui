@@ -50,7 +50,8 @@ class TextTests: XCTestCase {
     .ui([layout])
     .frame(width: 80, height: 80)
   }
-  
+
+  // swiftlint:disable line_length
   func adaptiveText() -> some View {
     let json = """
     {
@@ -85,4 +86,5 @@ class TextTests: XCTestCase {
     }
     .ui([layout])
   }
+  // swiftlint:enable line_length
 }

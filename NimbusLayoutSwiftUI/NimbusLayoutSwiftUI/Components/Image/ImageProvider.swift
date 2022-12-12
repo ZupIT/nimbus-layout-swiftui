@@ -53,9 +53,9 @@ class DefaultImageProvider: ImageProvider {
     self.networkClient = networkClient
   }
   
-  func fetch(url: String, completion: @escaping (UIImage?) -> Void) {    
+  func fetch(url: String, completion: @escaping (UIImage?) -> Void) {
     guard let url = URL(string: url) else { return }
-    networkClient.dataTask(with: url) { data, response, error in
+    networkClient.dataTask(with: url) { data, _, _ in
       DispatchQueue.main.async {
         guard let data = data, let image = UIImage(data: data) else {
           completion(nil)
