@@ -55,6 +55,9 @@
 		934F7B4A2943B9A40063C825 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934F7B292943B9A40063C825 /* Color.swift */; };
 		934F7B4B2943B9A40063C825 /* Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934F7B2B2943B9A40063C825 /* Default.swift */; };
 		934F7B4C2943B9A40063C825 /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934F7B2C2943B9A40063C825 /* Root.swift */; };
+		9397609A29476EC3003E106A /* FlowRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9397609729476EC3003E106A /* FlowRow.swift */; };
+		9397609B29476EC3003E106A /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9397609829476EC3003E106A /* FlowLayout.swift */; };
+		9397609C29476EC3003E106A /* FlowColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9397609929476EC3003E106A /* FlowColumn.swift */; };
 		93BCD9432943B50500751085 /* NimbusLayoutSwiftUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 93BCD9372943B50500751085 /* NimbusLayoutSwiftUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -115,6 +118,9 @@
 		934F7B292943B9A40063C825 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		934F7B2B2943B9A40063C825 /* Default.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Default.swift; sourceTree = "<group>"; };
 		934F7B2C2943B9A40063C825 /* Root.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
+		9397609729476EC3003E106A /* FlowRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowRow.swift; sourceTree = "<group>"; };
+		9397609829476EC3003E106A /* FlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
+		9397609929476EC3003E106A /* FlowColumn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowColumn.swift; sourceTree = "<group>"; };
 		93BCD9342943B50500751085 /* NimbusLayoutSwiftUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NimbusLayoutSwiftUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93BCD9372943B50500751085 /* NimbusLayoutSwiftUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NimbusLayoutSwiftUI.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -202,6 +208,7 @@
 		934F7B082943B9A40063C825 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				9397609629476EC3003E106A /* Flow */,
 				934F7B092943B9A40063C825 /* Scroll.swift */,
 				934F7B0A2943B9A40063C825 /* Box */,
 				934F7B122943B9A40063C825 /* Stack.swift */,
@@ -265,6 +272,16 @@
 				934F7B2C2943B9A40063C825 /* Root.swift */,
 			);
 			path = Decoder;
+			sourceTree = "<group>";
+		};
+		9397609629476EC3003E106A /* Flow */ = {
+			isa = PBXGroup;
+			children = (
+				9397609729476EC3003E106A /* FlowRow.swift */,
+				9397609829476EC3003E106A /* FlowLayout.swift */,
+				9397609929476EC3003E106A /* FlowColumn.swift */,
+			);
+			path = Flow;
 			sourceTree = "<group>";
 		};
 		93BCD92A2943B50500751085 = {
@@ -462,11 +479,13 @@
 				934F7B462943B9A40063C825 /* View.swift in Sources */,
 				934F7B402943B9A40063C825 /* LazyRow.swift in Sources */,
 				934F7B2D2943B9A40063C825 /* Scroll.swift in Sources */,
+				9397609A29476EC3003E106A /* FlowRow.swift in Sources */,
 				934F7B3D2943B9A40063C825 /* RemoteImage.swift in Sources */,
 				934F7B4B2943B9A40063C825 /* Default.swift in Sources */,
 				934F7B352943B9A40063C825 /* Stack.swift in Sources */,
 				934F7B3F2943B9A40063C825 /* Column.swift in Sources */,
 				934F7B322943B9A40063C825 /* Border.swift in Sources */,
+				9397609B29476EC3003E106A /* FlowLayout.swift in Sources */,
 				934F7B422943B9A40063C825 /* Lifecycle.swift in Sources */,
 				934F7B4C2943B9A40063C825 /* Root.swift in Sources */,
 				934F7B3E2943B9A40063C825 /* BaseImage.swift in Sources */,
@@ -486,6 +505,7 @@
 				934F7B492943B9A40063C825 /* UIText.swift in Sources */,
 				934F7B4A2943B9A40063C825 /* Color.swift in Sources */,
 				934F7B432943B9A40063C825 /* Row.swift in Sources */,
+				9397609C29476EC3003E106A /* FlowColumn.swift in Sources */,
 				934F7B362943B9A40063C825 /* SafeArea.swift in Sources */,
 				934F7B382943B9A40063C825 /* Accessibility.swift in Sources */,
 				934F7B3A2943B9A40063C825 /* Container.swift in Sources */,
