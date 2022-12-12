@@ -27,7 +27,7 @@ internal struct FlowLayoutSpacing {
 }
 
 private struct Flow<Content>: View
-where Content : View {
+where Content: View {
   var alignment: Alignment
   var axis: Axis
   var size: CGSize
@@ -98,10 +98,10 @@ where Content : View {
           )
           var topLeading: CGFloat {
             get {
-              return (isHorizontal ? view.top : view.leading)
+              (isHorizontal ? view.top : view.leading)
             }
             set(value) {
-              if (isHorizontal) {
+              if isHorizontal {
                 view.top = value
               } else {
                 view.leading = value
@@ -113,7 +113,7 @@ where Content : View {
               return (isHorizontal ? view.leading : view.top)
             }
             set(value) {
-              if (isHorizontal) {
+              if isHorizontal {
                 view.leading = value
               } else {
                 view.top = value
@@ -121,16 +121,14 @@ where Content : View {
             }
           }
           var calculatedAdjustment: CGFloat {
-            get {
-              return (line.maxMeasure + topLeading) * (measures.dimension.axisMeasure / measures.dimension.endMeasure)
-            }
+            (line.maxMeasure + topLeading) * (measures.dimension.axisMeasure / measures.dimension.endMeasure)
           }
                     
-          if (abs(topLeading - measures.dimension.measure.value) > measures.size) {
-            if (-topLeading > line.maxMeasure) {
+          if abs(topLeading - measures.dimension.measure.value) > measures.size {
+            if -topLeading > line.maxMeasure {
               let previousLinesAdjustment = calculatedAdjustment
               for index in 0..<indexes.firstLine {
-                if (isHorizontal) {
+                if isHorizontal {
                   view.alignments[index].height += previousLinesAdjustment
                 } else {
                   view.alignments[index].width += previousLinesAdjustment
@@ -141,14 +139,14 @@ where Content : View {
             
             let currentLineAdjustment = calculatedAdjustment
             for index in indexes.firstLine..<indexes.current {
-              if (isHorizontal) {
+              if isHorizontal {
                 view.alignments[index].height -= currentLineAdjustment
               } else {
                 view.alignments[index].width -= currentLineAdjustment
               }
             }
-            
-            oppositeTopLeading -= (topLeading == 0 ? measures.dimension.measure.oppositeValue : view.maxMeasure) + measures.spacing.value
+            var opositeValue = (topLeading == 0 ? measures.dimension.measure.oppositeValue : view.maxMeasure)
+            oppositeTopLeading -= opositeValue + measures.spacing.value
             topLeading = 0
             indexes.firstLine = indexes.current
             view.maxMeasure = measures.dimension.measure.oppositeValue
@@ -166,7 +164,7 @@ where Content : View {
           }
                     
           var top: CGFloat = 0
-          if (view.alignments.indices.contains(indexes.current)) {
+          if view.alignments.indices.contains(indexes.current) {
             top = view.alignments[indexes.current].height
           }
                     
@@ -177,7 +175,7 @@ where Content : View {
         Color.clear
           .frame(width: 1, height: 1)
           .alignmentGuide(.leading) { dimensions in
-            if (indexes.max == nil) {
+            if indexes.max == nil {
               indexes.max = indexes.current
             }
                     
@@ -189,7 +187,7 @@ where Content : View {
               let adjustment = (line.maxMeasure + topLeading) * (dimensionAxisMeasure / dimensionEndMeasure)
               
               for index in indexes.firstLine...lastIndex {
-                if (isHorizontal) {
+                if isHorizontal {
                   view.alignments[index].height -= adjustment
                 } else {
                   view.alignments[index].width -= adjustment
@@ -219,7 +217,7 @@ where Content : View {
 
 @available(iOS 14.0, *)
 internal struct FlowLayout<Content>: View
-where Content : View {
+where Content: View {
   @State private var contentSize = CGSize.zero
   @State private var transaction = Transaction()
   private var alignment: Alignment
@@ -265,15 +263,12 @@ where Content : View {
   }
 }
 
-
 @available(iOS 14.0, *)
 internal extension FlowLayout {
   func updateTransaction(_ newTransaction: Transaction) {
-    if (
-      transaction.animation != newTransaction.animation ||
+    if transaction.animation != newTransaction.animation ||
       transaction.disablesAnimations != newTransaction.disablesAnimations ||
-      transaction.isContinuous != newTransaction.isContinuous
-    ) {
+      transaction.isContinuous != newTransaction.isContinuous {
       DispatchQueue.main.async { transaction = newTransaction }
     }
   }
