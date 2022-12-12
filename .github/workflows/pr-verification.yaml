@@ -44,6 +44,11 @@ jobs:
 
       # TODO: DerivedData Cache
 
+      - name: swiftlint
+        run: |
+          cd NimbusLayoutSwiftUI
+          swiftlint
+
       - name: xcodebuild
         run: |
           cd nimbus-layout-swiftui
