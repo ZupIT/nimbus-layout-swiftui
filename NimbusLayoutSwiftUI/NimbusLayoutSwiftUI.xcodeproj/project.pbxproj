@@ -21,7 +21,6 @@
 		93049BEF2943BF9A001B2000 /* ColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93049BBF2943BF9A001B2000 /* ColorTests.swift */; };
 		93049BF02943BF9A001B2000 /* HelloTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93049BC02943BF9A001B2000 /* HelloTests.swift */; };
 		93049BF52943C030001B2000 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 93049BF42943C030001B2000 /* SnapshotTesting */; };
-		933785252943B8E0002A01CA /* NimbusSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 933785242943B8E0002A01CA /* NimbusSwiftUI */; };
 		9341CC632943C24900F99A9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9341CC622943C24900F99A9B /* Assets.xcassets */; };
 		934F7B2D2943B9A40063C825 /* Scroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934F7B092943B9A40063C825 /* Scroll.swift */; };
 		934F7B2E2943B9A40063C825 /* Margin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934F7B0B2943B9A40063C825 /* Margin.swift */; };
@@ -58,6 +57,7 @@
 		9397609A29476EC3003E106A /* FlowRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9397609729476EC3003E106A /* FlowRow.swift */; };
 		9397609B29476EC3003E106A /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9397609829476EC3003E106A /* FlowLayout.swift */; };
 		9397609C29476EC3003E106A /* FlowColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9397609929476EC3003E106A /* FlowColumn.swift */; };
+		939760A22947C1ED003E106A /* NimbusSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 939760A12947C1ED003E106A /* NimbusSwiftUI */; };
 		93BCD9432943B50500751085 /* NimbusLayoutSwiftUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 93BCD9372943B50500751085 /* NimbusLayoutSwiftUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -139,7 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				933785252943B8E0002A01CA /* NimbusSwiftUI in Frameworks */,
+				939760A22947C1ED003E106A /* NimbusSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,7 +292,9 @@
 				93BCD9352943B50500751085 /* Products */,
 				933785232943B8E0002A01CA /* Frameworks */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		93BCD9352943B50500751085 /* Products */ = {
 			isa = PBXGroup;
@@ -366,7 +368,7 @@
 			);
 			name = NimbusLayoutSwiftUI;
 			packageProductDependencies = (
-				933785242943B8E0002A01CA /* NimbusSwiftUI */,
+				939760A12947C1ED003E106A /* NimbusSwiftUI */,
 			);
 			productName = NimbusLayoutSwiftUI;
 			productReference = 93BCD9342943B50500751085 /* NimbusLayoutSwiftUI.framework */;
@@ -402,6 +404,7 @@
 			mainGroup = 93BCD92A2943B50500751085;
 			packageReferences = (
 				93049BF32943C030001B2000 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+				939760A02947C1ED003E106A /* XCRemoteSwiftPackageReference "nimbus-swiftui" */,
 			);
 			productRefGroup = 93BCD9352943B50500751085 /* Products */;
 			projectDirPath = "";
@@ -787,6 +790,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		939760A02947C1ED003E106A /* XCRemoteSwiftPackageReference "nimbus-swiftui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ZupIT/nimbus-swiftui";
+			requirement = {
+				branch = ci/swiftlint;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -795,8 +806,9 @@
 			package = 93049BF32943C030001B2000 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
 			productName = SnapshotTesting;
 		};
-		933785242943B8E0002A01CA /* NimbusSwiftUI */ = {
+		939760A12947C1ED003E106A /* NimbusSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = 939760A02947C1ED003E106A /* XCRemoteSwiftPackageReference "nimbus-swiftui" */;
 			productName = NimbusSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */

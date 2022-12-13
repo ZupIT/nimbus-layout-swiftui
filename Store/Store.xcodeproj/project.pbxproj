@@ -67,7 +67,9 @@
 				9321C9BC287DBA5B00A23435 /* Products */,
 				9321C9CC287DBB7200A23435 /* Frameworks */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		9321C9BC287DBA5B00A23435 /* Products */ = {
 			isa = PBXGroup;

@@ -57,7 +57,9 @@
 				939BDD64283FBB2300D15911 /* Products */,
 				939BDD74283FBDEF00D15911 /* Frameworks */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		939BDD64283FBB2300D15911 /* Products */ = {
 			isa = PBXGroup;

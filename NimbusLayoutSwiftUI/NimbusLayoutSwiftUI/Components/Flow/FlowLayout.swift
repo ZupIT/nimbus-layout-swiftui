@@ -145,7 +145,7 @@ where Content: View {
                 view.alignments[index].width -= currentLineAdjustment
               }
             }
-            var opositeValue = (topLeading == 0 ? measures.dimension.measure.oppositeValue : view.maxMeasure)
+            let opositeValue = (topLeading == 0 ? measures.dimension.measure.oppositeValue : view.maxMeasure)
             oppositeTopLeading -= opositeValue + measures.spacing.value
             topLeading = 0
             indexes.firstLine = indexes.current
