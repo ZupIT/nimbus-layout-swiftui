@@ -25,4 +25,4 @@ Nimbus SwiftUI Layout is currently in beta.
 The snapshot tests are run using iPhone 13 mini on iOS 13+.
 
 ## **License**
-[**Apache License 2.0**](https://github.com/ZupIT/nimbus-compose/blob/main/LICENSE.txt).
+[**Apache License 2.0**](https://github.com/ZupIT/nimbus-layout-swiftui/blob/main/LICENSE.txt).
