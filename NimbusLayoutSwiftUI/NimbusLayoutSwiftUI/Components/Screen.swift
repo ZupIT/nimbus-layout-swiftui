@@ -20,13 +20,25 @@ import NimbusSwiftUI
 struct Screen<Content: View>: View, Decodable {
   var ignoreSafeArea: [SafeAreaEdge]?
   var title: String?
+  var safeAreaTopBackground: Color?
   @Default<True> var showBackButton: Bool
   @Children var children: () -> Content
   
   var body: some View {
-    VStack(alignment: .leading, spacing: 0, content: children)
-      .modifier(SafeAreaModifier(edgesIgnored: ignoreSafeArea ?? []))
+    GeometryReader { proxy in
+      safeAreaTopBackground
+        .frame(
+          width: proxy.size.width,
+          height: UIApplication.shared.windows.first?.windowScene?.statusBarManager?.statusBarFrame.height
+        )
+        .edgesIgnoringSafeArea(.top)
+      VStack(alignment: .leading, spacing: 0) {
+        children()
+          .modifier(SafeAreaModifier(edgesIgnored: ignoreSafeArea ?? []))
+      }
       .navigationBarTitle(Text(title ?? ""), displayMode: .inline)
+      .navigationBarHidden(title?.isEmpty ?? true)
       .navigationBarBackButtonHidden(!showBackButton)
+    }
   }
 }
