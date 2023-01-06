@@ -42,7 +42,7 @@ struct Screen<Content: View>: View, Decodable {
       safeAreaTopBackground
         .frame(
           width: proxy.size.width,
-          height: UIApplication.shared.windows.first?.windowScene?.statusBarManager?.statusBarFrame.height
+          height: proxy.safeAreaInsets.top
         )
         .edgesIgnoringSafeArea(.top)
       VStack(alignment: .leading, spacing: 0) {
