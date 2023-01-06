@@ -18,9 +18,22 @@ import SwiftUI
 import NimbusSwiftUI
 
 struct Screen<Content: View>: View, Decodable {
+  enum Scheme: String, Decodable {
+    case light
+    case dark
+
+    var swiftUI: ColorScheme {
+      switch self {
+      case .light: return .light
+      case .dark: return .dark
+      }
+    }
+  }
+
   var ignoreSafeArea: [SafeAreaEdge]?
   var title: String?
   var safeAreaTopBackground: Color?
+  var statusBarColorScheme: Scheme?
   @Default<True> var showBackButton: Bool
   @Children var children: () -> Content
   
@@ -39,6 +52,7 @@ struct Screen<Content: View>: View, Decodable {
       .navigationBarTitle(Text(title ?? ""), displayMode: .inline)
       .navigationBarHidden(title?.isEmpty ?? true)
       .navigationBarBackButtonHidden(!showBackButton)
+      .preferredColorScheme(statusBarColorScheme?.swiftUI)
     }
   }
 }
