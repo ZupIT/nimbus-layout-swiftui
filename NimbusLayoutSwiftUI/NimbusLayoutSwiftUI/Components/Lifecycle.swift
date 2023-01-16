@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
+import SwiftUI
 import NimbusSwiftUI
 
-struct ChangeBottomNavigatorRoute: ActionDecodable {
-  var route: String
-  @CoreAction var event: ActionTriggeredEvent
+struct Lifecycle<Content: View>: View, Decodable {
+  @Event var onInit: () -> Void
+  @Children var children: () -> Content
   
-  func execute() {
-    HomeModel.get(event.scope)?.changeTab(route: route)
+  var body: some View {
+    VStack(alignment: .leading, spacing: 0, content: children).onLoad {
+      onInit()
+    }
   }
 }

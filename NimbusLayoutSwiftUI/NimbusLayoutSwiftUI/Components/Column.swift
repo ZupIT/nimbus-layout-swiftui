@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
+import SwiftUI
 import NimbusSwiftUI
 
-struct ChangeBottomNavigatorRoute: ActionDecodable {
-  var route: String
-  @CoreAction var event: ActionTriggeredEvent
+struct Column<Content: View>: View, Decodable, HasContainer {
+  @Children var children: () -> Content
+  @Root var container: Container
   
-  func execute() {
-    HomeModel.get(event.scope)?.changeTab(route: route)
+  var body: some View {
+    ContainerView(direction: .column, model: container, children: children)
   }
 }

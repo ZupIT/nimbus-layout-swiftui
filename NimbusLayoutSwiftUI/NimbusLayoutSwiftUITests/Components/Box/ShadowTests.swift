@@ -14,13 +14,24 @@
  * limitations under the License.
  */
 
-import NimbusSwiftUI
+import XCTest
+import SwiftUI
+import SnapshotTesting
 
-struct ChangeBottomNavigatorRoute: ActionDecodable {
-  var route: String
-  @CoreAction var event: ActionTriggeredEvent
-  
-  func execute() {
-    HomeModel.get(event.scope)?.changeTab(route: route)
+@testable import NimbusSwiftUI
+@testable import NimbusLayoutSwiftUI
+
+class ShadowTests: XCTestCase {
+  func testModifier() throws {
+    let shadows = try [
+      ["x": 2.0, "y": 2.0, "blur": 2.0, "color": "#FF0000"],
+      ["x": -2.0, "y": -2.0, "blur": 4.0]
+    ].map {
+      try NimbusDecoder.decode(Shadow.self, from: $0)
+    }
+
+    let view = Color.green.frame(width: 50, height: 50)
+    
+    assertSnapshot(matching: ZStack { view.modifier(ShadowModifier(shadows: shadows)) }.frame(width: 70, height: 70), as: .image)
   }
 }

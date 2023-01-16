@@ -7,14 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9341CC652943C37700F99A9B /* NimbusLayoutSwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9341CC642943C37700F99A9B /* NimbusLayoutSwiftUI.framework */; };
+		9341CC662943C37700F99A9B /* NimbusLayoutSwiftUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9341CC642943C37700F99A9B /* NimbusLayoutSwiftUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		939BDD67283FBB2300D15911 /* SampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939BDD66283FBB2300D15911 /* SampleApp.swift */; };
 		939BDD69283FBB2300D15911 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939BDD68283FBB2300D15911 /* ContentView.swift */; };
 		939BDD6B283FBB2400D15911 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 939BDD6A283FBB2400D15911 /* Assets.xcassets */; };
 		939BDD6E283FBB2400D15911 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 939BDD6D283FBB2400D15911 /* Preview Assets.xcassets */; };
-		939BDD76283FBDEF00D15911 /* NimbusLayoutSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 939BDD75283FBDEF00D15911 /* NimbusLayoutSwiftUI */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		9341CC672943C37800F99A9B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9341CC662943C37700F99A9B /* NimbusLayoutSwiftUI.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		9341CC642943C37700F99A9B /* NimbusLayoutSwiftUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = NimbusLayoutSwiftUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		939BDD63283FBB2300D15911 /* Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		939BDD66283FBB2300D15911 /* SampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleApp.swift; sourceTree = "<group>"; };
 		939BDD68283FBB2300D15911 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -27,7 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				939BDD76283FBDEF00D15911 /* NimbusLayoutSwiftUI in Frameworks */,
+				9341CC652943C37700F99A9B /* NimbusLayoutSwiftUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,7 +57,9 @@
 				939BDD64283FBB2300D15911 /* Products */,
 				939BDD74283FBDEF00D15911 /* Frameworks */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		939BDD64283FBB2300D15911 /* Products */ = {
 			isa = PBXGroup;
@@ -73,6 +91,7 @@
 		939BDD74283FBDEF00D15911 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9341CC642943C37700F99A9B /* NimbusLayoutSwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -87,6 +106,7 @@
 				939BDD5F283FBB2300D15911 /* Sources */,
 				939BDD60283FBB2300D15911 /* Frameworks */,
 				939BDD61283FBB2300D15911 /* Resources */,
+				9341CC672943C37800F99A9B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -94,7 +114,6 @@
 			);
 			name = Sample;
 			packageProductDependencies = (
-				939BDD75283FBDEF00D15911 /* NimbusLayoutSwiftUI */,
 			);
 			productName = Sample;
 			productReference = 939BDD63283FBB2300D15911 /* Sample.app */;
@@ -360,13 +379,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		939BDD75283FBDEF00D15911 /* NimbusLayoutSwiftUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = NimbusLayoutSwiftUI;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 939BDD5B283FBB2300D15911 /* Project object */;
 }

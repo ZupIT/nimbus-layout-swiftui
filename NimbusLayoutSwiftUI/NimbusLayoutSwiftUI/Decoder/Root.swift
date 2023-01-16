@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
-import NimbusSwiftUI
+@propertyWrapper
+struct Root<T: Decodable> {
+  var wrappedValue: T
+}
 
-struct ChangeBottomNavigatorRoute: ActionDecodable {
-  var route: String
-  @CoreAction var event: ActionTriggeredEvent
-  
-  func execute() {
-    HomeModel.get(event.scope)?.changeTab(route: route)
+extension Root: Decodable {}
+
+extension KeyedDecodingContainer {
+  func decode<T: Decodable>(_ type: Root<T>.Type, forKey key: K) throws -> Root<T> {
+    let decoder = try superDecoder()
+    let value = try decoder.singleValueContainer().decode(T.self)
+    return Root(wrappedValue: value)
   }
 }

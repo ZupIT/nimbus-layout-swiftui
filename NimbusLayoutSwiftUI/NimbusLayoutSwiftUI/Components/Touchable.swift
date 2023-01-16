@@ -14,13 +14,20 @@
  * limitations under the License.
  */
 
+import SwiftUI
 import NimbusSwiftUI
 
-struct ChangeBottomNavigatorRoute: ActionDecodable {
-  var route: String
-  @CoreAction var event: ActionTriggeredEvent
+struct Touchable<Content: View>: View, Decodable {
+  @Event var onPress: () -> Void
+  @Children var children: () -> Content
   
-  func execute() {
-    HomeModel.get(event.scope)?.changeTab(route: route)
+  var accessibility: Accessibility?
+  
+  var body: some View {
+    VStack(alignment: .leading, spacing: 0, content: children)
+    .modifier(AccessibilityModifier(accessibility: accessibility))
+    .onTapGesture {
+      onPress()
+    }
   }
 }

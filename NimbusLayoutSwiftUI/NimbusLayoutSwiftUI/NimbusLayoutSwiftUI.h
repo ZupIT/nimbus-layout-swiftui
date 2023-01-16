@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-import NimbusSwiftUI
+#import <Foundation/Foundation.h>
 
-struct ChangeBottomNavigatorRoute: ActionDecodable {
-  var route: String
-  @CoreAction var event: ActionTriggeredEvent
-  
-  func execute() {
-    HomeModel.get(event.scope)?.changeTab(route: route)
-  }
-}
+//! Project version number for NimbusLayoutSwiftUI.
+FOUNDATION_EXPORT double NimbusLayoutSwiftUIVersionNumber;
+
+//! Project version string for NimbusLayoutSwiftUI.
+FOUNDATION_EXPORT const unsigned char NimbusLayoutSwiftUIVersionString[];
+
+// In this header, you should import all the public headers of your framework using statements like #import <NimbusLayoutSwiftUI/PublicHeader.h>

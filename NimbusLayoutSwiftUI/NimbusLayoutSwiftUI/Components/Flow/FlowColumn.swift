@@ -14,13 +14,24 @@
  * limitations under the License.
  */
 
+import SwiftUI
 import NimbusSwiftUI
 
-struct ChangeBottomNavigatorRoute: ActionDecodable {
-  var route: String
-  @CoreAction var event: ActionTriggeredEvent
+struct FlowColumn<Content: View>: View, Decodable {
+  @Children var children: () -> Content
+  @Root var box: Box
   
-  func execute() {
-    HomeModel.get(event.scope)?.changeTab(route: route)
+  var body: some View {
+    if #available(iOS 14.0, *) {
+      return AnyView(
+        FlowLayout(axis: .vertical, alignment: Alignment(horizontal: .leading, vertical: .top), content: children)
+          .modifier(BoxModifier(box: box))
+      )
+    } else {
+      print("Nimbus Caught Error: The FlowColumn component is only available on iOS 14+")
+      return AnyView(
+        Column(children: children, container: Container(box: box))
+      )
+    }
   }
 }

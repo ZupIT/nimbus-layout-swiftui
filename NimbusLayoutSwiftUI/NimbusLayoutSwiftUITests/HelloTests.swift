@@ -14,13 +14,28 @@
  * limitations under the License.
  */
 
-import NimbusSwiftUI
+import XCTest
+import SnapshotTesting
 
-struct ChangeBottomNavigatorRoute: ActionDecodable {
-  var route: String
-  @CoreAction var event: ActionTriggeredEvent
+import NimbusLayoutSwiftUI
+
+class HelloTests: XCTestCase {
   
-  func execute() {
-    HomeModel.get(event.scope)?.changeTab(route: route)
+  func testHello() {
+    let view = Nimbus(baseUrl: "base") {
+      NimbusNavigator(json:
+      """
+      {
+        "_:component": "layout:text",
+        "properties": {
+          "text": "Hello!!!"
+        }
+      }
+      """)
+    }
+    .ui([layout])
+    .frame(width: 100, height: 100)
+    assertSnapshot(matching: view, as: .image)
   }
+  
 }

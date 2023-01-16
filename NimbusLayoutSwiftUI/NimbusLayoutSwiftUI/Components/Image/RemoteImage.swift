@@ -14,13 +14,22 @@
  * limitations under the License.
  */
 
-import NimbusSwiftUI
+import SwiftUI
 
-struct ChangeBottomNavigatorRoute: ActionDecodable {
-  var route: String
-  @CoreAction var event: ActionTriggeredEvent
+struct RemoteImage: View, Decodable {
+  var url: String
+  var placeholder: String?
   
-  func execute() {
-    HomeModel.get(event.scope)?.changeTab(route: route)
+  var scale: ImageScale?
+  @Root var size: Size
+  var accessibility: Accessibility?
+  
+  var body: some View {
+    BaseImageView(
+      mode: .remote(url, placeholder: placeholder),
+      scale: scale ?? .center,
+      size: size,
+      accessibility: accessibility
+    )
   }
 }

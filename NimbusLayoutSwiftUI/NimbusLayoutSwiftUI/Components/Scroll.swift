@@ -15,19 +15,39 @@
  */
 
 import SwiftUI
-import NimbusLayoutSwiftUI
+import NimbusSwiftUI
 
-struct ContentView: View {
+struct Scroll<Content: View>: View, Decodable {
+  
+  @Children var children: () -> Content
+  var direction: Direction?
+  enum Direction: String, Decodable {
+    case vertical
+    case horizontal
+    case both
+  }
+    
+  @Default<True> var scrollIndicator: Bool
+  
   var body: some View {
-    Nimbus(baseUrl: "http://127.0.0.1:3000") {
-      Home()
+    ScrollView(
+      direction?.axis ?? Direction.vertical.axis,
+      showsIndicators: scrollIndicator
+    ) {
+      VStack(alignment: .leading, spacing: 0, content: children)
     }
-    .ui([layout, storeUI])
   }
 }
 
-struct ContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    ContentView()
+extension Scroll.Direction {
+  var axis: Axis.Set {
+    switch self {
+    case .both:
+      return [.vertical, .horizontal]
+    case .vertical:
+      return .vertical
+    case .horizontal:
+      return .horizontal
+    }
   }
 }

@@ -14,13 +14,9 @@
  * limitations under the License.
  */
 
-import NimbusSwiftUI
-
-struct ChangeBottomNavigatorRoute: ActionDecodable {
-  var route: String
-  @CoreAction var event: ActionTriggeredEvent
-  
-  func execute() {
-    HomeModel.get(event.scope)?.changeTab(route: route)
+extension Collection {
+  /// Returns the element at the specified index if it is within bounds, otherwise nil.
+  subscript (safe index: Index) -> Element? {
+    indices.contains(index) ? self[index] : nil
   }
 }

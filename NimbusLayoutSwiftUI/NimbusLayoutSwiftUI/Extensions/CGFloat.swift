@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-import NimbusSwiftUI
+import CoreGraphics
 
-struct ChangeBottomNavigatorRoute: ActionDecodable {
-  var route: String
-  @CoreAction var event: ActionTriggeredEvent
-  
-  func execute() {
-    HomeModel.get(event.scope)?.changeTab(route: route)
+extension Optional where Wrapped == Double {
+  var cgFloat: CGFloat? {
+    switch self {
+    case .none:
+      return nil
+    case .some(let wrapped):
+      return CGFloat(wrapped)
+    }
   }
 }
