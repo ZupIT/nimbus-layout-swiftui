@@ -57,8 +57,8 @@
 		9397609A29476EC3003E106A /* FlowRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9397609729476EC3003E106A /* FlowRow.swift */; };
 		9397609B29476EC3003E106A /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9397609829476EC3003E106A /* FlowLayout.swift */; };
 		9397609C29476EC3003E106A /* FlowColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9397609929476EC3003E106A /* FlowColumn.swift */; };
-		939760A22947C1ED003E106A /* NimbusSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 939760A12947C1ED003E106A /* NimbusSwiftUI */; };
 		93BCD9432943B50500751085 /* NimbusLayoutSwiftUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 93BCD9372943B50500751085 /* NimbusLayoutSwiftUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AFD72FCE297593CA008D7FBF /* NimbusSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = AFD72FCD297593CA008D7FBF /* NimbusSwiftUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,7 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				939760A22947C1ED003E106A /* NimbusSwiftUI in Frameworks */,
+				AFD72FCE297593CA008D7FBF /* NimbusSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,7 +368,7 @@
 			);
 			name = NimbusLayoutSwiftUI;
 			packageProductDependencies = (
-				939760A12947C1ED003E106A /* NimbusSwiftUI */,
+				AFD72FCD297593CA008D7FBF /* NimbusSwiftUI */,
 			);
 			productName = NimbusLayoutSwiftUI;
 			productReference = 93BCD9342943B50500751085 /* NimbusLayoutSwiftUI.framework */;
@@ -404,7 +404,7 @@
 			mainGroup = 93BCD92A2943B50500751085;
 			packageReferences = (
 				93049BF32943C030001B2000 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
-				939760A02947C1ED003E106A /* XCRemoteSwiftPackageReference "nimbus-swiftui" */,
+				AFD72FCC297593CA008D7FBF /* XCRemoteSwiftPackageReference "nimbus-swiftui" */,
 			);
 			productRefGroup = 93BCD9352943B50500751085 /* Products */;
 			projectDirPath = "";
@@ -790,12 +790,12 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		939760A02947C1ED003E106A /* XCRemoteSwiftPackageReference "nimbus-swiftui" */ = {
+		AFD72FCC297593CA008D7FBF /* XCRemoteSwiftPackageReference "nimbus-swiftui" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ZupIT/nimbus-swiftui";
 			requirement = {
-				branch = ci/swiftlint;
-				kind = branch;
+				kind = exactVersion;
+				version = "1.0.0-alpha.2";
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -806,9 +806,9 @@
 			package = 93049BF32943C030001B2000 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
 			productName = SnapshotTesting;
 		};
-		939760A12947C1ED003E106A /* NimbusSwiftUI */ = {
+		AFD72FCD297593CA008D7FBF /* NimbusSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 939760A02947C1ED003E106A /* XCRemoteSwiftPackageReference "nimbus-swiftui" */;
+			package = AFD72FCC297593CA008D7FBF /* XCRemoteSwiftPackageReference "nimbus-swiftui" */;
 			productName = NimbusSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */

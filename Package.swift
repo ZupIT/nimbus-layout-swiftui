@@ -30,7 +30,7 @@ let package = Package(
   dependencies: [
     .package(
       url: "https://github.com/ZupIT/nimbus-swiftui.git",
-      .branch("ci/swiftlint")
+      from: "1.0.0-alpha.2"
     )
   ],
   targets: [
