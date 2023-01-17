@@ -794,8 +794,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ZupIT/nimbus-swiftui";
 			requirement = {
-				kind = exactVersion;
-				version = "1.0.0-alpha.2";
+				kind = upToNextMajorVersion;
+				minimumVersion = "1.0.0-beta.1";
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
